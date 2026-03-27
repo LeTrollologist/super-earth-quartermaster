@@ -1,0 +1,154 @@
+{
+  "factions": [
+    {
+      "id": "terminids",
+      "name": "Terminids",
+      "color": "#e67e22",
+      "icon": "🪲",
+      "description": "Insectoid creatures. Numerous and fast. Light armor most enemies, but some heavily plated heavies. Fire is highly effective.",
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "automatons",
+      "name": "Automatons",
+      "color": "#c0392b",
+      "icon": "🤖",
+      "description": "Robotic enemies. High armor ratings, ranged combatants. Precision targeting of weak points recommended. Fire is less effective.",
+      "weaknesses": ["Explosive", "Ballistic"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "illuminate",
+      "name": "Illuminate",
+      "color": "#8e44ad",
+      "icon": "👁",
+      "description": "Advanced alien civilization. Energy weapons and shields. Arc weapons effective. Mix of ranged and close combat.",
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
+    }
+  ],
+  "enemies": [
+    {
+      "id": "warrior",
+      "name": "Warrior",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 2,
+      "health": 140,
+      "description": "Medium-sized Terminid trooper. Basic combat unit.",
+      "weakSpots": ["Head", "Abdomen"],
+      "armorZones": { "head": 2, "body": 2, "legs": 1 }
+    },
+    {
+      "id": "bile-spewer",
+      "name": "Bile Spewer",
+      "faction": "terminids",
+      "class": "Large",
+      "armorTier": 4,
+      "health": 600,
+      "description": "Large Terminid that sprays corrosive bile. Heavy armor on top.",
+      "weakSpots": ["Belly Sack"],
+      "armorZones": { "head": 3, "body": 4, "belly": 1 }
+    },
+    {
+      "id": "charger",
+      "name": "Charger",
+      "faction": "terminids",
+      "class": "Heavy",
+      "armorTier": 5,
+      "health": 1500,
+      "description": "Heavily armored Terminid that charges at high speed. Aim for the legs.",
+      "weakSpots": ["Legs (unarmored)", "Back"],
+      "armorZones": { "head": 5, "body": 5, "legs_front": 5, "legs_back": 1 }
+    },
+    {
+      "id": "bile-titan",
+      "name": "Bile Titan",
+      "faction": "terminids",
+      "class": "Titan",
+      "armorTier": 5,
+      "health": 5000,
+      "description": "Massive Terminid. Virtually impenetrable frontal armor. Target the head or belly vents.",
+      "weakSpots": ["Head", "Belly Vents"],
+      "armorZones": { "head": 4, "body": 5, "legs": 3 }
+    },
+    {
+      "id": "brood-commander",
+      "name": "Brood Commander",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 450,
+      "description": "Larger Terminid commander. Medium-heavy armor.",
+      "weakSpots": ["Head"],
+      "armorZones": { "head": 3, "body": 3 }
+    },
+    {
+      "id": "devastator",
+      "name": "Devastator",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 400,
+      "description": "Automaton soldier variant. Medium armor, fires rockets.",
+      "weakSpots": ["Head", "Rocket Launcher"],
+      "armorZones": { "head": 2, "body": 3, "arms": 3 }
+    },
+    {
+      "id": "hulk",
+      "name": "Hulk",
+      "faction": "automatons",
+      "class": "Heavy",
+      "armorTier": 5,
+      "health": 2000,
+      "description": "Massive Automaton. Heavy armor everywhere. Target the eye slits or back vents.",
+      "weakSpots": ["Eye Slits", "Back Vents"],
+      "armorZones": { "head": 4, "body": 5, "arms": 4 }
+    },
+    {
+      "id": "factory-strider",
+      "name": "Factory Strider",
+      "faction": "automatons",
+      "class": "Titan",
+      "armorTier": 5,
+      "health": 8000,
+      "description": "Colossal Automaton walker. Produces enemy reinforcements. Extreme armor.",
+      "weakSpots": ["Head Cannon", "Underside"],
+      "armorZones": { "head": 4, "body": 5, "legs": 3 }
+    },
+    {
+      "id": "tank",
+      "name": "Automaton Tank",
+      "faction": "automatons",
+      "class": "Heavy",
+      "armorTier": 5,
+      "health": 3000,
+      "description": "Heavily armored vehicle. Rotate and target the exhaust vent on its rear.",
+      "weakSpots": ["Rear Vent", "Top Hatch"],
+      "armorZones": { "front": 5, "sides": 5, "rear": 3 }
+    },
+    {
+      "id": "overseer",
+      "name": "Overseer",
+      "faction": "illuminate",
+      "class": "Medium",
+      "armorTier": 2,
+      "health": 300,
+      "description": "Flying Illuminate commander. Lightly armored but dangerous from range.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 2 }
+    },
+    {
+      "id": "harvester",
+      "name": "Harvester",
+      "faction": "illuminate",
+      "class": "Heavy",
+      "armorTier": 4,
+      "health": 2500,
+      "description": "Tripod walker with shield projector. Target the legs to destabilize.",
+      "weakSpots": ["Legs", "Eye"],
+      "armorZones": { "body": 5, "legs": 3, "eye": 2 }
+    }
+  ]
+}

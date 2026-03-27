@@ -1,0 +1,111 @@
+{
+  "conditions": [
+    {
+      "id": "fire_tornados",
+      "name": "Fire Tornados",
+      "description": "Periodic fire tornadoes sweep the area, dealing fire damage.",
+      "debuff": "Fire damage in open areas",
+      "recommendedPassive": "Inflammable",
+      "recommendedStratagem": "shield-generator-pack",
+      "icon": "🌪"
+    },
+    {
+      "id": "extreme_cold",
+      "name": "Extreme Cold",
+      "description": "Bitter cold reduces stamina regeneration and slows movement.",
+      "debuff": "-25% stamina regen",
+      "recommendedPassive": "Stamina Enhancement",
+      "recommendedStratagem": null,
+      "icon": "❄"
+    },
+    {
+      "id": "toxic_haze",
+      "name": "Toxic Haze",
+      "description": "Toxic atmosphere slowly drains health without filtration.",
+      "debuff": "Passive health drain",
+      "recommendedPassive": "Advanced Filtration",
+      "recommendedStratagem": null,
+      "icon": "☣"
+    },
+    {
+      "id": "acid_storms",
+      "name": "Acid Storms",
+      "description": "Periodic acid rain that damages unprotected Helldivers.",
+      "debuff": "Acid damage during storms",
+      "recommendedPassive": "Advanced Filtration",
+      "recommendedStratagem": "shield-generator-relay",
+      "icon": "🌧"
+    },
+    {
+      "id": "blizzards",
+      "name": "Blizzards",
+      "description": "Severe blizzards reduce visibility and stamina.",
+      "debuff": "Reduced visibility, -20% stamina",
+      "recommendedPassive": "Stamina Enhancement",
+      "recommendedStratagem": null,
+      "icon": "🌨"
+    },
+    {
+      "id": "electrical_storms",
+      "name": "Electrical Storms",
+      "description": "Lightning strikes can shock Helldivers in the open.",
+      "debuff": "Random lightning damage",
+      "recommendedPassive": "Electrical Conduit",
+      "recommendedStratagem": null,
+      "icon": "⚡"
+    },
+    {
+      "id": "meteor_showers",
+      "name": "Meteor Showers",
+      "description": "Meteors rain from the sky, dealing explosive damage on impact.",
+      "debuff": "Random explosive damage",
+      "recommendedPassive": "Engineering Kit",
+      "recommendedStratagem": "shield-generator-relay",
+      "icon": "☄"
+    },
+    {
+      "id": "tremors",
+      "name": "Tremors",
+      "description": "Ground tremors make footing unstable and hamper movement.",
+      "debuff": "Reduced movement speed",
+      "recommendedPassive": "Rock Solid",
+      "recommendedStratagem": null,
+      "icon": "🌋"
+    },
+    {
+      "id": "extreme_heat",
+      "name": "Extreme Heat",
+      "description": "Intense heat reduces stamina regeneration and overheats energy weapons faster.",
+      "debuff": "-20% stamina regen, faster overheat",
+      "recommendedPassive": "Desert Stormer",
+      "recommendedStratagem": null,
+      "icon": "🌡"
+    },
+    {
+      "id": "thick_fog",
+      "name": "Dense Fog",
+      "description": "Heavy fog severely reduces visibility range.",
+      "debuff": "Reduced visibility",
+      "recommendedPassive": null,
+      "recommendedStratagem": "UAV-recon-booster",
+      "icon": "🌫"
+    },
+    {
+      "id": "rainstorm",
+      "name": "Rainstorm",
+      "description": "Heavy rain reduces visibility and slows movement.",
+      "debuff": "Reduced visibility",
+      "recommendedPassive": null,
+      "recommendedStratagem": null,
+      "icon": "🌧"
+    }
+  ],
+  "biomes": [
+    { "id": "jungle",   "name": "Jungle",         "icon": "🌿", "associatedConditions": [] },
+    { "id": "desert",   "name": "Desert",          "icon": "🏜", "associatedConditions": ["extreme_heat"] },
+    { "id": "tundra",   "name": "Tundra",          "icon": "❄",  "associatedConditions": ["extreme_cold", "blizzards"] },
+    { "id": "volcanic", "name": "Volcanic",         "icon": "🌋", "associatedConditions": ["fire_tornados", "tremors"] },
+    { "id": "ocean",    "name": "Ocean / Swamp",    "icon": "🌊", "associatedConditions": [] },
+    { "id": "toxic",    "name": "Toxic",            "icon": "☣",  "associatedConditions": ["toxic_haze", "acid_storms"] }
+  ]
+}

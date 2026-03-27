@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #08090b;
+    color: #c9d1db;
+    font-family: 'Barlow Condensed', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0e1117;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f2a38;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f5c51840;
+  }
+
+  /* CRT scanline overlay */
+  .bg-scanlines::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.06) 2px,
+      rgba(0, 0, 0, 0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+}
+
+@layer utilities {
+  .text-hd-yellow { color: #f5c518; }
+  .text-hd-text   { color: #c9d1db; }
+  .text-hd-text-dim { color: #8899aa; }
+  .text-hd-muted  { color: #4a5568; }
+  .bg-hd-bg       { background: #08090b; }
+  .bg-hd-surface  { background: #0e1117; }
+  .bg-hd-surface-2 { background: #151b24; }
+  .border-hd-border { border-color: #1f2a38; }
+  .border-hd-border-2 { border-color: #2a3a4f; }
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "eradicate",
+    "name": "Eradicate",
+    "description": "Eliminate a set number of enemy forces. High enemy density, sustained combat.",
+    "icon": "💀",
+    "priorities": ["Anti-Light", "Area Denial", "High Capacity"],
+    "stratagemTags": ["Anti-Light", "Area Denial", "Fire"],
+    "notes": "Prioritize high fire rate and area denial. Crowd control is essential."
+  },
+  {
+    "id": "blitz",
+    "name": "Blitz",
+    "description": "Complete multiple objectives rapidly across the map. Speed is critical.",
+    "icon": "⚡",
+    "priorities": ["Mobility", "Versatile"],
+    "stratagemTags": ["Mobility", "Utility", "Anti-Light"],
+    "notes": "Prioritize mobility and self-sufficiency. Light armor recommended."
+  },
+  {
+    "id": "defense",
+    "name": "Defend",
+    "description": "Hold a position against waves of enemies. Fortification and sentries excel.",
+    "icon": "🏰",
+    "priorities": ["Defense", "Area Denial", "Sentry"],
+    "stratagemTags": ["Sentry", "Area Denial", "Defense"],
+    "notes": "Sentries and emplacements are highly effective. Fortified armor helps."
+  },
+  {
+    "id": "sabotage",
+    "name": "Sabotage",
+    "description": "Destroy or disable enemy installations. Demolition power is key.",
+    "icon": "💣",
+    "priorities": ["Anti-Structure", "Explosive", "Anti-Heavy"],
+    "stratagemTags": ["Anti-Structure", "Anti-Heavy", "Explosive"],
+    "notes": "Bring heavy anti-armor. Eagle 500KG and Orbital Railcannon excel here."
+  },
+  {
+    "id": "retrieve",
+    "name": "Retrieve Essential Personnel",
+    "description": "Escort civilians or retrieve assets while under attack. Survivability matters.",
+    "icon": "🧑",
+    "priorities": ["Mobility", "Crowd Control", "Survivability"],
+    "stratagemTags": ["Crowd Control", "Defense", "Utility"],
+    "notes": "Stun stratagems keep enemies off civilians. Shield generator pack recommended."
+  },
+  {
+    "id": "elimination",
+    "name": "Eliminate Target",
+    "description": "Kill a priority high-value target. Anti-tank and precision tools win.",
+    "icon": "🎯",
+    "priorities": ["Anti-Heavy", "Anti-Tank", "Precision"],
+    "stratagemTags": ["Anti-Tank", "Anti-Heavy", "Anti-Structure"],
+    "notes": "Bring the heaviest anti-armor tools available. Railgun, Spear, and Orbital Railcannon."
+  },
+  {
+    "id": "activate",
+    "name": "Activate Terminid Control System",
+    "description": "Activate facilities across the map. Objective-focused with moderate combat.",
+    "icon": "⚙",
+    "priorities": ["Versatile", "Mobility"],
+    "stratagemTags": ["All Factions", "Utility"],
+    "notes": "Versatility and mobility help you complete objectives quickly."
+  },
+  {
+    "id": "spread-democracy",
+    "name": "Spread Democracy",
+    "description": "Plant the flag at multiple locations while fending off enemy resistance.",
+    "icon": "🦅",
+    "priorities": ["Mobility", "Versatile"],
+    "stratagemTags": ["All Factions", "Utility", "Mobility"],
+    "notes": "Balanced loadout. Prioritize mobility. Jump pack can help reach objectives."
+  }
+]
