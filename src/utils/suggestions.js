@@ -1,259 +1,482 @@
 /**
- * Super Earth Quartermaster — Loadout Suggestion Engine
- *
- * Scores every item in every slot against:
- *  - Selected factions & their weaknesses/resistances
- *  - Selected enemy units & their armor tiers
- *  - Planet environmental conditions
- *  - Mission type priorities
- *
- * Returns a fully recommended loadout with explanation strings.
+ * Super Earth Quartermaster — Suggestion Engine v2
+ * Supports: faction, enemy, condition, mission, playstyle, loadout synergy, build-around
  */
 
-import { weaponEffectivenessScore, stratagemEffectivenessScore } from './statCalc'
-
-// ─── Helpers ────────────────────────────────────────────────────────────────
-
-function tagOverlap(itemTags = [], targetTags = []) {
-  return itemTags.filter(t => targetTags.includes(t)).length
+// ── AP penetration helper ─────────────────────────────────────────────────────
+function canPenetrate(weaponAP, enemyAP) {
+  if (weaponAP === undefined || weaponAP === null) return true
+  return weaponAP >= enemyAP
 }
 
-// ─── Weapon scorer ───────────────────────────────────────────────────────────
+// ── Faction tag helpers ───────────────────────────────────────────────────────
+const FACTION_TAGS = {
+  terminids:  ['Terminids', 'Anti-Light', 'Fire', 'Area Denial'],
+  automatons: ['Automatons', 'Anti-Heavy', 'Anti-Tank', 'Precision'],
+  illuminate: ['Illuminate', 'Arc', 'Energy', 'Anti-Light'],
+}
 
-function scoreWeapon(weapon, { factions, enemies, conditions, mission }) {
+function factionTagOverlap(tags = [], factionIds = []) {
+  if (!factionIds.length) return 0
+  let hits = 0
+  for (const fid of factionIds) {
+    const fTags = FACTION_TAGS[fid] ?? []
+    for (const t of fTags) {
+      if (tags.includes(t)) hits++
+    }
+  }
+  return Math.min(hits * 15, 45)
+}
+
+// ── Mission priorities ────────────────────────────────────────────────────────
+const MISSION_WEIGHTS = {
+  'eradicate':                    { area: 15, antiLight: 15, antiHeavy: 0,  armorType: { Light: 3,  Medium: 5,  Heavy: -5  } },
+  'blitz':                        { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: 10, Medium: 0,  Heavy: -15 } },
+  'defend':                       { area: 10, antiLight: 5,  antiHeavy: 10, armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'sabotage':                     { area: 0,  antiLight: 5,  antiHeavy: 10, armorType: { Light: 5,  Medium: 5,  Heavy: 0   } },
+  'retrieve-essential-personnel': { area: 0,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: 10, Medium: 0,  Heavy: -10 } },
+  'eliminate-target':             { area: 0,  antiLight: 0,  antiHeavy: 20, armorType: { Light: 5,  Medium: 5,  Heavy: 5   } },
+  'activate-tcs':                 { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'spread-democracy':             { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+}
+
+// ── Condition helpers ─────────────────────────────────────────────────────────
+const CONDITION_PASSIVE_BONUS = {
+  fire_tornados:      ['Inflammable'],
+  extreme_cold:       ['Acclimated'],
+  toxic_haze:         ['Advanced Filtration'],
+  acid_storms:        ['Advanced Filtration'],
+  blizzards:          ['Acclimated'],
+  electrical_storms:  ['Electrical Conduit'],
+  meteor_showers:     ['Engineering Kit'],
+  extreme_heat:       ['Inflammable'],
+  thick_fog:          ['Scout'],
+  rainstorm:          [],
+  sandstorm:          ['Advanced Filtration', 'Scout'],
+  spore_clouds:       ['Advanced Filtration'],
+  volcanic_activity:  ['Inflammable'],
+  ion_storms:         ['Electrical Conduit'],
+  stalker_infestation:['Scout'],
+  orbital_interference: [],
+}
+
+function conditionPassiveBonus(passive, conditions) {
+  if (!passive || !conditions?.length) return 0
+  let bonus = 0
+  for (const cond of conditions) {
+    if (CONDITION_PASSIVE_BONUS[cond]?.includes(passive)) bonus += 20
+  }
+  return Math.min(bonus, 40)
+}
+
+// ── Playstyle helpers ─────────────────────────────────────────────────────────
+function playstyleWeaponBonus(weapon, playstyle) {
+  if (!playstyle) return 0
+  let score = 0
+  const traits = weapon.traits ?? []
+  for (const pt of (playstyle.primaryTraits ?? [])) {
+    if (traits.includes(pt) || weapon.damageType === pt || weapon.effect === pt) score += 12
+  }
+  for (const at of (playstyle.avoidTraits ?? [])) {
+    if (traits.includes(at) || weapon.damageType === at) score -= 8
+  }
+  return Math.max(score, -20)
+}
+
+function playstyleArmorBonus(armor, playstyle) {
+  if (!playstyle) return 0
+  let score = 0
+  if (playstyle.preferredArmor?.includes(armor.passive)) score += 20
+  score += playstyle.armorTypeBonus?.[armor.type] ?? 0
+  return score
+}
+
+function playstyleStratagemBonus(stratagem, playstyle) {
+  if (!playstyle) return 0
+  let score = 0
+  const tags = stratagem.tags ?? []
+  for (const pt of (playstyle.preferredStratagemTags ?? [])) {
+    if (tags.includes(pt)) score += 10
+  }
+  if (playstyle.favoredStratagems?.includes(stratagem.id)) score += 25
+  return score
+}
+
+// ── Weapon/Stratagem profile helpers for loadout synergy ─────────────────────
+function getWeaponProfile(weapon) {
+  if (!weapon) return {}
+  return {
+    isHighROF:    (weapon.fireRate ?? 0) >= 600,
+    isLowROF:     (weapon.fireRate ?? 0) > 0 && (weapon.fireRate ?? 0) < 200,
+    isAT:         (weapon.apTier ?? 0) >= 5,
+    isHeavy:      (weapon.apTier ?? 0) >= 4,
+    isFire:       weapon.damageType === 'Fire',
+    isArc:        weapon.damageType === 'Arc',
+    isExplosive:  weapon.damageType === 'Explosive' || (weapon.traits ?? []).includes('Explosive'),
+    isArea:       (weapon.traits ?? []).some(t => ['Area','Wide Spread','DoT'].includes(t)),
+    isSingleShot: (weapon.traits ?? []).includes('Single Fire'),
+  }
+}
+
+function getStratagemProfile(st) {
+  const tags = st.tags ?? []
+  return {
+    isAT:      tags.includes('Anti-Tank'),
+    isArea:    tags.includes('Area Denial'),
+    isFire:    tags.includes('Fire'),
+    isLight:   tags.includes('Anti-Light'),
+  }
+}
+
+function loadoutSynergyBonus(candidateItem, candidateSlot, buildAround, currentSlots) {
+  let bonus = 0
+  const lockedWeapons = []
+  if (buildAround?.item && ['primary','secondary'].includes(buildAround.slotType))
+    lockedWeapons.push(buildAround.item)
+  if (currentSlots?.primary)   lockedWeapons.push(currentSlots.primary)
+  if (currentSlots?.secondary) lockedWeapons.push(currentSlots.secondary)
+
+  for (const anchor of lockedWeapons) {
+    if (anchor.id === candidateItem.id) continue
+    const ap = getWeaponProfile(anchor)
+
+    if (['primary','secondary'].includes(candidateSlot)) {
+      if (ap.isLowROF && !ap.isHighROF && (candidateItem.fireRate ?? 0) >= 600) bonus += 20
+      if (ap.isHighROF && !ap.isLowROF  && (candidateItem.fireRate ?? 0) < 200) bonus += 15
+      if (ap.isFire  && candidateItem.damageType === 'Fire')  bonus -= 20
+      if (ap.isArc   && candidateItem.damageType === 'Arc')   bonus -= 15
+      if (ap.isArea  && (candidateItem.traits ?? []).includes('High Damage')) bonus += 10
+    }
+
+    if (candidateSlot === 'stratagem') {
+      const sp = getStratagemProfile(candidateItem)
+      if (ap.isAT && sp.isAT) bonus -= 15
+      if ((ap.isFire || ap.isArea) && sp.isAT) bonus += 15
+      if (ap.isSingleShot && sp.isArea) bonus += 12
+      if (!ap.isHeavy && sp.isAT) bonus += 20
+    }
+  }
+
+  if (candidateSlot === 'armor' && buildAround) {
+    const anchor = buildAround.item
+    if (anchor?.passive === 'Scout'       && candidateItem.type === 'Light')  bonus += 15
+    if (anchor?.passive === 'Inflammable' && candidateItem.passive === 'Inflammable') bonus -= 5
+    const ap = getWeaponProfile(anchor)
+    if (ap.isFire && candidateItem.passive === 'Inflammable') bonus += 15
+    if (ap.isArc  && candidateItem.passive === 'Electrical Conduit') bonus += 10
+    if (ap.isSingleShot && candidateItem.type === 'Light') bonus += 8
+  }
+
+  return Math.max(Math.min(bonus, 40), -30)
+}
+
+// ── Item scorers ──────────────────────────────────────────────────────────────
+function scoreWeapon(weapon, ctx) {
+  const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots, slotType } = ctx
   let score = 50
 
-  // AP penetration vs enemies
-  if (enemies.length) {
-    const eff = weaponEffectivenessScore(weapon, enemies, factions)
-    if (eff !== null) score += (eff - 50) * 0.5 // -25 to +25
+  if (synergyModes?.faction !== false && (enemies.length || factions.length)) {
+    const penetrates = !enemies.length || enemies.every(e => canPenetrate(weapon.apTier, e.armorTier ?? 1))
+    if (!penetrates) score -= 30
+    else if (enemies.length && (weapon.apTier ?? 0) > Math.max(...enemies.map(e => e.armorTier ?? 1))) score += 10
+    score += factionTagOverlap(weapon.traits ?? [], factions.map(f => f.id))
+    if (factions.some(f => f.id === 'terminids') && weapon.damageType === 'Fire')      score += 15
+    if (factions.some(f => f.id === 'automatons') && weapon.damageType === 'Explosive') score += 10
+    if (factions.some(f => f.id === 'illuminate') && weapon.damageType === 'Arc')      score += 15
   }
 
-  // Damage type vs faction weaknesses/resistances
-  for (const faction of factions) {
-    if (faction.weaknesses?.includes(weapon.damageType))  score += 15
-    if (faction.resistances?.includes(weapon.damageType)) score -= 20
+  if (synergyModes?.mission !== false && mission) {
+    const mw = MISSION_WEIGHTS[mission]
+    if (mw) {
+      const traits = weapon.traits ?? []
+      if (traits.some(t => ['Area','DoT','Explosive'].includes(t)) || (weapon.fireRate ?? 0) >= 600) score += mw.area
+      if (traits.some(t => ['Anti-Light','High Stagger','Fire'].includes(t))) score += mw.antiLight
+      if ((weapon.apTier ?? 0) >= 4 || traits.some(t => ['Anti-Heavy','Anti-Tank'].includes(t))) score += mw.antiHeavy
+    }
+    if (['blitz','retrieve-essential-personnel'].includes(mission) && (weapon.fireRate ?? 0) >= 600) score += 5
   }
 
-  // Mission priorities
-  if (mission) {
-    if (mission.priorities.includes('Anti-Heavy') && weapon.apTier >= 4) score += 10
-    if (mission.priorities.includes('Area Denial') && weapon.traits?.includes('Explosive')) score += 10
-    if (mission.priorities.includes('High Capacity') && weapon.capacity >= 30) score += 8
-    if (mission.priorities.includes('Mobility') && (weapon.capacity >= 30 || weapon.category === 'NRG')) score += 5
-    if (mission.priorities.includes('Explosive') && weapon.damageType === 'Explosive') score += 12
-    if (mission.priorities.includes('Precision') && weapon.category === 'DMR') score += 10
-    if (mission.priorities.includes('Crowd Control') && weapon.effect === 'Stun') score += 15
+  if (synergyModes?.playstyle !== false && playstyle) {
+    score += playstyleWeaponBonus(weapon, playstyle)
   }
 
-  // Condition bonuses
-  for (const cond of conditions) {
-    if (cond.id === 'fire_tornados' && weapon.damageType === 'Fire') score -= 5 // already lots of fire
-    if (cond.id === 'electrical_storms' && weapon.damageType === 'Arc') score -= 5
+  if (synergyModes?.loadout !== false) {
+    score += loadoutSynergyBonus(weapon, slotType, buildAround, currentSlots)
   }
 
-  return Math.max(0, Math.min(100, score))
+  return Math.min(Math.max(Math.round(score), 0), 100)
 }
 
-// ─── Armor scorer ───────────────────────────────────────────────────────────
-
-function scoreArmor(armor, passivesData, { factions, conditions, mission }) {
+function scoreArmor(armor, ctx) {
+  const { conditions, factions, mission, playstyle, synergyModes, buildAround, currentSlots } = ctx
   let score = 50
-  const passive = passivesData[armor.passive]
 
-  // Passive faction bonus
-  if (passive?.factionBonus) {
-    if (factions.some(f => f.id === passive.factionBonus)) score += 25
+  if (synergyModes?.planet !== false) {
+    score += conditionPassiveBonus(armor.passive, conditions)
   }
 
-  // Passive environment bonus
-  if (passive?.environmentBonus) {
-    if (conditions.some(c => c.id === passive.environmentBonus)) score += 30
+  if (synergyModes?.faction !== false && factions.length) {
+    if (factions.some(f => f.id === 'terminids')  && armor.passive === 'Inflammable')        score += 10
+    if (factions.some(f => f.id === 'automatons') && armor.passive === 'Fortified')          score += 10
+    if (factions.some(f => f.id === 'illuminate') && armor.passive === 'Electrical Conduit') score += 10
+    if (factions.some(f => f.id === 'automatons') && ['Servo-Assisted','Unflinching'].includes(armor.passive)) score += 8
   }
 
-  // Mission-driven type preferences
-  if (mission) {
-    if (mission.priorities.includes('Mobility') && armor.type === 'Light')  score += 15
-    if (mission.priorities.includes('Defense')  && armor.type === 'Heavy')  score += 10
-    if (mission.priorities.includes('Defense')  && armor.passive === 'Fortified') score += 10
-    if (mission.priorities.includes('Survivability') && armor.armorRating >= 150) score += 10
-    if (mission.priorities.includes('Crowd Control') && armor.passive === 'Engineering Kit') score += 5
-    if (mission.priorities.includes('Explosive') && armor.passive === 'Engineering Kit') score += 10
-    if (mission.priorities.includes('Anti-Heavy') && armor.passive === 'Servo-Assisted') score += 8
-    if (mission.priorities.includes('Sentry') && armor.passive === 'Engineering Kit') score += 5
+  if (synergyModes?.mission !== false && mission) {
+    const mw = MISSION_WEIGHTS[mission]
+    if (mw?.armorType) score += mw.armorType[armor.type] ?? 0
+    if (['blitz','retrieve-essential-personnel'].includes(mission) && armor.type === 'Light') score += 15
+    if (['defend','activate-tcs'].includes(mission) && armor.type === 'Heavy') score += 10
+    if (mission === 'eradicate' && armor.passive === 'Engineering Kit') score += 10
   }
 
-  // Condition-specific passives
-  for (const cond of conditions) {
-    if (cond.recommendedPassive === armor.passive) score += 20
+  if (synergyModes?.playstyle !== false && playstyle) {
+    score += playstyleArmorBonus(armor, playstyle)
   }
 
-  // Faction-specific passives
-  for (const faction of factions) {
-    if (faction.id === 'automatons' && ['Fortified', 'Ballistic Padding', 'Unflinching'].includes(armor.passive)) score += 12
-    if (faction.id === 'terminids' && ['Inflammable', 'Engineering Kit', 'Advanced Filtration'].includes(armor.passive)) score += 10
-    if (faction.id === 'illuminate' && ['Electrical Conduit', 'Scout', 'Democracy Protects'].includes(armor.passive)) score += 10
+  if (synergyModes?.loadout !== false) {
+    score += loadoutSynergyBonus(armor, 'armor', buildAround, currentSlots)
   }
 
-  return Math.max(0, Math.min(100, score))
+  return Math.min(Math.max(Math.round(score), 0), 100)
 }
 
-// ─── Stratagem scorer ────────────────────────────────────────────────────────
-
-function scoreStratagem(strat, { factions, enemies, conditions, mission }) {
-  let score = stratagemEffectivenessScore(strat, enemies, factions) ?? 50
-  const tags = strat.tags ?? []
-
-  // Mission priority tag overlap
-  if (mission) {
-    score += tagOverlap(tags, mission.stratagemTags) * 10
-    if (mission.priorities.includes('Sentry') && strat.category === 'Sentry') score += 15
-    if (mission.priorities.includes('Defense') && strat.category === 'Emplacement') score += 10
-    if (mission.priorities.includes('Anti-Structure') && tags.includes('Anti-Structure')) score += 15
-    if (mission.priorities.includes('Mobility') && tags.includes('Mobility')) score += 15
-    if (mission.priorities.includes('Crowd Control') && tags.includes('Crowd Control')) score += 15
-    if (mission.priorities.includes('Survivability') && ['shield-generator-pack'].includes(strat.id)) score += 15
-  }
-
-  // Condition bonuses
-  for (const cond of conditions) {
-    if (cond.recommendedStratagem === strat.id) score += 20
-  }
-
-  // Faction bonuses
-  for (const faction of factions) {
-    if (tags.includes(faction.name)) score += 10
-    if (tags.includes('All Factions')) score += 3
-  }
-
-  // Enemy tier bonuses
-  const hasHeavies = enemies.some(e => e.armorTier >= 5)
-  const hasMediums = enemies.some(e => e.armorTier >= 3 && e.armorTier < 5)
-
-  if (hasHeavies && tags.some(t => ['Anti-Tank','Anti-Heavy'].includes(t))) score += 20
-  if (hasMediums && tags.some(t => ['Anti-Medium','Anti-Heavy'].includes(t))) score += 10
-
-  return Math.max(0, Math.min(100, score))
-}
-
-// ─── Booster scorer ──────────────────────────────────────────────────────────
-
-function scoreBooster(booster, { factions, conditions, mission }) {
+function scoreStratagem(stratagem, ctx) {
+  const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots } = ctx
   let score = 50
-  const tags = booster.tags ?? []
+  const tags = stratagem.tags ?? []
 
-  if (mission) {
-    if (mission.priorities.includes('Mobility')      && tags.includes('Mobility'))     score += 20
-    if (mission.priorities.includes('Survivability') && tags.includes('Survivability')) score += 20
-    if (mission.priorities.includes('Anti-Heavy')    && booster.id === 'stamina-enhancement') score += 5
+  if (synergyModes?.faction !== false) {
+    score += factionTagOverlap(tags, factions.map(f => f.id))
+    if (enemies.length) {
+      const maxAP = Math.max(...enemies.map(e => e.armorTier ?? 1))
+      if (maxAP >= 4 && tags.includes('Anti-Tank'))  score += 20
+      if (maxAP >= 3 && tags.includes('Anti-Heavy')) score += 10
+      if (maxAP <= 2 && tags.includes('Anti-Light')) score += 15
+    }
   }
 
-  // Condition bonuses
-  for (const cond of conditions) {
-    if (cond.id === 'extreme_cold' && booster.id === 'stamina-enhancement') score += 20
-    if (cond.id === 'blizzards'    && booster.id === 'stamina-enhancement') score += 15
+  if (synergyModes?.planet !== false && conditions.length) {
+    if (conditions.includes('ion_storms') && stratagem.cooldown > 300) score -= 10
+    if (conditions.includes('stalker_infestation') && tags.some(t => ['Anti-Light','Automatic'].includes(t))) score += 15
   }
 
-  // General favorites
-  if (booster.id === 'hellpod-space-optimization') score += 10
-  if (booster.id === 'vitality-enhancement') score += 8
+  if (synergyModes?.mission !== false && mission) {
+    const mw = MISSION_WEIGHTS[mission]
+    if (mw) {
+      if (tags.includes('Area Denial')) score += mw.area
+      if (tags.includes('Anti-Light'))  score += mw.antiLight
+      if (tags.includes('Anti-Heavy') || tags.includes('Anti-Tank')) score += mw.antiHeavy
+    }
+    if (mission === 'blitz' && stratagem.cooldown < 120) score += 15
+    if (mission === 'blitz' && ['Vehicle','Emplacement'].includes(stratagem.category)) score -= 15
+    if (['defend','activate-tcs'].includes(mission) && ['Sentry','Emplacement'].includes(stratagem.category)) score += 20
+    if (mission === 'eliminate-target' && tags.includes('Anti-Tank')) score += 20
+    if (mission === 'eradicate' && tags.some(t => ['Area Denial','Anti-Light','Fire'].includes(t))) score += 15
+  }
 
-  return Math.max(0, Math.min(100, score))
+  if (synergyModes?.playstyle !== false && playstyle) {
+    score += playstyleStratagemBonus(stratagem, playstyle)
+  }
+
+  if (synergyModes?.loadout !== false) {
+    score += loadoutSynergyBonus(stratagem, 'stratagem', buildAround, currentSlots)
+  }
+
+  return Math.min(Math.max(Math.round(score), 0), 100)
 }
 
-// ─── Rationale builder ───────────────────────────────────────────────────────
+function scoreBooster(booster, ctx) {
+  const { mission, conditions, playstyle, synergyModes } = ctx
+  let score = 50
+  const eff = (booster.effect ?? booster.description ?? '').toLowerCase()
 
-function buildRationale(item, score, context) {
+  if (synergyModes?.mission !== false && mission) {
+    if (mission === 'blitz' && (eff.includes('stamina') || eff.includes('sprint'))) score += 20
+    if (mission === 'retrieve-essential-personnel' && eff.includes('extraction')) score += 25
+    if (mission === 'eradicate' && eff.includes('reinforce')) score += 15
+    if (mission === 'defend' && (eff.includes('hp') || eff.includes('vitality'))) score += 10
+  }
+
+  if (synergyModes?.planet !== false && conditions.length) {
+    if (conditions.includes('extreme_cold') && eff.includes('stamina')) score += 15
+    if (conditions.includes('toxic_haze') && eff.includes('hp')) score += 10
+    if (conditions.includes('spore_clouds') && eff.includes('stamina')) score += 10
+  }
+
+  if (synergyModes?.playstyle !== false && playstyle) {
+    if (playstyle.id === 'lone-wolf' && eff.includes('stamina')) score += 10
+    if (playstyle.id === 'support-medic' && eff.includes('hp')) score += 15
+    if (playstyle.id === 'sample-goblin' && eff.includes('stamina')) score += 15
+  }
+
+  return Math.min(Math.max(Math.round(score), 0), 100)
+}
+
+// ── Rationale builder ─────────────────────────────────────────────────────────
+function buildRationale(item, score, ctx) {
   const reasons = []
-  const { factions, enemies, conditions, mission } = context
+  const { factions, enemies, conditions, mission, playstyle, buildAround } = ctx
 
-  if (item.apTier >= 4 && enemies.some(e => e.armorTier >= 4)) {
-    reasons.push(`AP${item.apTier} penetrates heavy armor targets`)
-  }
-  if (item.damageType && factions.some(f => f.weaknesses?.includes(item.damageType))) {
-    reasons.push(`${item.damageType} damage exploits faction weakness`)
-  }
-  if (item.passive) {
-    const matchesCond = conditions.some(c => c.recommendedPassive === item.passive)
-    const matchesFaction = factions.some(f => {
-      if (f.id === 'terminids') return ['Inflammable','Engineering Kit'].includes(item.passive)
-      if (f.id === 'automatons') return ['Fortified','Ballistic Padding'].includes(item.passive)
-      if (f.id === 'illuminate') return ['Electrical Conduit'].includes(item.passive)
-      return false
-    })
-    if (matchesCond) reasons.push(`${item.passive} counters current planet conditions`)
-    if (matchesFaction) reasons.push(`${item.passive} effective vs selected faction`)
-  }
-  if (mission && item.tags?.some(t => mission.stratagemTags?.includes(t))) {
-    reasons.push(`Aligns with ${mission.name} mission priorities`)
-  }
-  if (item.sequence && enemies.some(e => e.armorTier >= 5) && item.tags?.some(t => ['Anti-Tank','Anti-Heavy'].includes(t))) {
-    reasons.push('Essential vs heavy/titan-class enemies')
+  const isArmor     = item.armorRating !== undefined
+  const isStratagem = item.sequence !== undefined
+  const isBooster   = !isArmor && !isStratagem && item.fireRate === undefined && item.blastRadius === undefined
+
+  if (isArmor) {
+    if (conditions?.length && CONDITION_PASSIVE_BONUS[conditions[0]]?.includes(item.passive))
+      reasons.push(`"${item.passive}" suits ${conditions[0].replace(/_/g,' ')} conditions`)
+    if (['blitz','retrieve-essential-personnel'].includes(mission) && item.type === 'Light')
+      reasons.push('Light armor for mobility-critical mission')
+    if (['defend','activate-tcs'].includes(mission) && item.type === 'Heavy')
+      reasons.push('Heavy armor for sustained defensive operations')
+    if (playstyle?.preferredArmor?.includes(item.passive))
+      reasons.push(`Matches ${playstyle.name} playstyle`)
+  } else if (isStratagem) {
+    const tags = item.tags ?? []
+    if (factions?.some(f => tags.includes(f.name ?? f.id)))
+      reasons.push('Tagged for current faction threat')
+    if (tags.includes('Anti-Tank') && enemies?.some(e => (e.armorTier ?? 1) >= 4))
+      reasons.push('Anti-tank needed vs armored enemies')
+    if (mission === 'blitz' && item.cooldown < 120)
+      reasons.push('Short cooldown suits Blitz tempo')
+    if (['defend','activate-tcs'].includes(mission) && ['Sentry','Emplacement'].includes(item.category))
+      reasons.push('Sentry/emplacement ideal for defense')
+    if (playstyle?.favoredStratagems?.includes(item.id))
+      reasons.push(`Core tool for ${playstyle.name} playstyle`)
+  } else if (!isBooster) {
+    if (factions?.some(f => f.id === 'terminids') && item.damageType === 'Fire')
+      reasons.push('Fire damage highly effective vs Terminids')
+    if (factions?.some(f => f.id === 'automatons') && (item.apTier ?? 0) >= 4)
+      reasons.push('High AP needed vs Automaton armor')
+    if (factions?.some(f => f.id === 'illuminate') && item.damageType === 'Arc')
+      reasons.push('Arc damage effective vs Illuminate shields')
+    if (buildAround?.item) {
+      const ap = getWeaponProfile(buildAround.item)
+      if (ap.isLowROF && (item.fireRate ?? 0) >= 600)
+        reasons.push(`High ROF compensates for ${buildAround.item.name}'s slow fire rate`)
+      if (ap.isFire && (item.fireRate ?? 0) >= 600)
+        reasons.push('Spray coverage supports anchor weapon')
+    }
+    if (playstyle?.primaryTraits?.some(t => (item.traits ?? []).includes(t)))
+      reasons.push(`Traits aligned with ${playstyle.name} playstyle`)
   }
 
-  return reasons.length ? reasons : [`Score: ${score}/100`]
+  if (reasons.length === 0) {
+    if (score >= 70) reasons.push('Strong all-round choice for current context')
+    else if (score >= 50) reasons.push('Solid performer for this loadout')
+    else reasons.push('Viable — check alternatives for better fit')
+  }
+
+  return reasons
 }
 
-// ─── Main suggestion function ─────────────────────────────────────────────────
-
+// ── Main export ───────────────────────────────────────────────────────────────
 export function suggestLoadout({
-  weapons, armor: armorList, stratagems, boosters,
-  passivesData,
-  factions, enemies, conditions, mission,
+  weapons,
+  armor,
+  stratagems,
+  boosters,
+  factions       = [],
+  enemies        = [],
+  conditions     = [],
+  mission        = null,
+  playstyle      = null,
+  stratagemLimits = {},
+  buildAround    = null,
+  currentSlots   = {},
+  synergyModes   = { planet: true, loadout: true, faction: true, playstyle: true, mission: true },
+  ownedWarbonds  = null,
 }) {
-  const ctx = { factions, enemies, conditions, mission }
+  const ctx = { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots }
 
-  // Score all items in each category
-  const scoredPrimaries   = weapons.primaries.map(w   => ({ item: w, score: scoreWeapon(w, ctx), rationale: [] }))
-  const scoredSecondaries = weapons.secondaries.map(w => ({ item: w, score: scoreWeapon(w, ctx), rationale: [] }))
-  const scoredThrowables  = weapons.throwables.map(w  => ({ item: w, score: scoreWeapon(w, ctx), rationale: [] }))
-  const scoredArmor       = armorList.map(a            => ({ item: a, score: scoreArmor(a, passivesData, ctx), rationale: [] }))
-  const scoredStratagems  = stratagems.map(s           => ({ item: s, score: scoreStratagem(s, ctx), rationale: [] }))
-  const scoredBoosters    = boosters.map(b             => ({ item: b, score: scoreBooster(b, ctx), rationale: [] }))
-
-  // Pick top items
-  const top = arr => [...arr].sort((a, b) => b.score - a.score)
-
-  const primary   = top(scoredPrimaries)[0]
-  const secondary = top(scoredSecondaries)[0]
-  const throwable = top(scoredThrowables)[0]
-  const armor     = top(scoredArmor)[0]
-  const booster   = top(scoredBoosters)[0]
-
-  // Pick top 4 stratagems ensuring category diversity (no more than 2 of same category)
-  const sortedStrats = top(scoredStratagems)
-  const pickedStrats = []
-  const catCounts = {}
-  for (const s of sortedStrats) {
-    const cat = s.item.category
-    if ((catCounts[cat] ?? 0) >= 2) continue
-    pickedStrats.push(s)
-    catCounts[cat] = (catCounts[cat] ?? 0) + 1
-    if (pickedStrats.length === 4) break
+  function filterOwned(items) {
+    if (!ownedWarbonds) return items
+    return items.filter(i => !i.warbond || ownedWarbonds.has(i.warbond))
   }
 
-  // Build rationale for each pick
-  const addRationale = (scored) => ({
-    ...scored,
-    rationale: buildRationale(scored.item, scored.score, ctx),
-  })
+  function scoreAndRank(items, scorer) {
+    return items
+      .map(item => ({ item, score: scorer(item) }))
+      .sort((a, b) => b.score - a.score)
+      .map(e => ({ ...e, rationale: buildRationale(e.item, e.score, ctx) }))
+  }
+
+  const rankedPrimaries   = scoreAndRank(filterOwned(weapons.primaries   ?? []), w => scoreWeapon(w, { ...ctx, slotType: 'primary' }))
+  const rankedSecondaries = scoreAndRank(filterOwned(weapons.secondaries ?? []), w => scoreWeapon(w, { ...ctx, slotType: 'secondary' }))
+  const rankedThrowables  = scoreAndRank(filterOwned(weapons.throwables  ?? []), w => scoreWeapon(w, { ...ctx, slotType: 'throwable' }))
+  const rankedArmor       = scoreAndRank(filterOwned(armor),   a => scoreArmor(a, ctx))
+  const rankedBoosters    = scoreAndRank(filterOwned(boosters), b => scoreBooster(b, ctx))
+
+  // Stratagems with per-category limits
+  const defaultLimits = { Orbital: 2, Eagle: 2, 'Support Weapon': 3, Backpack: 1, Sentry: 1, Vehicle: 0, Emplacement: 1 }
+  const limits = { ...defaultLimits, ...stratagemLimits }
+
+  const rankedStratagemsAll = scoreAndRank(
+    filterOwned(stratagems),
+    s => scoreStratagem(s, { ...ctx, slotType: 'stratagem' })
+  )
+
+  const pickedStratagems = []
+  const categoryCounts = {}
+  for (const entry of rankedStratagemsAll) {
+    if (pickedStratagems.length >= 4) break
+    const cat   = entry.item.category
+    const maxC  = limits[cat] ?? 4
+    if (maxC === 0) continue
+    const count = categoryCounts[cat] ?? 0
+    if (count >= maxC) continue
+    pickedStratagems.push(entry)
+    categoryCounts[cat] = count + 1
+  }
+  // Pad if limits were too restrictive
+  if (pickedStratagems.length < 4) {
+    const picked = new Set(pickedStratagems.map(e => e.item.id))
+    for (const entry of rankedStratagemsAll) {
+      if (pickedStratagems.length >= 4) break
+      if (!picked.has(entry.item.id)) pickedStratagems.push(entry)
+    }
+  }
+
+  function applyBuildAround(slotType, ranked) {
+    if (!buildAround || buildAround.slotType !== slotType) return ranked[0] ?? null
+    let s
+    if (slotType === 'armor')     s = scoreArmor(buildAround.item, ctx)
+    else if (slotType === 'stratagem') s = scoreStratagem(buildAround.item, ctx)
+    else s = scoreWeapon(buildAround.item, { ...ctx, slotType })
+    return { item: buildAround.item, score: s, rationale: ['◉ Build-around anchor — loadout optimized around this item'], locked: true }
+  }
+
+  const finalStratagems = buildAround?.slotType === 'stratagem'
+    ? (() => {
+        const locked = { item: buildAround.item, score: scoreStratagem(buildAround.item, ctx), rationale: ['◉ Build-around anchor'], locked: true }
+        return [locked, ...pickedStratagems.filter(e => e.item.id !== buildAround.item.id).slice(0, 3)]
+      })()
+    : pickedStratagems
+
+  function alts(ranked, topId, n = 3) {
+    return ranked.filter(e => e.item.id !== topId).slice(0, n)
+  }
+
+  const topPrimary   = applyBuildAround('primary',   rankedPrimaries)
+  const topSecondary = applyBuildAround('secondary', rankedSecondaries)
+  const topThrowable = applyBuildAround('throwable', rankedThrowables)
+  const topArmor     = applyBuildAround('armor',     rankedArmor)
+  const topBooster   = rankedBoosters[0] ?? null
 
   return {
-    primary:    addRationale(primary),
-    secondary:  addRationale(secondary),
-    throwable:  addRationale(throwable),
-    armor:      addRationale(armor),
-    stratagems: pickedStrats.map(addRationale),
-    booster:    addRationale(booster),
-
-    // Top alternatives for each slot
+    primary:    topPrimary,
+    secondary:  topSecondary,
+    throwable:  topThrowable,
+    armor:      topArmor,
+    stratagems: finalStratagems,
+    booster:    topBooster,
     alternatives: {
-      primary:    top(scoredPrimaries).slice(1, 4).map(s => s.item),
-      secondary:  top(scoredSecondaries).slice(1, 3).map(s => s.item),
-      throwable:  top(scoredThrowables).slice(1, 3).map(s => s.item),
-      armor:      top(scoredArmor).slice(1, 3).map(s => s.item),
-      stratagems: top(scoredStratagems).slice(4, 8).map(s => s.item),
-      booster:    top(scoredBoosters).slice(1, 3).map(s => s.item),
-    }
+      primary:   alts(rankedPrimaries,   topPrimary?.item?.id),
+      secondary: alts(rankedSecondaries, topSecondary?.item?.id),
+      throwable: alts(rankedThrowables,  topThrowable?.item?.id),
+      armor:     alts(rankedArmor,       topArmor?.item?.id),
+      booster:   alts(rankedBoosters,    topBooster?.item?.id),
+    },
+    context: { factionIds: factions.map(f => f.id), enemyIds: enemies.map(e => e.id), conditions, mission, playstyleId: playstyle?.id ?? null, synergyModes },
   }
 }

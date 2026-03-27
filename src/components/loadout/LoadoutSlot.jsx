@@ -2,6 +2,7 @@ import { useLoadoutStore } from '../../store/loadoutStore'
 import { APBadge } from '../ui/APBadge'
 import { CategoryBadge } from '../ui/CategoryBadge'
 import { ArrowSequence } from '../ui/ArrowSequence'
+import { WARBONDS } from '../../constants/warbonds'
 
 const SLOT_LABELS = {
   primary:   'Primary Weapon',
@@ -41,9 +42,16 @@ export function LoadoutSlot({ slotKey, stratagemIndex, item, isActive, onClick, 
     <div
       className={`relative flex items-center gap-2.5 px-3 py-2.5 cursor-pointer border-l-2 transition-all group ${
         isActive
-          ? 'bg-hd-yellow/10 border-l-hd-yellow'
-          : 'border-l-transparent hover:bg-white/5 hover:border-l-hd-border'
+          ? 'bg-hd-yellow/10'
+          : 'border-l-transparent hover:bg-white/5'
       }`}
+      style={
+        isActive
+          ? { borderLeftColor: '#f5c518' }
+          : item?.warbond && WARBONDS[item.warbond]
+            ? { borderLeftColor: WARBONDS[item.warbond].color + 'bb' }
+            : {}
+      }
       onClick={onClick}
     >
       {/* Slot label */}

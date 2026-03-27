@@ -4,6 +4,7 @@ import { CategoryBadge } from '../ui/CategoryBadge'
 import { DamageTypeBadge } from '../ui/DamageTypeBadge'
 import { ArrowSequence } from '../ui/ArrowSequence'
 import { weaponEffectivenessScore, stratagemEffectivenessScore } from '../../utils/statCalc'
+import { WARBONDS } from '../../constants/warbonds'
 import enemiesData from '../../data/enemies.json'
 
 function EffectivenessBar({ score }) {
@@ -23,6 +24,20 @@ function EffectivenessBar({ score }) {
   )
 }
 
+function WarbondPill({ warbond }) {
+  if (!warbond) return null
+  const wb = WARBONDS[warbond]
+  if (!wb) return null
+  return (
+    <div className="flex items-center gap-0.5 mt-1.5">
+      <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: wb.color }} />
+      <span className="text-[9px] font-mono truncate" style={{ color: wb.color + 'cc' }}>
+        {wb.label}
+      </span>
+    </div>
+  )
+}
+
 export function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compareMode, onCompare }) {
   const selectedFactions = useLoadoutStore(s => s.selectedFactions)
   const selectedEnemies  = useLoadoutStore(s => s.selectedEnemies)
@@ -38,6 +53,8 @@ export function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compa
     : isStratagem ? stratagemEffectivenessScore(item, enemies, factions)
     : null
 
+  const warbondColor = item.warbond ? WARBONDS[item.warbond]?.color : null
+
   return (
     <div
       className={`relative p-2.5 rounded border cursor-pointer transition-all group ${
@@ -45,6 +62,7 @@ export function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compa
           ? 'border-hd-yellow bg-hd-yellow/10 shadow-hd-yellow'
           : 'border-hd-border bg-hd-surface hover:border-hd-border-2 hover:bg-hd-surface-2'
       }`}
+      style={warbondColor && !isSelected ? { borderLeftColor: warbondColor, borderLeftWidth: '3px' } : {}}
       onClick={compareMode ? onCompare : onClick}
       onMouseEnter={() => onHover?.(item)}
       onMouseLeave={() => onHoverEnd?.()}
@@ -91,6 +109,9 @@ export function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compa
 
       {/* Effectiveness bar */}
       <EffectivenessBar score={effectScore} />
+
+      {/* Warbond pill */}
+      <WarbondPill warbond={item.warbond} />
 
       {/* Selected checkmark */}
       {isSelected && (

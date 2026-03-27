@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { WARBOND_ORDER } from '../constants/warbonds'
 
 export const useLoadoutStore = create((set, get) => ({
   // Loadout slots
@@ -19,17 +20,49 @@ export const useLoadoutStore = create((set, get) => ({
   compareItems: [null, null],
 
   // Faction & planet filters for recommendations
-  selectedFactions: [],       // ['terminids', 'automatons', 'illuminate']
-  selectedEnemies:  [],       // enemy ids
-  selectedConditions: [],     // planet condition ids
-  activePlanet: null,         // live war planet data
+  selectedFactions:   [],    // ['terminids', 'automatons', 'illuminate']
+  selectedEnemies:    [],    // enemy ids
+  selectedConditions: [],    // planet condition ids
+  activePlanet:       null,  // live war planet data
+
+  // ── Suggestion engine settings ───────────────────────────────────────────
+  // Stratagem category limits (max # of each category in suggestions, 0 = excluded)
+  stratagemLimits: {
+    Orbital:          2,
+    Eagle:            2,
+    'Support Weapon': 3,
+    Backpack:         1,
+    Sentry:           1,
+    Vehicle:          0,
+    Emplacement:      1,
+  },
+
+  // Build-Around: lock a specific item and build the rest around it
+  buildAroundItem: null,   // { item, slotType } | null
+
+  // Selected playstyle
+  selectedPlaystyle: null,  // playstyle id or null
+
+  // Active synergy modes (each toggles how much that factor weighs in scoring)
+  synergyModes: {
+    planet:    true,   // prioritize items that work well with selected conditions
+    loadout:   true,   // prioritize items that complement each other (fill gaps)
+    faction:   true,   // prioritize items effective vs selected factions/enemies
+    playstyle: true,   // prioritize items matching selected playstyle
+    mission:   true,   // prioritize items suited to selected mission type
+  },
+
+  // Active mission for suggestions
+  suggestMission: null,    // mission id
+
+  // Owned warbonds (for filtering suggestions to only owned items)
+  ownedWarbonds: new Set(WARBOND_ORDER), // all owned by default
 
   // --- Slot actions ---
   setSlot: (slotKey, item) => set(state => {
     if (slotKey === 'stratagem') {
       const idx = state.activeStratagemIndex
       const updated = [...state.slots.stratagems]
-      // If item is already in another slot, remove it
       const existingIdx = updated.findIndex(s => s?.id === item?.id)
       if (existingIdx !== -1 && existingIdx !== idx) updated[existingIdx] = null
       updated[idx] = item
@@ -40,7 +73,6 @@ export const useLoadoutStore = create((set, get) => ({
 
   setStratagemSlot: (index, item) => set(state => {
     const updated = [...state.slots.stratagems]
-    // Remove duplicates
     const existingIdx = updated.findIndex(s => s?.id === item?.id)
     if (existingIdx !== -1 && existingIdx !== index) updated[existingIdx] = null
     updated[index] = item
@@ -77,8 +109,8 @@ export const useLoadoutStore = create((set, get) => ({
   }),
 
   // --- Hover preview ---
-  setHovered: (item) => set({ hoveredItem: item }),
-  clearHovered: () => set({ hoveredItem: null }),
+  setHovered:   (item) => set({ hoveredItem: item }),
+  clearHovered: ()     => set({ hoveredItem: null }),
 
   // --- Compare mode ---
   toggleCompare: () => set(state => ({
@@ -93,29 +125,44 @@ export const useLoadoutStore = create((set, get) => ({
   clearCompare: () => set({ compareItems: [null, null] }),
 
   // --- Faction / enemy / planet ---
-  toggleFaction: (factionId) => set(state => {
-    const has = state.selectedFactions.includes(factionId)
-    return {
-      selectedFactions: has
-        ? state.selectedFactions.filter(f => f !== factionId)
-        : [...state.selectedFactions, factionId],
-    }
-  }),
-  toggleEnemy: (enemyId) => set(state => {
-    const has = state.selectedEnemies.includes(enemyId)
-    return {
-      selectedEnemies: has
-        ? state.selectedEnemies.filter(e => e !== enemyId)
-        : [...state.selectedEnemies, enemyId],
-    }
-  }),
-  toggleCondition: (condId) => set(state => {
-    const has = state.selectedConditions.includes(condId)
-    return {
-      selectedConditions: has
-        ? state.selectedConditions.filter(c => c !== condId)
-        : [...state.selectedConditions, condId],
-    }
-  }),
+  toggleFaction: (factionId) => set(state => ({
+    selectedFactions: state.selectedFactions.includes(factionId)
+      ? state.selectedFactions.filter(f => f !== factionId)
+      : [...state.selectedFactions, factionId],
+  })),
+  toggleEnemy: (enemyId) => set(state => ({
+    selectedEnemies: state.selectedEnemies.includes(enemyId)
+      ? state.selectedEnemies.filter(e => e !== enemyId)
+      : [...state.selectedEnemies, enemyId],
+  })),
+  toggleCondition: (condId) => set(state => ({
+    selectedConditions: state.selectedConditions.includes(condId)
+      ? state.selectedConditions.filter(c => c !== condId)
+      : [...state.selectedConditions, condId],
+  })),
   setActivePlanet: (planet) => set({ activePlanet: planet }),
+
+  // --- Suggestion settings ---
+  setStratagemLimit: (category, max) => set(state => ({
+    stratagemLimits: { ...state.stratagemLimits, [category]: max },
+  })),
+
+  setBuildAroundItem: (item, slotType) => set({ buildAroundItem: { item, slotType } }),
+  clearBuildAround:  ()                => set({ buildAroundItem: null }),
+
+  setSelectedPlaystyle: (id) => set({ selectedPlaystyle: id }),
+
+  toggleSynergyMode: (mode) => set(state => ({
+    synergyModes: { ...state.synergyModes, [mode]: !state.synergyModes[mode] },
+  })),
+
+  setSuggestMission: (missionId) => set({ suggestMission: missionId }),
+
+  toggleOwnedWarbond: (warbond) => set(state => {
+    const next = new Set(state.ownedWarbonds)
+    if (next.has(warbond)) next.delete(warbond)
+    else next.add(warbond)
+    return { ownedWarbonds: next }
+  }),
+  setAllWarbondsOwned: () => set({ ownedWarbonds: new Set(WARBOND_ORDER) }),
 }))

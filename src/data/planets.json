@@ -98,6 +98,60 @@
       "recommendedPassive": null,
       "recommendedStratagem": null,
       "icon": "🌧"
+    },
+    {
+      "id": "sandstorm",
+      "name": "Sandstorm",
+      "description": "Massive sandstorm obscures vision and fouls weapons.",
+      "debuff": "Reduced radar range, visibility",
+      "recommendedPassive": "Advanced Filtration",
+      "recommendedStratagem": "orbital-precision-strike",
+      "icon": "🌪"
+    },
+    {
+      "id": "spore_clouds",
+      "name": "Spore Clouds",
+      "description": "Dense Terminid spore clouds slow stamina recovery and obscure movement.",
+      "debuff": "-20% stamina regen, reduced visibility",
+      "recommendedPassive": "Advanced Filtration",
+      "recommendedStratagem": null,
+      "icon": "🍄"
+    },
+    {
+      "id": "volcanic_activity",
+      "name": "Volcanic Activity",
+      "description": "Sporadic lava bursts and heat waves erupt across the terrain.",
+      "debuff": "Periodic fire damage, impassable lava flows",
+      "recommendedPassive": "Inflammable",
+      "recommendedStratagem": "eagle-airstrike",
+      "icon": "🌋"
+    },
+    {
+      "id": "ion_storms",
+      "name": "Ion Storms",
+      "description": "Electromagnetic ion storms disrupt stratagem signals and increase cooldowns.",
+      "debuff": "+20% stratagem cooldowns, signal disruption",
+      "recommendedPassive": "Electrical Conduit",
+      "recommendedStratagem": "orbital-precision-strike",
+      "icon": "⚡"
+    },
+    {
+      "id": "stalker_infestation",
+      "name": "Stalker Infestation",
+      "description": "High Stalker presence — invisible ambushers patrol the area.",
+      "debuff": "Frequent Stalker ambushes",
+      "recommendedPassive": "Scout",
+      "recommendedStratagem": "guard-dog-rover",
+      "icon": "👁"
+    },
+    {
+      "id": "orbital_interference",
+      "name": "Orbital Interference",
+      "description": "Unusual gravity or atmospheric interference reduces orbital strike accuracy.",
+      "debuff": "Reduced orbital precision",
+      "recommendedPassive": null,
+      "recommendedStratagem": "eagle-airstrike",
+      "icon": "🛸"
     }
   ],
   "biomes": [

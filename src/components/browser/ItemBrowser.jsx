@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react'
 import { useLoadoutStore } from '../../store/loadoutStore'
 import { ItemCard } from './ItemCard'
+import { WARBONDS, WARBOND_ORDER } from '../../constants/warbonds'
 import weaponsData   from '../../data/weapons.json'
 import armorData     from '../../data/armor.json'
 import stratagemData from '../../data/stratagems.json'
 import boosterData   from '../../data/boosters.json'
 
-// ── All items grouped by slot type ───────────────────────────────────────────
 const SLOT_ITEMS = {
   primary:   weaponsData.primaries,
   secondary: weaponsData.secondaries,
@@ -16,11 +16,10 @@ const SLOT_ITEMS = {
   booster:   boosterData,
 }
 
-// ── Filter categories per slot ───────────────────────────────────────────────
 const SLOT_FILTERS = {
   primary:  ['All','AR','DMR','SMG','SG','EX','NRG'],
-  secondary:['All','HG','NRG','MELEE'],
-  throwable:['All','Grenade'],
+  secondary:['All','HG','NRG','SG','MELEE'],
+  throwable:['All','Grenade','Thrown'],
   armor:    ['All','Light','Medium','Heavy'],
   stratagem:['All','Orbital','Eagle','Support Weapon','Backpack','Sentry','Emplacement','Vehicle'],
   booster:  ['All'],
@@ -45,12 +44,12 @@ const SLOT_FLAVOR = {
 }
 
 const SORT_OPTIONS = [
-  { value: 'name',    label: 'Name' },
-  { value: 'damage',  label: 'Damage' },
-  { value: 'dps',     label: 'DPS' },
-  { value: 'apTier',  label: 'AP Tier' },
-  { value: 'cooldown',label: 'Cooldown' },
-  { value: 'armorRating', label: 'Armor' },
+  { value: 'name',       label: 'Name' },
+  { value: 'damage',     label: 'Damage' },
+  { value: 'dps',        label: 'DPS' },
+  { value: 'apTier',     label: 'AP Tier' },
+  { value: 'cooldown',   label: 'Cooldown' },
+  { value: 'armorRating',label: 'Armor' },
 ]
 
 function getFilterKey(item) {
@@ -69,18 +68,27 @@ export function ItemBrowser() {
   const setCompareItem   = useLoadoutStore(s => s.setCompareItem)
   const compareItems     = useLoadoutStore(s => s.compareItems)
 
-  const [search,     setSearch]     = useState('')
-  const [filter,     setFilter]     = useState('All')
-  const [sort,       setSort]       = useState('name')
-  const [sortDir,    setSortDir]    = useState(1) // 1 asc, -1 desc
+  const [search,      setSearch]      = useState('')
+  const [filter,      setFilter]      = useState('All')
+  const [warbondFilter, setWarbondFilter] = useState('All')
+  const [sort,        setSort]        = useState('name')
+  const [sortDir,     setSortDir]     = useState(1)
+  const [showWarbonds, setShowWarbonds] = useState(false)
 
   const items = SLOT_ITEMS[activeSlot] ?? []
   const filters = SLOT_FILTERS[activeSlot] ?? ['All']
 
+  // Get warbonds present in current items
+  const availableWarbonds = useMemo(() => {
+    const wb = new Set()
+    items.forEach(i => { if (i.warbond) wb.add(i.warbond) })
+    return WARBOND_ORDER.filter(w => wb.has(w))
+  }, [items])
+
   // Reset filter when slot changes
   const [prevSlot, setPrevSlot] = useState(activeSlot)
   if (prevSlot !== activeSlot) {
-    setSearch(''); setFilter('All'); setPrevSlot(activeSlot)
+    setSearch(''); setFilter('All'); setWarbondFilter('All'); setPrevSlot(activeSlot)
   }
 
   const filtered = useMemo(() => {
@@ -100,6 +108,10 @@ export function ItemBrowser() {
       list = list.filter(i => getFilterKey(i) === filter)
     }
 
+    if (warbondFilter !== 'All') {
+      list = list.filter(i => i.warbond === warbondFilter)
+    }
+
     list.sort((a, b) => {
       const va = a[sort] ?? a.name ?? ''
       const vb = b[sort] ?? b.name ?? ''
@@ -108,7 +120,7 @@ export function ItemBrowser() {
     })
 
     return list
-  }, [items, search, filter, sort, sortDir])
+  }, [items, search, filter, warbondFilter, sort, sortDir])
 
   function isSelected(item) {
     if (activeSlot === 'stratagem') return slots.stratagems[activeStrIdx]?.id === item.id
@@ -130,6 +142,8 @@ export function ItemBrowser() {
     else { setSort(key); setSortDir(1) }
   }
 
+  const wbColor = warbondFilter !== 'All' ? WARBONDS[warbondFilter]?.color : null
+
   return (
     <div className="flex flex-col h-full">
       {/* Panel header */}
@@ -147,7 +161,7 @@ export function ItemBrowser() {
         </div>
       </div>
 
-      {/* Search + sort bar */}
+      {/* Search + filters */}
       <div className="px-3 py-2 border-b border-hd-border shrink-0 space-y-2">
         <input
           type="text"
@@ -157,7 +171,7 @@ export function ItemBrowser() {
           className="w-full bg-hd-surface-2 border border-hd-border rounded px-3 py-1.5 text-xs font-mono text-hd-text placeholder-hd-muted focus:outline-none focus:border-hd-yellow/50 transition-colors"
         />
 
-        {/* Filter chips */}
+        {/* Category filter chips */}
         {filters.length > 1 && (
           <div className="flex gap-1 flex-wrap">
             {filters.map(f => (
@@ -173,6 +187,46 @@ export function ItemBrowser() {
                 {f}
               </button>
             ))}
+          </div>
+        )}
+
+        {/* Warbond filter row */}
+        {availableWarbonds.length > 0 && (
+          <div>
+            <button
+              onClick={() => setShowWarbonds(w => !w)}
+              className="text-[9px] font-mono text-hd-muted hover:text-hd-yellow transition-colors mb-1"
+            >
+              {showWarbonds ? '▼' : '▶'} WARBOND FILTER {warbondFilter !== 'All' ? `· ${WARBONDS[warbondFilter]?.label}` : ''}
+            </button>
+            {showWarbonds && (
+              <div className="flex gap-1 flex-wrap">
+                <button
+                  onClick={() => setWarbondFilter('All')}
+                  className={`px-2 py-0.5 text-[10px] font-mono border rounded transition-colors ${
+                    warbondFilter === 'All'
+                      ? 'bg-hd-yellow/20 border-hd-yellow text-hd-yellow'
+                      : 'border-hd-border text-hd-muted hover:border-hd-border-2'
+                  }`}
+                >
+                  All
+                </button>
+                {availableWarbonds.map(wb => {
+                  const info = WARBONDS[wb]
+                  const active = warbondFilter === wb
+                  return (
+                    <button
+                      key={wb}
+                      onClick={() => setWarbondFilter(wb)}
+                      style={active ? { backgroundColor: info.color + '30', borderColor: info.color, color: info.color } : { borderColor: info.color + '40' }}
+                      className="px-2 py-0.5 text-[10px] font-mono border rounded transition-colors hover:opacity-100 opacity-70 hover:opacity-100"
+                    >
+                      {info.label}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
           </div>
         )}
 

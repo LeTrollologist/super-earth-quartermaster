@@ -493,5 +493,93 @@
     "activation": 3.5,
     "description": "Scatters anti-personnel mines. Excellent area denial vs. light enemies.",
     "tags": ["Area Denial", "Anti-Light", "Terminids"]
+  },
+  {
+    "id": "gr-8-recoilless-rifle",
+    "name": "GR-8 Recoilless Rifle",
+    "category": "Support Weapon",
+    "sequence": ["down","left","right","right","left"],
+    "cooldown": 480,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Team-reloadable anti-tank rocket launcher. Highest single-shot damage of any support weapon.",
+    "tags": ["Anti-Tank", "Anti-Heavy", "All Factions", "Team Reload"]
+  },
+  {
+    "id": "rl-77-airburst",
+    "name": "RL-77 Airburst Rocket Launcher",
+    "category": "Support Weapon",
+    "sequence": ["down","up","down","right","left","up"],
+    "cooldown": 480,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Fires rockets that detonate mid-air, showering shrapnel on enemies below cover.",
+    "tags": ["Anti-Light", "Anti-Medium", "Area Denial", "All Factions"]
+  },
+  {
+    "id": "r-6-commando",
+    "name": "R-6 Commando",
+    "category": "Support Weapon",
+    "sequence": ["down","left","up","down","right"],
+    "cooldown": 480,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Four-shot unguided rocket launcher. Portable, effective vs. heavy targets.",
+    "tags": ["Anti-Heavy", "Anti-Tank", "All Factions"]
+  },
+  {
+    "id": "mg-206-hmg",
+    "name": "MG-206 Heavy Machine Gun",
+    "category": "Support Weapon",
+    "sequence": ["down","left","down","up","down","right"],
+    "cooldown": 480,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Devastating heavy machine gun. High penetration and massive suppression.",
+    "tags": ["Anti-Medium", "Anti-Heavy", "Suppression", "All Factions"]
+  },
+  {
+    "id": "orbital-napalm-barrage",
+    "name": "Orbital Napalm Barrage",
+    "category": "Orbital",
+    "sequence": ["right","right","down","right","up"],
+    "cooldown": 240,
+    "uses": -1,
+    "activation": 3.5,
+    "description": "Saturates an area with napalm shells, creating a lasting fire zone.",
+    "tags": ["Fire", "Area Denial", "Anti-Light", "Terminids"]
+  },
+  {
+    "id": "orbital-darkfluid",
+    "name": "Orbital Darkfluid Bombardment",
+    "category": "Orbital",
+    "sequence": ["right","up","down","right","up","down"],
+    "cooldown": 300,
+    "uses": 2,
+    "activation": 3.5,
+    "description": "Rains volatile dark fluid. Devastating anti-Illuminate weapon with energy suppression.",
+    "tags": ["Anti-Heavy", "Energy", "Illuminate"]
+  },
+  {
+    "id": "md-17-anti-tank-mines",
+    "name": "MD-17 Anti-Tank Mines",
+    "category": "Emplacement",
+    "sequence": ["down","left","right","up","left"],
+    "cooldown": 180,
+    "uses": -1,
+    "activation": 3.5,
+    "description": "Deploys high-explosive anti-tank mines. Excellent vs. armored vehicles.",
+    "tags": ["Area Denial", "Anti-Tank", "Anti-Heavy", "Automatons"]
+  },
+  {
+    "id": "incinerator-turret",
+    "name": "A/FLAM-40 Incinerator Turret",
+    "category": "Sentry",
+    "sequence": ["down","up","right","down","up"],
+    "cooldown": 180,
+    "uses": -1,
+    "activation": 3.5,
+    "description": "Automated flamethrower sentry. Shreds lightly armored enemies with fire.",
+    "tags": ["Anti-Light", "Fire", "Terminids", "Area Denial"]
   }
 ]

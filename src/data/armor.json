@@ -39,5 +39,33 @@
   { "id": "sr-64-cinderblock",  "name": "SR-64 Cinderblock",      "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Siege-Ready",             "warbond": "Polar Patriots" },
   { "id": "gs-66-lawmaker",     "name": "GS-66 Lawmaker",         "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Gunslinger",              "warbond": "Truth Enforcers" },
   { "id": "sa-8-ram",           "name": "SA-8 Ram",               "type": "Heavy", "armorRating": 175, "speed": 450, "staminaRegen": 50,  "passive": "Supplementary Adrenaline","warbond": "Democratic Detonation" },
-  { "id": "cpr-80-bulwark",     "name": "CPR-80 Bulwark",         "type": "Heavy", "armorRating": 180, "speed": 450, "staminaRegen": 50,  "passive": "Concussive Padding",      "warbond": "Truth Enforcers" }
+  { "id": "cpr-80-bulwark",     "name": "CPR-80 Bulwark",         "type": "Heavy", "armorRating": 180, "speed": 450, "staminaRegen": 50,  "passive": "Concussive Padding",      "warbond": "Truth Enforcers" },
+
+  { "id": "vc-01-viper-scout",  "name": "VC-01 Viper Scout",      "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Scout",                   "warbond": "Viper Commandos" },
+  { "id": "vc-14-commando",     "name": "VC-14 Commando",          "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Scout",                   "warbond": "Viper Commandos" },
+  { "id": "vc-71-strike",       "name": "VC-71 Viper Strike",      "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Peak Physique",           "warbond": "Viper Commandos" },
+
+  { "id": "ff-01-firewarden",   "name": "FF-01 Firewarden",        "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Inflammable",             "warbond": "Freedom's Flame" },
+  { "id": "ff-16-incendiary",   "name": "FF-16 Incendiary Operator","type": "Medium","armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Inflammable",             "warbond": "Freedom's Flame" },
+  { "id": "ff-55-pyronaut",     "name": "FF-55 Pyronaut",          "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Inflammable",             "warbond": "Freedom's Flame" },
+
+  { "id": "sf-03-free-scout",   "name": "SF-03 Free Scout",        "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Servo-Assisted",          "warbond": "Servants of Freedom" },
+  { "id": "sf-22-liberator",    "name": "SF-22 Liberation Trooper","type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Extra Padding",           "warbond": "Servants of Freedom" },
+  { "id": "sf-78-free-world",   "name": "SF-78 Free World Heavy",  "type": "Heavy",  "armorRating": 155, "speed": 450, "staminaRegen": 50,  "passive": "Democracy Protects",      "warbond": "Servants of Freedom" },
+
+  { "id": "ca-05-hazmat",       "name": "CA-05 Hazmat Scout",      "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Advanced Filtration",    "warbond": "Chemical Agents" },
+  { "id": "ca-34-biochem",      "name": "CA-34 Biochemical Ranger","type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Advanced Filtration",    "warbond": "Chemical Agents" },
+  { "id": "ca-90-noxious",      "name": "CA-90 Noxious Commando",  "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Advanced Filtration",    "warbond": "Chemical Agents" },
+
+  { "id": "ul-11-phantom",      "name": "UL-11 Street Phantom",    "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Scout",                   "warbond": "Urban Legends" },
+  { "id": "ul-42-operative",    "name": "UL-42 Urban Operative",   "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Unflinching",             "warbond": "Urban Legends" },
+  { "id": "ul-83-blockbuster",  "name": "UL-83 Block Buster",      "type": "Heavy",  "armorRating": 160, "speed": 450, "staminaRegen": 50,  "passive": "Concussive Padding",      "warbond": "Urban Legends" },
+
+  { "id": "bj-07-ranger",       "name": "BJ-07 Range Rider",       "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Gunslinger",              "warbond": "Borderline Justice" },
+  { "id": "bj-34-frontier",     "name": "BJ-34 Frontier Enforcer", "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Gunslinger",              "warbond": "Borderline Justice" },
+  { "id": "bj-99-marshal",      "name": "BJ-99 Iron Marshal",      "type": "Heavy",  "armorRating": 160, "speed": 450, "staminaRegen": 50,  "passive": "Fortified",              "warbond": "Borderline Justice" },
+
+  { "id": "ot-05-omen-scout",   "name": "OT-05 Omen Scout",        "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Electrical Conduit",      "warbond": "Omens of Tyranny" },
+  { "id": "ot-44-tyrant",       "name": "OT-44 Tyrannical Trooper","type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Electrical Conduit",      "warbond": "Omens of Tyranny" },
+  { "id": "ot-90-doom",         "name": "OT-90 Doom Striker",      "type": "Heavy",  "armorRating": 165, "speed": 450, "staminaRegen": 50,  "passive": "Democracy Protects",      "warbond": "Omens of Tyranny" }
 ]
