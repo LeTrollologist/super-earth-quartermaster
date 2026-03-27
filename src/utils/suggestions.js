@@ -170,39 +170,58 @@ function loadoutSynergyBonus(candidateItem, candidateSlot, buildAround, currentS
   return Math.max(Math.min(bonus, 40), -30)
 }
 
+// ── Synergy stacking bonus ────────────────────────────────────────────────────
+// Rewards items that score positively across multiple active synergy dimensions.
+// Each dimension beyond 2 that contributes positively adds +8 to the final score.
+function synergyStackBonus(contribs, synergyModes) {
+  if (!synergyModes) return 0
+  const activeModes = Object.values(synergyModes).filter(Boolean).length
+  if (activeModes < 2) return 0
+  const positiveCount = contribs.filter(c => c > 0).length
+  if (positiveCount < 3) return 0
+  return (positiveCount - 2) * 8
+}
+
 // ── Item scorers ──────────────────────────────────────────────────────────────
 function scoreWeapon(weapon, ctx) {
   const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots, slotType } = ctx
   let score = 50
+  let factionC = 0, missionC = 0, playstyleC = 0, loadoutC = 0
 
   if (synergyModes?.faction !== false && (enemies.length || factions.length)) {
     const penetrates = !enemies.length || enemies.every(e => canPenetrate(weapon.apTier, e.armorTier ?? 1))
-    if (!penetrates) score -= 30
-    else if (enemies.length && (weapon.apTier ?? 0) > Math.max(...enemies.map(e => e.armorTier ?? 1))) score += 10
-    score += factionTagOverlap(weapon.traits ?? [], factions.map(f => f.id))
-    if (factions.some(f => f.id === 'terminids') && weapon.damageType === 'Fire')      score += 15
-    if (factions.some(f => f.id === 'automatons') && weapon.damageType === 'Explosive') score += 10
-    if (factions.some(f => f.id === 'illuminate') && weapon.damageType === 'Arc')      score += 15
+    if (!penetrates) factionC -= 30
+    else if (enemies.length && (weapon.apTier ?? 0) > Math.max(...enemies.map(e => e.armorTier ?? 1))) factionC += 10
+    factionC += factionTagOverlap(weapon.traits ?? [], factions.map(f => f.id))
+    if (factions.some(f => f.id === 'terminids') && weapon.damageType === 'Fire')       factionC += 15
+    if (factions.some(f => f.id === 'automatons') && weapon.damageType === 'Explosive') factionC += 10
+    if (factions.some(f => f.id === 'illuminate') && weapon.damageType === 'Arc')       factionC += 15
+    score += factionC
   }
 
   if (synergyModes?.mission !== false && mission) {
     const mw = MISSION_WEIGHTS[mission]
     if (mw) {
       const traits = weapon.traits ?? []
-      if (traits.some(t => ['Area','DoT','Explosive'].includes(t)) || (weapon.fireRate ?? 0) >= 600) score += mw.area
-      if (traits.some(t => ['Anti-Light','High Stagger','Fire'].includes(t))) score += mw.antiLight
-      if ((weapon.apTier ?? 0) >= 4 || traits.some(t => ['Anti-Heavy','Anti-Tank'].includes(t))) score += mw.antiHeavy
+      if (traits.some(t => ['Area','DoT','Explosive'].includes(t)) || (weapon.fireRate ?? 0) >= 600) missionC += mw.area
+      if (traits.some(t => ['Anti-Light','High Stagger','Fire'].includes(t))) missionC += mw.antiLight
+      if ((weapon.apTier ?? 0) >= 4 || traits.some(t => ['Anti-Heavy','Anti-Tank'].includes(t))) missionC += mw.antiHeavy
     }
-    if (['blitz','retrieve-essential-personnel'].includes(mission) && (weapon.fireRate ?? 0) >= 600) score += 5
+    if (['blitz','retrieve-essential-personnel'].includes(mission) && (weapon.fireRate ?? 0) >= 600) missionC += 5
+    score += missionC
   }
 
   if (synergyModes?.playstyle !== false && playstyle) {
-    score += playstyleWeaponBonus(weapon, playstyle)
+    playstyleC = playstyleWeaponBonus(weapon, playstyle)
+    score += playstyleC
   }
 
   if (synergyModes?.loadout !== false) {
-    score += loadoutSynergyBonus(weapon, slotType, buildAround, currentSlots)
+    loadoutC = loadoutSynergyBonus(weapon, slotType, buildAround, currentSlots)
+    score += loadoutC
   }
+
+  score += synergyStackBonus([factionC, missionC, playstyleC, loadoutC], synergyModes)
 
   return Math.min(Math.max(Math.round(score), 0), 100)
 }
@@ -210,33 +229,41 @@ function scoreWeapon(weapon, ctx) {
 function scoreArmor(armor, ctx) {
   const { conditions, factions, mission, playstyle, synergyModes, buildAround, currentSlots } = ctx
   let score = 50
+  let planetC = 0, factionC = 0, missionC = 0, playstyleC = 0, loadoutC = 0
 
   if (synergyModes?.planet !== false) {
-    score += conditionPassiveBonus(armor.passive, conditions)
+    planetC = conditionPassiveBonus(armor.passive, conditions)
+    score += planetC
   }
 
   if (synergyModes?.faction !== false && factions.length) {
-    if (factions.some(f => f.id === 'terminids')  && armor.passive === 'Inflammable')        score += 10
-    if (factions.some(f => f.id === 'automatons') && armor.passive === 'Fortified')          score += 10
-    if (factions.some(f => f.id === 'illuminate') && armor.passive === 'Electrical Conduit') score += 10
-    if (factions.some(f => f.id === 'automatons') && ['Servo-Assisted','Unflinching'].includes(armor.passive)) score += 8
+    if (factions.some(f => f.id === 'terminids')  && armor.passive === 'Inflammable')        factionC += 10
+    if (factions.some(f => f.id === 'automatons') && armor.passive === 'Fortified')          factionC += 10
+    if (factions.some(f => f.id === 'illuminate') && armor.passive === 'Electrical Conduit') factionC += 10
+    if (factions.some(f => f.id === 'automatons') && ['Servo-Assisted','Unflinching'].includes(armor.passive)) factionC += 8
+    score += factionC
   }
 
   if (synergyModes?.mission !== false && mission) {
     const mw = MISSION_WEIGHTS[mission]
-    if (mw?.armorType) score += mw.armorType[armor.type] ?? 0
-    if (['blitz','retrieve-essential-personnel'].includes(mission) && armor.type === 'Light') score += 15
-    if (['defend','activate-tcs'].includes(mission) && armor.type === 'Heavy') score += 10
-    if (mission === 'eradicate' && armor.passive === 'Engineering Kit') score += 10
+    if (mw?.armorType) missionC += mw.armorType[armor.type] ?? 0
+    if (['blitz','retrieve-essential-personnel'].includes(mission) && armor.type === 'Light') missionC += 15
+    if (['defend','activate-tcs'].includes(mission) && armor.type === 'Heavy') missionC += 10
+    if (mission === 'eradicate' && armor.passive === 'Engineering Kit') missionC += 10
+    score += missionC
   }
 
   if (synergyModes?.playstyle !== false && playstyle) {
-    score += playstyleArmorBonus(armor, playstyle)
+    playstyleC = playstyleArmorBonus(armor, playstyle)
+    score += playstyleC
   }
 
   if (synergyModes?.loadout !== false) {
-    score += loadoutSynergyBonus(armor, 'armor', buildAround, currentSlots)
+    loadoutC = loadoutSynergyBonus(armor, 'armor', buildAround, currentSlots)
+    score += loadoutC
   }
+
+  score += synergyStackBonus([planetC, factionC, missionC, playstyleC, loadoutC], synergyModes)
 
   return Math.min(Math.max(Math.round(score), 0), 100)
 }
@@ -245,43 +272,51 @@ function scoreStratagem(stratagem, ctx) {
   const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots } = ctx
   let score = 50
   const tags = stratagem.tags ?? []
+  let factionC = 0, planetC = 0, missionC = 0, playstyleC = 0, loadoutC = 0
 
   if (synergyModes?.faction !== false) {
-    score += factionTagOverlap(tags, factions.map(f => f.id))
+    factionC += factionTagOverlap(tags, factions.map(f => f.id))
     if (enemies.length) {
       const maxAP = Math.max(...enemies.map(e => e.armorTier ?? 1))
-      if (maxAP >= 4 && tags.includes('Anti-Tank'))  score += 20
-      if (maxAP >= 3 && tags.includes('Anti-Heavy')) score += 10
-      if (maxAP <= 2 && tags.includes('Anti-Light')) score += 15
+      if (maxAP >= 4 && tags.includes('Anti-Tank'))  factionC += 20
+      if (maxAP >= 3 && tags.includes('Anti-Heavy')) factionC += 10
+      if (maxAP <= 2 && tags.includes('Anti-Light')) factionC += 15
     }
+    score += factionC
   }
 
   if (synergyModes?.planet !== false && conditions.length) {
-    if (conditions.includes('ion_storms') && stratagem.cooldown > 300) score -= 10
-    if (conditions.includes('stalker_infestation') && tags.some(t => ['Anti-Light','Automatic'].includes(t))) score += 15
+    if (conditions.includes('ion_storms') && stratagem.cooldown > 300) planetC -= 10
+    if (conditions.includes('stalker_infestation') && tags.some(t => ['Anti-Light','Automatic'].includes(t))) planetC += 15
+    score += planetC
   }
 
   if (synergyModes?.mission !== false && mission) {
     const mw = MISSION_WEIGHTS[mission]
     if (mw) {
-      if (tags.includes('Area Denial')) score += mw.area
-      if (tags.includes('Anti-Light'))  score += mw.antiLight
-      if (tags.includes('Anti-Heavy') || tags.includes('Anti-Tank')) score += mw.antiHeavy
+      if (tags.includes('Area Denial')) missionC += mw.area
+      if (tags.includes('Anti-Light'))  missionC += mw.antiLight
+      if (tags.includes('Anti-Heavy') || tags.includes('Anti-Tank')) missionC += mw.antiHeavy
     }
-    if (mission === 'blitz' && stratagem.cooldown < 120) score += 15
-    if (mission === 'blitz' && ['Vehicle','Emplacement'].includes(stratagem.category)) score -= 15
-    if (['defend','activate-tcs'].includes(mission) && ['Sentry','Emplacement'].includes(stratagem.category)) score += 20
-    if (mission === 'eliminate-target' && tags.includes('Anti-Tank')) score += 20
-    if (mission === 'eradicate' && tags.some(t => ['Area Denial','Anti-Light','Fire'].includes(t))) score += 15
+    if (mission === 'blitz' && stratagem.cooldown < 120) missionC += 15
+    if (mission === 'blitz' && ['Vehicle','Emplacement'].includes(stratagem.category)) missionC -= 15
+    if (['defend','activate-tcs'].includes(mission) && ['Sentry','Emplacement'].includes(stratagem.category)) missionC += 20
+    if (mission === 'eliminate-target' && tags.includes('Anti-Tank')) missionC += 20
+    if (mission === 'eradicate' && tags.some(t => ['Area Denial','Anti-Light','Fire'].includes(t))) missionC += 15
+    score += missionC
   }
 
   if (synergyModes?.playstyle !== false && playstyle) {
-    score += playstyleStratagemBonus(stratagem, playstyle)
+    playstyleC = playstyleStratagemBonus(stratagem, playstyle)
+    score += playstyleC
   }
 
   if (synergyModes?.loadout !== false) {
-    score += loadoutSynergyBonus(stratagem, 'stratagem', buildAround, currentSlots)
+    loadoutC = loadoutSynergyBonus(stratagem, 'stratagem', buildAround, currentSlots)
+    score += loadoutC
   }
+
+  score += synergyStackBonus([factionC, planetC, missionC, playstyleC, loadoutC], synergyModes)
 
   return Math.min(Math.max(Math.round(score), 0), 100)
 }
@@ -290,25 +325,31 @@ function scoreBooster(booster, ctx) {
   const { mission, conditions, playstyle, synergyModes } = ctx
   let score = 50
   const eff = (booster.effect ?? booster.description ?? '').toLowerCase()
+  let missionC = 0, planetC = 0, playstyleC = 0
 
   if (synergyModes?.mission !== false && mission) {
-    if (mission === 'blitz' && (eff.includes('stamina') || eff.includes('sprint'))) score += 20
-    if (mission === 'retrieve-essential-personnel' && eff.includes('extraction')) score += 25
-    if (mission === 'eradicate' && eff.includes('reinforce')) score += 15
-    if (mission === 'defend' && (eff.includes('hp') || eff.includes('vitality'))) score += 10
+    if (mission === 'blitz' && (eff.includes('stamina') || eff.includes('sprint'))) missionC += 20
+    if (mission === 'retrieve-essential-personnel' && eff.includes('extraction')) missionC += 25
+    if (mission === 'eradicate' && eff.includes('reinforce')) missionC += 15
+    if (mission === 'defend' && (eff.includes('hp') || eff.includes('vitality'))) missionC += 10
+    score += missionC
   }
 
   if (synergyModes?.planet !== false && conditions.length) {
-    if (conditions.includes('extreme_cold') && eff.includes('stamina')) score += 15
-    if (conditions.includes('toxic_haze') && eff.includes('hp')) score += 10
-    if (conditions.includes('spore_clouds') && eff.includes('stamina')) score += 10
+    if (conditions.includes('extreme_cold') && eff.includes('stamina')) planetC += 15
+    if (conditions.includes('toxic_haze') && eff.includes('hp')) planetC += 10
+    if (conditions.includes('spore_clouds') && eff.includes('stamina')) planetC += 10
+    score += planetC
   }
 
   if (synergyModes?.playstyle !== false && playstyle) {
-    if (playstyle.id === 'lone-wolf' && eff.includes('stamina')) score += 10
-    if (playstyle.id === 'support-medic' && eff.includes('hp')) score += 15
-    if (playstyle.id === 'sample-goblin' && eff.includes('stamina')) score += 15
+    if (playstyle.id === 'lone-wolf' && eff.includes('stamina')) playstyleC += 10
+    if (playstyle.id === 'support-medic' && eff.includes('hp')) playstyleC += 15
+    if (playstyle.id === 'sample-goblin' && eff.includes('stamina')) playstyleC += 15
+    score += playstyleC
   }
+
+  score += synergyStackBonus([missionC, planetC, playstyleC], synergyModes)
 
   return Math.min(Math.max(Math.round(score), 0), 100)
 }
@@ -376,16 +417,17 @@ export function suggestLoadout({
   armor,
   stratagems,
   boosters,
-  factions       = [],
-  enemies        = [],
-  conditions     = [],
-  mission        = null,
-  playstyle      = null,
-  stratagemLimits = {},
-  buildAround    = null,
-  currentSlots   = {},
-  synergyModes   = { planet: true, loadout: true, faction: true, playstyle: true, mission: true },
-  ownedWarbonds  = null,
+  factions              = [],
+  enemies               = [],
+  conditions            = [],
+  mission               = null,
+  playstyle             = null,
+  stratagemLimits       = {},
+  stratagemLimitsEnabled = false,
+  buildAround           = null,
+  currentSlots          = {},
+  synergyModes          = { planet: true, loadout: true, faction: true, playstyle: true, mission: true },
+  ownedWarbonds         = null,
 }) {
   const ctx = { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots }
 
@@ -407,33 +449,36 @@ export function suggestLoadout({
   const rankedArmor       = scoreAndRank(filterOwned(armor),   a => scoreArmor(a, ctx))
   const rankedBoosters    = scoreAndRank(filterOwned(boosters), b => scoreBooster(b, ctx))
 
-  // Stratagems with per-category limits
-  const defaultLimits = { Orbital: 2, Eagle: 2, 'Support Weapon': 3, Backpack: 1, Sentry: 1, Vehicle: 0, Emplacement: 1 }
-  const limits = { ...defaultLimits, ...stratagemLimits }
-
   const rankedStratagemsAll = scoreAndRank(
     filterOwned(stratagems),
     s => scoreStratagem(s, { ...ctx, slotType: 'stratagem' })
   )
 
-  const pickedStratagems = []
-  const categoryCounts = {}
-  for (const entry of rankedStratagemsAll) {
-    if (pickedStratagems.length >= 4) break
-    const cat   = entry.item.category
-    const maxC  = limits[cat] ?? 4
-    if (maxC === 0) continue
-    const count = categoryCounts[cat] ?? 0
-    if (count >= maxC) continue
-    pickedStratagems.push(entry)
-    categoryCounts[cat] = count + 1
-  }
-  // Pad if limits were too restrictive
-  if (pickedStratagems.length < 4) {
-    const picked = new Set(pickedStratagems.map(e => e.item.id))
+  // AUTO: pure synergy ranking — top 4 by score, no category constraints
+  // MANUAL: enforce per-category limits with combined budget of 4
+  let pickedStratagems = []
+  if (!stratagemLimitsEnabled) {
+    pickedStratagems = rankedStratagemsAll.slice(0, 4)
+  } else {
+    const limits = { Orbital:1, Eagle:1, 'Support Weapon':1, Backpack:1, Sentry:0, Vehicle:0, Emplacement:0, ...stratagemLimits }
+    const categoryCounts = {}
     for (const entry of rankedStratagemsAll) {
       if (pickedStratagems.length >= 4) break
-      if (!picked.has(entry.item.id)) pickedStratagems.push(entry)
+      const cat  = entry.item.category
+      const maxC = limits[cat] ?? 4
+      if (maxC === 0) continue
+      const count = categoryCounts[cat] ?? 0
+      if (count >= maxC) continue
+      pickedStratagems.push(entry)
+      categoryCounts[cat] = count + 1
+    }
+    // Pad if limits were too restrictive
+    if (pickedStratagems.length < 4) {
+      const picked = new Set(pickedStratagems.map(e => e.item.id))
+      for (const entry of rankedStratagemsAll) {
+        if (pickedStratagems.length >= 4) break
+        if (!picked.has(entry.item.id)) pickedStratagems.push(entry)
+      }
     }
   }
 

@@ -274,38 +274,82 @@ function ThreatSelector() {
 
 // ── Stratagem limits ──────────────────────────────────────────────────────────
 function StratagemLimits() {
-  const stratagemLimits  = useLoadoutStore(s => s.stratagemLimits)
-  const setStratagemLimit = useLoadoutStore(s => s.setStratagemLimit)
+  const stratagemLimits        = useLoadoutStore(s => s.stratagemLimits)
+  const stratagemLimitsEnabled = useLoadoutStore(s => s.stratagemLimitsEnabled)
+  const setStratagemLimit      = useLoadoutStore(s => s.setStratagemLimit)
+  const toggleStratagemLimits  = useLoadoutStore(s => s.toggleStratagemLimits)
 
   const categories = ['Orbital', 'Eagle', 'Support Weapon', 'Backpack', 'Sentry', 'Emplacement', 'Vehicle']
+  const totalAllocated = categories.reduce((sum, cat) => sum + (stratagemLimits[cat] ?? 0), 0)
+  const remaining = 4 - totalAllocated
 
   return (
     <div>
-      <div className="text-[10px] font-mono uppercase tracking-widest text-hd-yellow/50 mb-2">
-        Stratagem Allocation
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-[10px] font-mono uppercase tracking-widest text-hd-yellow/50">
+          Stratagem Allocation
+        </div>
+        <button
+          onClick={toggleStratagemLimits}
+          className={`text-[9px] font-mono border px-1.5 py-0.5 rounded transition-colors ${
+            stratagemLimitsEnabled
+              ? 'border-hd-yellow/60 bg-hd-yellow/10 text-hd-yellow'
+              : 'border-hd-border text-hd-muted hover:border-hd-border-2'
+          }`}
+        >
+          {stratagemLimitsEnabled ? 'MANUAL' : 'AUTO'}
+        </button>
       </div>
-      <div className="space-y-1.5">
-        {categories.map(cat => (
-          <div key={cat} className="flex items-center gap-2">
-            <div className="text-[9px] font-mono text-hd-text-dim w-24 shrink-0 truncate">{cat}</div>
+
+      {!stratagemLimitsEnabled ? (
+        <div className="text-[9px] font-mono text-hd-muted italic">
+          Best 4 by synergy score — no category constraints
+        </div>
+      ) : (
+        <>
+          {/* Budget bar */}
+          <div className="flex items-center gap-2 mb-2">
             <div className="flex gap-0.5">
-              {[0, 1, 2, 3, 4].map(n => (
-                <button
-                  key={n}
-                  onClick={() => setStratagemLimit(cat, n)}
-                  className={`w-5 h-5 text-[9px] font-mono border rounded transition-colors ${
-                    stratagemLimits[cat] === n
-                      ? 'bg-hd-yellow text-hd-bg border-hd-yellow font-bold'
-                      : 'border-hd-border text-hd-muted hover:border-hd-border-2 hover:text-hd-text'
-                  }`}
-                >
-                  {n}
-                </button>
+              {[0,1,2,3].map(i => (
+                <div key={i} className={`w-6 h-1.5 rounded-sm transition-colors ${i < totalAllocated ? 'bg-hd-yellow' : 'bg-hd-faded'}`} />
               ))}
             </div>
+            <span className={`text-[9px] font-mono ${totalAllocated >= 4 ? 'text-hd-yellow' : 'text-hd-text-dim'}`}>
+              {totalAllocated}/4 slots
+            </span>
           </div>
-        ))}
-      </div>
+
+          <div className="space-y-1.5">
+            {categories.map(cat => {
+              const val = stratagemLimits[cat] ?? 0
+              return (
+                <div key={cat} className="flex items-center gap-2">
+                  <div className="text-[9px] font-mono text-hd-text-dim w-24 shrink-0 truncate">{cat}</div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setStratagemLimit(cat, Math.max(0, val - 1))}
+                      disabled={val === 0}
+                      className="w-5 h-5 text-[10px] font-mono border border-hd-border rounded transition-colors disabled:opacity-25 hover:enabled:border-hd-border-2 text-hd-text-dim"
+                    >
+                      −
+                    </button>
+                    <span className={`text-[10px] font-mono w-4 text-center ${val > 0 ? 'text-hd-yellow' : 'text-hd-muted'}`}>
+                      {val}
+                    </span>
+                    <button
+                      onClick={() => setStratagemLimit(cat, val + 1)}
+                      disabled={remaining <= 0}
+                      className="w-5 h-5 text-[10px] font-mono border border-hd-border rounded transition-colors disabled:opacity-25 hover:enabled:border-hd-border-2 text-hd-text-dim"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </>
+      )}
     </div>
   )
 }
@@ -441,8 +485,9 @@ export function SuggestPanel({ onClose }) {
   const selectedEnemies    = useLoadoutStore(s => s.selectedEnemies)
   const selectedConditions = useLoadoutStore(s => s.selectedConditions)
   const slots              = useLoadoutStore(s => s.slots)
-  const stratagemLimits    = useLoadoutStore(s => s.stratagemLimits)
-  const synergyModes       = useLoadoutStore(s => s.synergyModes)
+  const stratagemLimits        = useLoadoutStore(s => s.stratagemLimits)
+  const stratagemLimitsEnabled = useLoadoutStore(s => s.stratagemLimitsEnabled)
+  const synergyModes           = useLoadoutStore(s => s.synergyModes)
   const ownedWarbonds      = useLoadoutStore(s => s.ownedWarbonds)
   const setBuildAroundItem = useLoadoutStore(s => s.setBuildAroundItem)
   const clearBuildAround   = useLoadoutStore(s => s.clearBuildAround)
@@ -456,8 +501,7 @@ export function SuggestPanel({ onClose }) {
   const [mission,    setMission]    = useState(null)
   const [suggestion, setSuggestion] = useState(null)
   const [generating, setGenerating] = useState(false)
-  const [showStratLimits, setShowStratLimits] = useState(false)
-  const [showWarbonds,    setShowWarbonds]    = useState(false)
+  const [showWarbonds,  setShowWarbonds]  = useState(false)
   const [showPlaystyle,   setShowPlaystyle]   = useState(false)
 
   const factions   = enemiesData.factions.filter(f => selectedFactions.includes(f.id))
@@ -480,6 +524,7 @@ export function SuggestPanel({ onClose }) {
         mission: mission?.id ?? null,
         playstyle,
         stratagemLimits,
+        stratagemLimitsEnabled,
         buildAround: buildAroundItem,
         currentSlots: slots,
         synergyModes,
@@ -696,17 +741,8 @@ export function SuggestPanel({ onClose }) {
               {/* Synergy modes */}
               <SynergyModes />
 
-              {/* Stratagem limits (collapsible) */}
-              <div>
-                <button
-                  onClick={() => setShowStratLimits(v => !v)}
-                  className="flex items-center justify-between w-full text-[10px] font-mono uppercase tracking-widest text-hd-yellow/50 hover:text-hd-yellow/70 transition-colors mb-1"
-                >
-                  <span>Stratagem Allocation</span>
-                  <span>{showStratLimits ? '▲' : '▼'}</span>
-                </button>
-                {showStratLimits && <StratagemLimits />}
-              </div>
+              {/* Stratagem limits — always visible, has own AUTO/MANUAL toggle */}
+              <StratagemLimits />
 
               {/* Owned warbonds (collapsible) */}
               <div>

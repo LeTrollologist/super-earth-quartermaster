@@ -26,16 +26,18 @@ export const useLoadoutStore = create((set, get) => ({
   activePlanet:       null,  // live war planet data
 
   // ── Suggestion engine settings ───────────────────────────────────────────
-  // Stratagem category limits (max # of each category in suggestions, 0 = excluded)
+  // Stratagem category limits — only active when stratagemLimitsEnabled is true
+  // Default sums to 4 (one balanced slot per category) for a sensible starting point
   stratagemLimits: {
-    Orbital:          2,
-    Eagle:            2,
-    'Support Weapon': 3,
+    Orbital:          1,
+    Eagle:            1,
+    'Support Weapon': 1,
     Backpack:         1,
-    Sentry:           1,
+    Sentry:           0,
     Vehicle:          0,
-    Emplacement:      1,
+    Emplacement:      0,
   },
+  stratagemLimitsEnabled: false,  // false = AUTO (pure synergy, top 4); true = MANUAL (respect limits)
 
   // Build-Around: lock a specific item and build the rest around it
   buildAroundItem: null,   // { item, slotType } | null
@@ -146,6 +148,7 @@ export const useLoadoutStore = create((set, get) => ({
   setStratagemLimit: (category, max) => set(state => ({
     stratagemLimits: { ...state.stratagemLimits, [category]: max },
   })),
+  toggleStratagemLimits: () => set(state => ({ stratagemLimitsEnabled: !state.stratagemLimitsEnabled })),
 
   setBuildAroundItem: (item, slotType) => set({ buildAroundItem: { item, slotType } }),
   clearBuildAround:  ()                => set({ buildAroundItem: null }),
