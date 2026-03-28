@@ -2,16 +2,16 @@
   {
     "id": "vitality-enhancement",
     "name": "Vitality Enhancement",
-    "description": "Increases max health of all squad members.",
-    "effect": "+50% max HP",
+    "description": "Allows all Helldivers to resist injury.",
+    "effect": "Injury resistance",
     "tags": ["Survivability", "All Factions"],
     "scoringTags": ["hp", "survivability"]
   },
   {
     "id": "stamina-enhancement",
     "name": "Stamina Enhancement",
-    "description": "Increases sprint stamina for all squad members.",
-    "effect": "+50% stamina pool",
+    "description": "Increases all Helldivers' stamina capacity and recovery.",
+    "effect": "Increased stamina capacity and recovery",
     "tags": ["Mobility", "Survivability"],
     "scoringTags": ["stamina", "mobility"]
   },
@@ -42,8 +42,8 @@
   {
     "id": "motivational-shocks",
     "name": "Motivational Shocks",
-    "description": "Stim usage also increases sprint speed briefly.",
-    "effect": "+20% sprint speed for 5s after stim",
+    "description": "Allows all Helldivers to recover faster after being slowed by an attack.",
+    "effect": "Faster slow-effect recovery",
     "tags": ["Mobility", "Combat"],
     "scoringTags": ["stamina", "sprint", "combat"]
   },
@@ -74,8 +74,16 @@
   {
     "id": "flexible-reinforcement-budget",
     "name": "Flexible Reinforcement Budget",
-    "description": "Increases total reinforcement tokens available.",
-    "effect": "+2 extra reinforcements per mission",
+    "description": "Reduces time until new reinforcements are granted once they've been depleted.",
+    "effect": "Faster reinforcement cooldown",
+    "tags": ["Utility", "Sustain"],
+    "scoringTags": ["reinforce", "sustain"]
+  },
+  {
+    "id": "increased-reinforcement-budget",
+    "name": "Increased Reinforcement Budget",
+    "description": "Increases the number of reinforcements available to the squad.",
+    "effect": "Extra reinforcement uses per mission",
     "tags": ["Utility", "Sustain"],
     "scoringTags": ["reinforce", "sustain"]
   },

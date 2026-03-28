@@ -224,6 +224,58 @@
       "weaknesses": ["Explosive", "Anti-Tank"],
       "resistances": ["Ballistic"]
     },
+    {
+      "id": "bile-spitter",
+      "name": "Bile Spitter",
+      "faction": "terminids",
+      "class": "Light",
+      "armorTier": 1,
+      "health": 70,
+      "description": "Small Terminid that spits acid projectiles at range. Low health but dangerous in groups.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 1 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "hopper",
+      "name": "Hopper",
+      "faction": "terminids",
+      "class": "Light",
+      "armorTier": 1,
+      "health": 75,
+      "description": "Jumping Terminid variant similar to the Hunter. Leaps great distances to close on targets quickly.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 1 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "shrieking-spewer",
+      "name": "Shrieking Spewer",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 450,
+      "description": "Flying spewer variant that attacks from the air while spraying bile. Combines aerial mobility with acid attacks.",
+      "weakSpots": ["Belly Sack", "Wings"],
+      "armorZones": { "head": 3, "body": 3, "belly": 1, "wings": 1 },
+      "weaknesses": ["Fire"],
+      "resistances": ["Explosive"]
+    },
+    {
+      "id": "bile-charger",
+      "name": "Bile Charger",
+      "faction": "terminids",
+      "class": "Heavy",
+      "armorTier": 5,
+      "health": 1800,
+      "description": "Bile-spewing variant of the Charger. Charges at high speed and leaves corrosive bile trails. Aim for the legs.",
+      "weakSpots": ["Legs (unarmored)", "Back"],
+      "armorZones": { "head": 5, "body": 5, "legs_front": 5, "legs_back": 1 },
+      "weaknesses": ["Explosive", "Anti-Tank"],
+      "resistances": ["Ballistic"]
+    },
 
     {
       "id": "trooper",
@@ -394,6 +446,71 @@
       "weaknesses": ["Anti-Tank", "Explosive"],
       "resistances": ["Ballistic", "Fire"]
     },
+    {
+      "id": "mg-devastator",
+      "name": "MG Devastator",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 400,
+      "description": "Basic Devastator variant armed with a machine gun. Sustained fire at medium range.",
+      "weakSpots": ["Head", "Machine Gun"],
+      "armorZones": { "head": 2, "body": 3, "arms": 3 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "rocket-devastator",
+      "name": "Rocket Devastator",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 400,
+      "description": "Devastator variant that fires volleys of rockets. Extremely dangerous at range. Destroy the rocket pods to disarm.",
+      "weakSpots": ["Head", "Rocket Pods"],
+      "armorZones": { "head": 2, "body": 3, "arms": 3 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "heavy-devastator",
+      "name": "Heavy Devastator",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 4,
+      "health": 550,
+      "description": "Heavily armored Devastator variant with a shield and heavy weapon. Flank to bypass the shield.",
+      "weakSpots": ["Head", "Rear"],
+      "armorZones": { "head": 2, "body": 4, "shield": 5, "arms": 3 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "shield-devastator",
+      "name": "Shield Devastator",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 4,
+      "health": 500,
+      "description": "Devastator variant carrying a large ballistic shield. Nearly impervious from the front. Attack from the sides or rear.",
+      "weakSpots": ["Head", "Legs", "Rear"],
+      "armorZones": { "head": 2, "body": 3, "shield": 5, "legs": 2 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "rocket-strider",
+      "name": "Rocket Strider",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 350,
+      "description": "Scout Strider variant equipped with rocket launchers instead of a machine gun. Fires explosive salvos.",
+      "weakSpots": ["Pilot", "Rear"],
+      "armorZones": { "front": 3, "rear": 1, "pilot": 1 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
 
     {
       "id": "watcher",
@@ -484,6 +601,45 @@
       "weakSpots": ["Power Core"],
       "armorZones": { "body": 5, "core": 2 },
       "weaknesses": ["Anti-Tank", "Explosive"],
+      "resistances": ["Laser", "Ballistic"]
+    },
+    {
+      "id": "illuminate-arbiter",
+      "name": "Illuminate Arbiter",
+      "faction": "illuminate",
+      "class": "Heavy",
+      "armorTier": 4,
+      "health": 2000,
+      "description": "Powerful Illuminate enforcer with both melee and ranged energy attacks. Heavy armor and energy shields.",
+      "weakSpots": ["Core", "Head"],
+      "armorZones": { "head": 3, "body": 4, "shield": 4 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
+    },
+    {
+      "id": "illuminate-collective",
+      "name": "Illuminate Collective",
+      "faction": "illuminate",
+      "class": "Light",
+      "armorTier": 1,
+      "health": 40,
+      "description": "Illuminate swarm units that attack in large coordinated groups. Individually weak but dangerous en masse.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 1 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
+    },
+    {
+      "id": "illuminate-ascendant",
+      "name": "Illuminate Ascendant",
+      "faction": "illuminate",
+      "class": "Titan",
+      "armorTier": 5,
+      "health": 6000,
+      "description": "Titan-class Illuminate hierarch. Commands devastating area-of-effect energy attacks and powerful shields. Target the exposed core.",
+      "weakSpots": ["Core", "Energy Nodes"],
+      "armorZones": { "body": 5, "core": 2, "nodes": 3 },
+      "weaknesses": ["Anti-Tank", "Arc"],
       "resistances": ["Laser", "Ballistic"]
     }
   ]

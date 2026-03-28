@@ -212,5 +212,206 @@
     "priorities": ["Stealth", "Mobility", "Anti-Structure"],
     "stratagemTags": ["Stealth", "Mobility", "Anti-Structure"],
     "notes": "Light armor mandatory. Avoid prolonged engagements. Hit objectives and extract."
+  },
+  {
+    "id": "emergency-evacuation",
+    "name": "Emergency Evacuation",
+    "faction": null,
+    "description": "Evacuate survivors under heavy assault. Protect extraction zones and escort civilians.",
+    "icon": "🚁",
+    "priorities": ["Defense", "Crowd Control", "Survivability"],
+    "stratagemTags": ["Defense", "Crowd Control", "Sentry"],
+    "notes": "Shield generators and sentries protect evac zones. Prioritize survivability over offense."
+  },
+  {
+    "id": "geological-survey",
+    "name": "Geological Survey",
+    "faction": null,
+    "description": "Collect geological samples while defending the research team from enemy attacks.",
+    "icon": "🔬",
+    "priorities": ["Defense", "Versatile", "Mobility"],
+    "stratagemTags": ["Defense", "Utility", "Mobility"],
+    "notes": "Balanced loadout needed. Defend sample sites while researchers work. Medium armor recommended."
+  },
+  {
+    "id": "upload-tactical-data",
+    "name": "Upload Tactical Data",
+    "faction": null,
+    "description": "Hack enemy terminals and upload tactical data. Hold positions during upload sequences.",
+    "icon": "📡",
+    "priorities": ["Defense", "Area Denial", "Versatile"],
+    "stratagemTags": ["Defense", "Area Denial", "Utility"],
+    "notes": "Must hold position during uploads. Sentries and area denial cover the terminals."
+  },
+
+  {
+    "id": "retrieve-dark-fluid",
+    "name": "Retrieve Dark Fluid Samples",
+    "faction": "terminids",
+    "description": "Collect dark fluid samples from deep within Terminid nests. Expect heavy swarm resistance.",
+    "icon": "🧪",
+    "priorities": ["Mobility", "Anti-Light", "Survivability"],
+    "stratagemTags": ["Mobility", "Anti-Light", "Survivability"],
+    "notes": "Deep nest penetration required. Fire weapons clear paths. Shield pack for survivability."
+  },
+  {
+    "id": "nuke-nursery",
+    "name": "Nuke Nursery",
+    "faction": "terminids",
+    "description": "Deploy a tactical nuke on Terminid breeding grounds. Arm the device and survive extraction.",
+    "icon": "☢",
+    "priorities": ["Anti-Structure", "Explosive", "Survivability"],
+    "stratagemTags": ["Anti-Structure", "Explosive", "Survivability"],
+    "notes": "Heavy ordnance mission. Arm the nuke and get out. Expect massive swarm during arming."
+  },
+  {
+    "id": "emergency-bug-breach",
+    "name": "Emergency Bug Breach",
+    "faction": "terminids",
+    "description": "Emergency response to a Terminid breakthrough. Seal breaches and eliminate the surge.",
+    "icon": "🚨",
+    "priorities": ["Area Denial", "Anti-Light", "Defense"],
+    "stratagemTags": ["Area Denial", "Anti-Light", "Defense"],
+    "notes": "Overwhelming numbers. Area denial and crowd control are essential. Seal breaches fast."
+  },
+
+  {
+    "id": "destroy-detector-tower",
+    "name": "Destroy Detector Tower",
+    "faction": "automatons",
+    "description": "Take out Automaton surveillance towers to blind enemy detection networks.",
+    "icon": "📡",
+    "priorities": ["Anti-Structure", "Stealth", "Precision"],
+    "stratagemTags": ["Anti-Structure", "Stealth", "Precision"],
+    "notes": "Stealth approach recommended. Destroy towers before they alert reinforcements."
+  },
+  {
+    "id": "disable-jamming-station",
+    "name": "Disable Jamming Station",
+    "faction": "automatons",
+    "description": "Destroy Automaton signal jammers disrupting Super Earth communications.",
+    "icon": "📻",
+    "priorities": ["Anti-Structure", "Explosive", "Mobility"],
+    "stratagemTags": ["Anti-Structure", "Explosive", "Mobility"],
+    "notes": "Jammers increase stratagem cooldowns until destroyed. Prioritize their destruction."
+  },
+  {
+    "id": "sabotage-ammo-depot",
+    "name": "Sabotage Ammunition Depot",
+    "faction": "automatons",
+    "description": "Infiltrate and destroy Automaton ammunition storage facilities.",
+    "icon": "💥",
+    "priorities": ["Anti-Structure", "Explosive", "Stealth"],
+    "stratagemTags": ["Anti-Structure", "Explosive", "Stealth"],
+    "notes": "Chain explosions from ammo stores. Light armor for infiltration. Watch for heavy patrols."
+  },
+
+  {
+    "id": "disrupt-ritual-sites",
+    "name": "Disrupt Ritual Sites",
+    "faction": "illuminate",
+    "description": "Interrupt Illuminate energy rituals before they complete powerful summonings.",
+    "icon": "✨",
+    "priorities": ["Mobility", "Anti-Structure", "Energy"],
+    "stratagemTags": ["Mobility", "Anti-Structure", "Energy"],
+    "notes": "Time-sensitive objectives. Disrupt rituals before completion or face elite summons."
+  },
+  {
+    "id": "disable-shield-array",
+    "name": "Disable Shield Array",
+    "faction": "illuminate",
+    "description": "Destroy Illuminate shield generators protecting key strategic targets.",
+    "icon": "🛡",
+    "priorities": ["Anti-Structure", "Anti-Heavy", "Energy"],
+    "stratagemTags": ["Anti-Structure", "Anti-Heavy", "Energy"],
+    "notes": "Shields regenerate — hit generators fast. Arc weapons bypass shield layers."
+  },
+  {
+    "id": "neutralize-observer-network",
+    "name": "Neutralize Observer Network",
+    "faction": "illuminate",
+    "description": "Destroy the Illuminate spy drone network conducting surveillance across the sector.",
+    "icon": "🔭",
+    "priorities": ["Precision", "Anti-Light", "Mobility"],
+    "stratagemTags": ["Precision", "Anti-Light", "Mobility"],
+    "notes": "Fast-moving aerial drones. Anti-air weapons and precision stratagems recommended."
+  },
+
+  {
+    "id": "destroy-rogue-research-station",
+    "name": "Destroy Rogue Research Station",
+    "type": "sub",
+    "faction": null,
+    "description": "Locate and demolish a rogue research station conducting unauthorized experiments.",
+    "icon": "🏚",
+    "priorities": ["Anti-Structure", "Explosive"],
+    "stratagemTags": ["Anti-Structure", "Explosive"],
+    "notes": "Secondary objective. Bring explosives to level the facility."
+  },
+  {
+    "id": "upload-research-data",
+    "name": "Upload Research Data",
+    "type": "sub",
+    "faction": null,
+    "description": "Access a terminal and upload recovered research data to Super Earth command.",
+    "icon": "💾",
+    "priorities": ["Defense", "Utility"],
+    "stratagemTags": ["Defense", "Utility"],
+    "notes": "Secondary objective. Defend the terminal during the upload sequence."
+  },
+  {
+    "id": "raise-super-earth-flag",
+    "name": "Raise Super Earth Flag",
+    "type": "sub",
+    "faction": null,
+    "description": "Plant a Super Earth flag at a strategic location to claim territory.",
+    "icon": "🏳",
+    "priorities": ["Mobility"],
+    "stratagemTags": ["Mobility"],
+    "notes": "Secondary objective. Quick flag plant — minimal resistance expected."
+  },
+  {
+    "id": "clear-mining-site",
+    "name": "Clear Mining Site",
+    "type": "sub",
+    "faction": null,
+    "description": "Eliminate all enemy presence from an abandoned mining site.",
+    "icon": "⛏",
+    "priorities": ["Anti-Light", "Area Denial"],
+    "stratagemTags": ["Anti-Light", "Area Denial"],
+    "notes": "Secondary objective. Clear enemies from the perimeter and interior."
+  },
+  {
+    "id": "retrieve-black-box",
+    "name": "Retrieve Black Box",
+    "type": "sub",
+    "faction": null,
+    "description": "Recover a black box flight recorder from a crashed dropship.",
+    "icon": "📦",
+    "priorities": ["Mobility", "Survivability"],
+    "stratagemTags": ["Mobility", "Survivability"],
+    "notes": "Secondary objective. Locate the crash site and extract the recorder."
+  },
+  {
+    "id": "emergency-sos-beacon",
+    "name": "Emergency SOS Beacon",
+    "type": "sub",
+    "faction": null,
+    "description": "Activate an emergency SOS beacon to call for reinforcement support.",
+    "icon": "🆘",
+    "priorities": ["Defense", "Survivability"],
+    "stratagemTags": ["Defense", "Survivability"],
+    "notes": "Secondary objective. Defend the beacon until the signal is transmitted."
+  },
+  {
+    "id": "secure-munitions-stockpile",
+    "name": "Secure Munitions Stockpile",
+    "type": "sub",
+    "faction": null,
+    "description": "Secure an enemy munitions stockpile for Super Earth requisition.",
+    "icon": "🔒",
+    "priorities": ["Defense", "Anti-Light"],
+    "stratagemTags": ["Defense", "Anti-Light"],
+    "notes": "Secondary objective. Clear guards and hold the stockpile until secured."
   }
 ]

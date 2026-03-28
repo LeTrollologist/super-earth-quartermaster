@@ -61,6 +61,25 @@ const MISSION_WEIGHTS = {
   'seaf-artillery':              { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
   'launch-icbm':                 { area: 5,  antiLight: 5,  antiHeavy: 10, armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
   'commando-raid':               { area: 0,  antiLight: 10, antiHeavy: 10, armorType: { Light: 10, Medium: 5,  Heavy: -10 } },
+  'emergency-evacuation':        { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'geological-survey':           { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'upload-tactical-data':        { area: 10, antiLight: 5,  antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'retrieve-dark-fluid':         { area: 5,  antiLight: 10, antiHeavy: 5,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'nuke-nursery':                { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'emergency-bug-breach':        { area: 15, antiLight: 15, antiHeavy: 0,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'destroy-detector-tower':      { area: 0,  antiLight: 5,  antiHeavy: 10, armorType: { Light: 10, Medium: 5,  Heavy: -10 } },
+  'disable-jamming-station':     { area: 5,  antiLight: 5,  antiHeavy: 10, armorType: { Light: 5,  Medium: 5,  Heavy: 0   } },
+  'sabotage-ammo-depot':         { area: 5,  antiLight: 5,  antiHeavy: 10, armorType: { Light: 10, Medium: 5,  Heavy: -10 } },
+  'disrupt-ritual-sites':        { area: 5,  antiLight: 10, antiHeavy: 5,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'disable-shield-array':        { area: 5,  antiLight: 5,  antiHeavy: 15, armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'neutralize-observer-network': { area: 0,  antiLight: 15, antiHeavy: 0,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'destroy-rogue-research-station': { area: 5, antiLight: 5, antiHeavy: 5, armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'upload-research-data':        { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 5   } },
+  'raise-super-earth-flag':      { area: 0,  antiLight: 5,  antiHeavy: 0,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'clear-mining-site':           { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'retrieve-black-box':          { area: 0,  antiLight: 5,  antiHeavy: 0,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'emergency-sos-beacon':        { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'secure-munitions-stockpile':  { area: 5,  antiLight: 10, antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 5   } },
 }
 
 // ── Condition helpers ─────────────────────────────────────────────────────────
@@ -84,6 +103,12 @@ const CONDITION_PASSIVE_BONUS = {
   permanent_fog:      ['Scout'],
   gravity_anomalies:  [],
   intense_heat_lightning: ['Electrical Conduit', 'Inflammable'],
+  volcanic_ash:          ['Advanced Filtration'],
+  solar_flare:           ['Electrical Conduit'],
+  toxic_spores:          ['Advanced Filtration'],
+  null_zone:             ['Electrical Conduit'],
+  magnetic_anomaly:      ['Scout'],
+  acid_rain:             ['Advanced Filtration'],
 }
 
 // Proportional condition bonus: if n conditions selected and item matches k, score = (k/n)*40
@@ -714,10 +739,14 @@ export function suggestLoadout({
       throwable: alts(rankedThrowables,  topThrowable?.item?.id),
       armor:     alts(rankedArmor,       topArmor?.item?.id),
       booster:   alts(rankedBoosters,    topBooster?.item?.id),
-      stratagems: finalStratagems.map(strat => {
-        const pickedIds = new Set(finalStratagems.map(s => s.item.id))
+      stratagems: finalStratagems.map((strat, slotIdx) => {
+        // For each stratagem slot, show alternatives that exclude the other picked stratagems
+        // but not the current slot's pick (so we can show what else could go here)
+        const otherPickedIds = new Set(
+          finalStratagems.filter((_, i) => i !== slotIdx).map(s => s.item.id)
+        )
         return rankedStratagemsAll
-          .filter(e => !pickedIds.has(e.item.id))
+          .filter(e => e.item.id !== strat.item.id && !otherPickedIds.has(e.item.id))
           .slice(0, 3)
       }),
     },

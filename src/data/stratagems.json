@@ -88,6 +88,28 @@
     "tags": ["Crowd Control", "All Factions"]
   },
   {
+    "id": "orbital-gatling-barrage",
+    "name": "Orbital Gatling Barrage",
+    "category": "Orbital",
+    "sequence": ["right","down","left","up","up"],
+    "cooldown": 80,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Rapid-fire orbital gatling barrage. Shreds enemies in a concentrated area.",
+    "tags": ["Anti-Light", "Anti-Medium", "High ROF", "All Factions"]
+  },
+  {
+    "id": "orbital-illumination-flare",
+    "name": "Orbital Illumination Flare",
+    "category": "Orbital",
+    "sequence": ["right","right","left","left"],
+    "cooldown": 300,
+    "uses": -1,
+    "activation": 2.0,
+    "description": "Deploys a bright orbital flare that lights up a large area for an extended duration.",
+    "tags": ["Utility", "Recon", "All Factions"]
+  },
+  {
     "id": "orbital-smoke-strike",
     "name": "Orbital Smoke Strike",
     "category": "Orbital",
@@ -188,7 +210,7 @@
   },
   {
     "id": "anti-materiel-rifle",
-    "name": "Anti-Materiel Rifle",
+    "name": "APW-1 Anti-Materiel Rifle",
     "category": "Support Weapon",
     "sequence": ["down","left","right","up","down"],
     "cooldown": 480,
@@ -220,7 +242,7 @@
     "tags": ["Anti-Tank", "Anti-Heavy", "All Factions"]
   },
   {
-    "id": "recoilless-rifle",
+    "id": "railgun",
     "name": "RS-422 Railgun",
     "category": "Support Weapon",
     "sequence": ["down","right","down","up","left","right"],
@@ -394,6 +416,17 @@
     "activation": 3.5,
     "description": "Automated mortar. Long range, good area denial. Careful of friendly fire.",
     "tags": ["Area Denial", "Long Range", "All Factions"]
+  },
+  {
+    "id": "incendiary-mortar-sentry",
+    "name": "A/M-12 Incendiary Mortar Sentry",
+    "category": "Sentry",
+    "sequence": ["down","up","right","right","down","left"],
+    "cooldown": 180,
+    "uses": -1,
+    "activation": 3.5,
+    "description": "Automated mortar that fires incendiary rounds. Creates fire zones for area denial.",
+    "tags": ["Area Denial", "Fire", "Anti-Light", "Terminids"]
   },
   {
     "id": "autocannon-sentry",

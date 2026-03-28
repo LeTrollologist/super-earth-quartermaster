@@ -179,6 +179,60 @@
       "recommendedPassive": "Electrical Conduit",
       "recommendedStratagem": "shield-generator-pack",
       "icon": "🔥"
+    },
+    {
+      "id": "volcanic_ash",
+      "name": "Volcanic Ash",
+      "description": "Dense ash clouds reduce visibility and clog weapon mechanisms.",
+      "debuff": "Reduced visibility, increased weapon jam rate",
+      "recommendedPassive": "Advanced Filtration",
+      "recommendedStratagem": "orbital-precision-strike",
+      "icon": "🌋"
+    },
+    {
+      "id": "solar_flare",
+      "name": "Solar Flare",
+      "description": "Electromagnetic interference from solar activity increases stratagem cooldowns.",
+      "debuff": "+30% stratagem cooldowns, HUD interference",
+      "recommendedPassive": "Electrical Conduit",
+      "recommendedStratagem": null,
+      "icon": "☀"
+    },
+    {
+      "id": "toxic_spores",
+      "name": "Toxic Spores",
+      "description": "Terminid-specific toxic spores that actively damage health over time.",
+      "debuff": "Continuous health drain, reduced stamina",
+      "recommendedPassive": "Advanced Filtration",
+      "recommendedStratagem": "shield-generator-pack",
+      "icon": "🦠"
+    },
+    {
+      "id": "null_zone",
+      "name": "Null Zone",
+      "description": "Illuminate energy suppression field reduces ability effectiveness.",
+      "debuff": "Reduced ability effectiveness, slower shield regen",
+      "recommendedPassive": "Electrical Conduit",
+      "recommendedStratagem": "shield-generator-relay",
+      "icon": "🚫"
+    },
+    {
+      "id": "magnetic_anomaly",
+      "name": "Magnetic Anomaly",
+      "description": "Intense magnetic fields cause compasses to malfunction and disrupt radar.",
+      "debuff": "No minimap radar, erratic compass",
+      "recommendedPassive": "Scout",
+      "recommendedStratagem": "UAV-recon-booster",
+      "icon": "🧲"
+    },
+    {
+      "id": "acid_rain",
+      "name": "Acid Rain",
+      "description": "Continuous acid rain deals persistent damage to exposed Helldivers.",
+      "debuff": "Constant acid damage outdoors, armor degradation",
+      "recommendedPassive": "Advanced Filtration",
+      "recommendedStratagem": "shield-generator-pack",
+      "icon": "☠"
     }
   ],
   "biomes": [
@@ -189,6 +243,14 @@
     { "id": "ocean",    "name": "Ocean / Swamp",    "icon": "🌊", "associatedConditions": [] },
     { "id": "toxic",    "name": "Toxic",            "icon": "☣",  "associatedConditions": ["toxic_haze", "acid_storms"] },
     { "id": "canyon",  "name": "Canyon",           "icon": "🏔",  "associatedConditions": ["tremors"] },
-    { "id": "urban",   "name": "Urban / Ruins",    "icon": "🏚",  "associatedConditions": [] }
+    { "id": "urban",   "name": "Urban / Ruins",    "icon": "🏚",  "associatedConditions": [] },
+    { "id": "arctic",  "name": "Arctic / Glacier",  "icon": "🧊",  "associatedConditions": ["extreme_cold", "blizzards", "gravity_anomalies"] },
+    { "id": "plains",  "name": "Plains / Moor",     "icon": "🌾",  "associatedConditions": ["rainstorm", "thick_fog"] },
+    { "id": "crimson", "name": "Crimson (Ionic)",    "icon": "🔴",  "associatedConditions": ["ion_storms", "electrical_storms", "magnetic_anomaly"] },
+    { "id": "haunted_swamp", "name": "Haunted Swamp", "icon": "🪷", "associatedConditions": ["toxic_haze", "permanent_fog", "toxic_spores"] },
+    { "id": "moon",    "name": "Moon / Lunar",       "icon": "🌙",  "associatedConditions": ["gravity_anomalies", "meteor_showers", "solar_flare"] },
+    { "id": "magma",   "name": "Magma",              "icon": "🔥",  "associatedConditions": ["volcanic_activity", "volcanic_ash", "extreme_heat", "fire_tornados"] },
+    { "id": "deadlands", "name": "Deadlands",         "icon": "💀",  "associatedConditions": ["sandstorm", "tremors", "magnetic_anomaly"] },
+    { "id": "supercolony", "name": "Supercolony",     "icon": "🐛",  "associatedConditions": ["spore_clouds", "toxic_spores", "stalker_infestation"] }
   ]
 }
