@@ -56,15 +56,29 @@ export function normalizeStat(key, value, invert = false) {
 }
 
 /**
+ * Penetration multiplier based on AP tier vs enemy armor tier.
+ * Matches real HD2 penetration model:
+ *   AP >= enemy+2  → 100% (massive over-penetration)
+ *   AP == enemy+1  → 100% (over-penetration)
+ *   AP == enemy    → 75%  (matched penetration)
+ *   AP == enemy-1  → 10%  (partial, barely scratching)
+ *   AP <= enemy-2  → 0%   (bounces off)
+ */
+const PEN_MULT = { 2: 1.0, 1: 1.0, 0: 0.75, '-1': 0.10, '-2': 0 }
+
+export function penetrationMultiplier(weaponAP, enemyAP) {
+  if (weaponAP === undefined || weaponAP === null) return 1.0
+  const diff = (weaponAP ?? 1) - enemyAP
+  return PEN_MULT[Math.max(-2, Math.min(2, diff))] ?? 0
+}
+
+/**
  * Calculate effective DPS considering penetration.
- * If AP tier < enemy armor tier, damage is reduced to 0 (can't penetrate).
- * If AP tier == enemy armor tier, damage is reduced by 30%.
  */
 export function effectiveDPS(weapon, enemyArmorTier) {
   if (!weapon || !enemyArmorTier) return weapon?.dps ?? 0
-  if (weapon.apTier < enemyArmorTier) return 0
-  if (weapon.apTier === enemyArmorTier) return Math.round(weapon.dps * 0.3)
-  return weapon.dps
+  const mult = penetrationMultiplier(weapon.apTier, enemyArmorTier)
+  return Math.round(weapon.dps * mult)
 }
 
 /**

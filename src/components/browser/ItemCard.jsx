@@ -3,6 +3,7 @@ import { APBadge } from '../ui/APBadge'
 import { CategoryBadge } from '../ui/CategoryBadge'
 import { DamageTypeBadge } from '../ui/DamageTypeBadge'
 import { ArrowSequence } from '../ui/ArrowSequence'
+import { PassiveTooltip } from '../ui/PassiveTooltip'
 import { weaponEffectivenessScore, stratagemEffectivenessScore } from '../../utils/statCalc'
 import { WARBONDS } from '../../constants/warbonds'
 import enemiesData from '../../data/enemies.json'
@@ -92,7 +93,7 @@ export function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compa
         <div className="mt-1.5 flex gap-3 text-[10px] font-mono text-hd-text-dim">
           <span>ARM <span className="text-hd-text">{item.armorRating}</span></span>
           <span>SPD <span className="text-hd-text">{item.speed}</span></span>
-          <span className="text-hd-yellow/70 truncate">{item.passive}</span>
+          <PassiveTooltip passive={item.passive}><span className="text-hd-yellow/70 truncate">{item.passive}</span></PassiveTooltip>
         </div>
       )}
       {isStratagem && item.sequence && (

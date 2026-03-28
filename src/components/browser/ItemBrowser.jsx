@@ -59,7 +59,8 @@ function getFilterKey(item) {
 export function ItemBrowser() {
   const activeSlot       = useLoadoutStore(s => s.activeSlot)
   const activeStrIdx     = useLoadoutStore(s => s.activeStratagemIndex)
-  const slots            = useLoadoutStore(s => s.slots)
+  const getActiveSlots   = useLoadoutStore(s => s.getActiveSlots)
+  const slots            = getActiveSlots()
   const setSlot          = useLoadoutStore(s => s.setSlot)
   const setStratagemSlot = useLoadoutStore(s => s.setStratagemSlot)
   const setHovered       = useLoadoutStore(s => s.setHovered)

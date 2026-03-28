@@ -36,7 +36,8 @@ function EmptyState({ activeSlot }) {
 
 export function StatsPanel() {
   const hoveredItem      = useLoadoutStore(s => s.hoveredItem)
-  const slots            = useLoadoutStore(s => s.slots)
+  const getActiveSlots   = useLoadoutStore(s => s.getActiveSlots)
+  const slots            = getActiveSlots()
   const activeSlot       = useLoadoutStore(s => s.activeSlot)
   const compareMode      = useLoadoutStore(s => s.compareMode)
   const compareItems     = useLoadoutStore(s => s.compareItems)

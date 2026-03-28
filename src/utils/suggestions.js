@@ -1,12 +1,17 @@
 /**
- * Super Earth Quartermaster — Suggestion Engine v2
- * Supports: faction, enemy, condition, mission, playstyle, loadout synergy, build-around
+ * Super Earth Quartermaster — Suggestion Engine v3
+ * Supports: faction, enemy, condition, mission, playstyle, loadout synergy, build-around,
+ *           difficulty scaling, proportional synergy, de-weighting, cooldown penalties,
+ *           dimension breakdowns, squad exclusion
  */
 
-// ── AP penetration helper ─────────────────────────────────────────────────────
-function canPenetrate(weaponAP, enemyAP) {
-  if (weaponAP === undefined || weaponAP === null) return true
-  return weaponAP >= enemyAP
+import { penetrationMultiplier } from './statCalc'
+
+// ── Synergy weight helper ───────────────────────────────────────────────────
+// When a synergy mode is toggled OFF, it still contributes at 0.3× (dim, not dead)
+function synergyWeight(mode, synergyModes) {
+  if (!synergyModes) return 1.0
+  return synergyModes[mode] === false ? 0.3 : 1.0
 }
 
 // ── Faction tag helpers ───────────────────────────────────────────────────────
@@ -19,13 +24,17 @@ const FACTION_TAGS = {
 function factionTagOverlap(tags = [], factionIds = []) {
   if (!factionIds.length) return 0
   let hits = 0
+  let totalTags = 0
   for (const fid of factionIds) {
     const fTags = FACTION_TAGS[fid] ?? []
+    totalTags += fTags.length
     for (const t of fTags) {
       if (tags.includes(t)) hits++
     }
   }
-  return Math.min(hits * 15, 45)
+  // Proportional: scale by how many tags matched out of possible
+  if (totalTags === 0) return 0
+  return Math.round((hits / totalTags) * 45)
 }
 
 // ── Mission priorities ────────────────────────────────────────────────────────
@@ -60,13 +69,25 @@ const CONDITION_PASSIVE_BONUS = {
   orbital_interference: [],
 }
 
+// Proportional condition bonus: if n conditions selected and item matches k, score = (k/n)*40
 function conditionPassiveBonus(passive, conditions) {
   if (!passive || !conditions?.length) return 0
-  let bonus = 0
+  let matches = 0
   for (const cond of conditions) {
-    if (CONDITION_PASSIVE_BONUS[cond]?.includes(passive)) bonus += 20
+    if (CONDITION_PASSIVE_BONUS[cond]?.includes(passive)) matches++
   }
-  return Math.min(bonus, 40)
+  if (matches === 0) return 0
+  return Math.round((matches / conditions.length) * 40)
+}
+
+// ── Difficulty scaling ──────────────────────────────────────────────────────
+const DIFFICULTY_LABELS = ['Trivial','Easy','Medium','Challenging','Hard','Extreme','Suicide Mission','Impossible','Helldive']
+
+function difficultyMods(difficulty) {
+  if (!difficulty || difficulty <= 0) return { atBonus: 0, areaBonus: 0, lightArmorPenalty: 0, heavyArmorBonus: 0, heavyWeaponPenalty: 0, fastCooldownBonus: 0 }
+  if (difficulty >= 7) return { atBonus: 15, areaBonus: 10, lightArmorPenalty: -10, heavyArmorBonus: 8, heavyWeaponPenalty: 0, fastCooldownBonus: 0 }
+  if (difficulty <= 3) return { atBonus: 0, areaBonus: 0, lightArmorPenalty: 0, heavyArmorBonus: 0, heavyWeaponPenalty: -10, fastCooldownBonus: 5 }
+  return { atBonus: 0, areaBonus: 0, lightArmorPenalty: 0, heavyArmorBonus: 0, heavyWeaponPenalty: 0, fastCooldownBonus: 0 }
 }
 
 // ── Playstyle helpers ─────────────────────────────────────────────────────────
@@ -170,12 +191,30 @@ function loadoutSynergyBonus(candidateItem, candidateSlot, buildAround, currentS
   return Math.max(Math.min(bonus, 40), -30)
 }
 
+// ── Cooldown conflict penalty ───────────────────────────────────────────────
+function cooldownConflictPenalty(candidate, currentStratagems) {
+  if (!currentStratagems?.length) return 0
+  const filled = currentStratagems.filter(Boolean)
+  if (filled.length === 0) return 0
+
+  const allCDs = [...filled.map(s => s.cooldown ?? 0), candidate.cooldown ?? 0]
+  const heavyCDs = allCDs.filter(cd => cd > 90)
+  let penalty = 0
+
+  // 3+ heavy-cooldown stratagems is bad
+  if (heavyCDs.length >= 3) penalty -= 15
+  // All same cooldown tier is boring/suboptimal
+  if (allCDs.length >= 3 && new Set(allCDs.map(cd => Math.floor(cd / 60))).size === 1) penalty -= 10
+  // Mix of fast + slow is good
+  if (allCDs.some(cd => cd < 60) && allCDs.some(cd => cd > 180)) penalty += 8
+
+  return penalty
+}
+
 // ── Synergy stacking bonus ────────────────────────────────────────────────────
-// Rewards items that score positively across multiple active synergy dimensions.
-// Each dimension beyond 2 that contributes positively adds +8 to the final score.
 function synergyStackBonus(contribs, synergyModes) {
   if (!synergyModes) return 0
-  const activeModes = Object.values(synergyModes).filter(Boolean).length
+  const activeModes = Object.values(synergyModes).filter(v => v !== false).length
   if (activeModes < 2) return 0
   const positiveCount = contribs.filter(c => c > 0).length
   if (positiveCount < 3) return 0
@@ -183,23 +222,37 @@ function synergyStackBonus(contribs, synergyModes) {
 }
 
 // ── Item scorers ──────────────────────────────────────────────────────────────
-function scoreWeapon(weapon, ctx) {
-  const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots, slotType } = ctx
-  let score = 50
-  let factionC = 0, missionC = 0, playstyleC = 0, loadoutC = 0
+// Each scorer returns { total, dimensions } where dimensions shows per-synergy contributions
 
-  if (synergyModes?.faction !== false && (enemies.length || factions.length)) {
-    const penetrates = !enemies.length || enemies.every(e => canPenetrate(weapon.apTier, e.armorTier ?? 1))
-    if (!penetrates) factionC -= 30
-    else if (enemies.length && (weapon.apTier ?? 0) > Math.max(...enemies.map(e => e.armorTier ?? 1))) factionC += 10
+function scoreWeapon(weapon, ctx) {
+  const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots, slotType, difficulty } = ctx
+  let score = 50
+  let factionC = 0, missionC = 0, playstyleC = 0, loadoutC = 0, diffC = 0
+
+  // Faction synergy
+  if (enemies.length || factions.length) {
+    // Proportional AP scoring: average penetration multiplier across selected enemies
+    if (enemies.length) {
+      const avgPen = enemies.reduce((sum, e) => sum + penetrationMultiplier(weapon.apTier, e.armorTier ?? 1), 0) / enemies.length
+      if (avgPen < 0.3) factionC -= Math.round((1 - avgPen) * 30)
+      else if (avgPen > 0.8) factionC += 10
+    }
     factionC += factionTagOverlap(weapon.traits ?? [], factions.map(f => f.id))
     if (factions.some(f => f.id === 'terminids') && weapon.damageType === 'Fire')       factionC += 15
     if (factions.some(f => f.id === 'automatons') && weapon.damageType === 'Explosive') factionC += 10
     if (factions.some(f => f.id === 'illuminate') && weapon.damageType === 'Arc')       factionC += 15
-    score += factionC
+    // Enemy weakness/resistance bonus
+    if (enemies.length && weapon.damageType) {
+      const weakHits = enemies.filter(e => e.weaknesses?.includes(weapon.damageType)).length
+      const resistHits = enemies.filter(e => e.resistances?.includes(weapon.damageType)).length
+      factionC += Math.round((weakHits / enemies.length) * 15)
+      factionC -= Math.round((resistHits / enemies.length) * 15)
+    }
   }
+  score += factionC * synergyWeight('faction', synergyModes)
 
-  if (synergyModes?.mission !== false && mission) {
+  // Mission synergy
+  if (mission) {
     const mw = MISSION_WEIGHTS[mission]
     if (mw) {
       const traits = weapon.traits ?? []
@@ -208,90 +261,107 @@ function scoreWeapon(weapon, ctx) {
       if ((weapon.apTier ?? 0) >= 4 || traits.some(t => ['Anti-Heavy','Anti-Tank'].includes(t))) missionC += mw.antiHeavy
     }
     if (['blitz','retrieve-essential-personnel'].includes(mission) && (weapon.fireRate ?? 0) >= 600) missionC += 5
-    score += missionC
   }
+  score += missionC * synergyWeight('mission', synergyModes)
 
-  if (synergyModes?.playstyle !== false && playstyle) {
+  // Playstyle synergy
+  if (playstyle) {
     playstyleC = playstyleWeaponBonus(weapon, playstyle)
-    score += playstyleC
   }
+  score += playstyleC * synergyWeight('playstyle', synergyModes)
 
-  if (synergyModes?.loadout !== false) {
-    loadoutC = loadoutSynergyBonus(weapon, slotType, buildAround, currentSlots)
-    score += loadoutC
-  }
+  // Loadout synergy
+  loadoutC = loadoutSynergyBonus(weapon, slotType, buildAround, currentSlots)
+  score += loadoutC * synergyWeight('loadout', synergyModes)
+
+  // Difficulty scaling
+  const dm = difficultyMods(difficulty)
+  if ((weapon.apTier ?? 0) >= 4) diffC += dm.atBonus
+  if ((weapon.traits ?? []).some(t => ['Area','DoT'].includes(t))) diffC += dm.areaBonus
+  if ((weapon.apTier ?? 0) >= 5) diffC += dm.heavyWeaponPenalty
+  score += diffC
 
   score += synergyStackBonus([factionC, missionC, playstyleC, loadoutC], synergyModes)
 
-  return Math.min(Math.max(Math.round(score), 0), 100)
+  const total = Math.min(Math.max(Math.round(score), 0), 100)
+  return { total, dimensions: { faction: Math.round(factionC), mission: Math.round(missionC), playstyle: Math.round(playstyleC), loadout: Math.round(loadoutC), planet: 0, difficulty: Math.round(diffC) } }
 }
 
 function scoreArmor(armor, ctx) {
-  const { conditions, factions, mission, playstyle, synergyModes, buildAround, currentSlots } = ctx
+  const { conditions, factions, mission, playstyle, synergyModes, buildAround, currentSlots, difficulty } = ctx
   let score = 50
-  let planetC = 0, factionC = 0, missionC = 0, playstyleC = 0, loadoutC = 0
+  let planetC = 0, factionC = 0, missionC = 0, playstyleC = 0, loadoutC = 0, diffC = 0
 
-  if (synergyModes?.planet !== false) {
-    planetC = conditionPassiveBonus(armor.passive, conditions)
-    score += planetC
-  }
+  // Planet synergy
+  planetC = conditionPassiveBonus(armor.passive, conditions)
+  score += planetC * synergyWeight('planet', synergyModes)
 
-  if (synergyModes?.faction !== false && factions.length) {
+  // Faction synergy
+  if (factions.length) {
     if (factions.some(f => f.id === 'terminids')  && armor.passive === 'Inflammable')        factionC += 10
     if (factions.some(f => f.id === 'automatons') && armor.passive === 'Fortified')          factionC += 10
     if (factions.some(f => f.id === 'illuminate') && armor.passive === 'Electrical Conduit') factionC += 10
     if (factions.some(f => f.id === 'automatons') && ['Servo-Assisted','Unflinching'].includes(armor.passive)) factionC += 8
-    score += factionC
   }
+  score += factionC * synergyWeight('faction', synergyModes)
 
-  if (synergyModes?.mission !== false && mission) {
+  // Mission synergy
+  if (mission) {
     const mw = MISSION_WEIGHTS[mission]
     if (mw?.armorType) missionC += mw.armorType[armor.type] ?? 0
     if (['blitz','retrieve-essential-personnel'].includes(mission) && armor.type === 'Light') missionC += 15
     if (['defend','activate-tcs'].includes(mission) && armor.type === 'Heavy') missionC += 10
     if (mission === 'eradicate' && armor.passive === 'Engineering Kit') missionC += 10
-    score += missionC
   }
+  score += missionC * synergyWeight('mission', synergyModes)
 
-  if (synergyModes?.playstyle !== false && playstyle) {
+  // Playstyle synergy
+  if (playstyle) {
     playstyleC = playstyleArmorBonus(armor, playstyle)
-    score += playstyleC
   }
+  score += playstyleC * synergyWeight('playstyle', synergyModes)
 
-  if (synergyModes?.loadout !== false) {
-    loadoutC = loadoutSynergyBonus(armor, 'armor', buildAround, currentSlots)
-    score += loadoutC
-  }
+  // Loadout synergy
+  loadoutC = loadoutSynergyBonus(armor, 'armor', buildAround, currentSlots)
+  score += loadoutC * synergyWeight('loadout', synergyModes)
+
+  // Difficulty scaling
+  const dm = difficultyMods(difficulty)
+  if (armor.type === 'Light' && armor.passive !== 'Scout') diffC += dm.lightArmorPenalty
+  if (armor.type === 'Heavy' || armor.type === 'Medium') diffC += dm.heavyArmorBonus
+  score += diffC
 
   score += synergyStackBonus([planetC, factionC, missionC, playstyleC, loadoutC], synergyModes)
 
-  return Math.min(Math.max(Math.round(score), 0), 100)
+  const total = Math.min(Math.max(Math.round(score), 0), 100)
+  return { total, dimensions: { faction: Math.round(factionC), mission: Math.round(missionC), playstyle: Math.round(playstyleC), loadout: Math.round(loadoutC), planet: Math.round(planetC), difficulty: Math.round(diffC) } }
 }
 
 function scoreStratagem(stratagem, ctx) {
-  const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots } = ctx
+  const { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots, difficulty } = ctx
   let score = 50
   const tags = stratagem.tags ?? []
-  let factionC = 0, planetC = 0, missionC = 0, playstyleC = 0, loadoutC = 0
+  let factionC = 0, planetC = 0, missionC = 0, playstyleC = 0, loadoutC = 0, diffC = 0
 
-  if (synergyModes?.faction !== false) {
-    factionC += factionTagOverlap(tags, factions.map(f => f.id))
-    if (enemies.length) {
-      const maxAP = Math.max(...enemies.map(e => e.armorTier ?? 1))
-      if (maxAP >= 4 && tags.includes('Anti-Tank'))  factionC += 20
-      if (maxAP >= 3 && tags.includes('Anti-Heavy')) factionC += 10
-      if (maxAP <= 2 && tags.includes('Anti-Light')) factionC += 15
-    }
-    score += factionC
+  // Faction synergy
+  factionC += factionTagOverlap(tags, factions.map(f => f.id))
+  if (enemies.length) {
+    const maxAP = Math.max(...enemies.map(e => e.armorTier ?? 1))
+    if (maxAP >= 4 && tags.includes('Anti-Tank'))  factionC += 20
+    if (maxAP >= 3 && tags.includes('Anti-Heavy')) factionC += 10
+    if (maxAP <= 2 && tags.includes('Anti-Light')) factionC += 15
   }
+  score += factionC * synergyWeight('faction', synergyModes)
 
-  if (synergyModes?.planet !== false && conditions.length) {
+  // Planet synergy
+  if (conditions.length) {
     if (conditions.includes('ion_storms') && stratagem.cooldown > 300) planetC -= 10
     if (conditions.includes('stalker_infestation') && tags.some(t => ['Anti-Light','Automatic'].includes(t))) planetC += 15
-    score += planetC
   }
+  score += planetC * synergyWeight('planet', synergyModes)
 
-  if (synergyModes?.mission !== false && mission) {
+  // Mission synergy
+  if (mission) {
     const mw = MISSION_WEIGHTS[mission]
     if (mw) {
       if (tags.includes('Area Denial')) missionC += mw.area
@@ -303,61 +373,110 @@ function scoreStratagem(stratagem, ctx) {
     if (['defend','activate-tcs'].includes(mission) && ['Sentry','Emplacement'].includes(stratagem.category)) missionC += 20
     if (mission === 'eliminate-target' && tags.includes('Anti-Tank')) missionC += 20
     if (mission === 'eradicate' && tags.some(t => ['Area Denial','Anti-Light','Fire'].includes(t))) missionC += 15
-    score += missionC
   }
+  score += missionC * synergyWeight('mission', synergyModes)
 
-  if (synergyModes?.playstyle !== false && playstyle) {
+  // Playstyle synergy
+  if (playstyle) {
     playstyleC = playstyleStratagemBonus(stratagem, playstyle)
-    score += playstyleC
   }
+  score += playstyleC * synergyWeight('playstyle', synergyModes)
 
-  if (synergyModes?.loadout !== false) {
-    loadoutC = loadoutSynergyBonus(stratagem, 'stratagem', buildAround, currentSlots)
-    score += loadoutC
-  }
+  // Loadout synergy
+  loadoutC = loadoutSynergyBonus(stratagem, 'stratagem', buildAround, currentSlots)
+  score += loadoutC * synergyWeight('loadout', synergyModes)
+
+  // Cooldown conflict penalty
+  loadoutC += cooldownConflictPenalty(stratagem, currentSlots?.stratagems)
+
+  // Difficulty scaling
+  const dm = difficultyMods(difficulty)
+  if (tags.includes('Anti-Tank') || tags.includes('Anti-Heavy')) diffC += dm.atBonus
+  if (tags.includes('Area Denial')) diffC += dm.areaBonus
+  if (stratagem.cooldown < 60) diffC += dm.fastCooldownBonus
+  score += diffC
 
   score += synergyStackBonus([factionC, planetC, missionC, playstyleC, loadoutC], synergyModes)
 
-  return Math.min(Math.max(Math.round(score), 0), 100)
+  const total = Math.min(Math.max(Math.round(score), 0), 100)
+  return { total, dimensions: { faction: Math.round(factionC), mission: Math.round(missionC), playstyle: Math.round(playstyleC), loadout: Math.round(loadoutC), planet: Math.round(planetC), difficulty: Math.round(diffC) } }
+}
+
+// ── Booster scorer (tag-based) ──────────────────────────────────────────────
+const BOOSTER_MISSION_TAGS = {
+  'blitz':                        ['stamina', 'mobility', 'sprint'],
+  'retrieve-essential-personnel': ['extraction', 'stamina', 'mobility'],
+  'eradicate':                    ['reinforce', 'sustain', 'ammo'],
+  'defend':                       ['hp', 'survivability', 'sustain'],
+  'sabotage':                     ['stealth', 'recon', 'intel'],
+  'eliminate-target':             ['ammo', 'combat', 'survivability'],
+  'activate-tcs':                 ['reinforce', 'sustain', 'hp'],
+  'spread-democracy':             ['ammo', 'resupply', 'reinforce'],
+}
+
+const BOOSTER_CONDITION_TAGS = {
+  'extreme_cold':       ['stamina', 'mobility'],
+  'toxic_haze':         ['hp', 'survivability'],
+  'spore_clouds':       ['stamina', 'survivability'],
+  'blizzards':          ['stamina', 'mobility'],
+  'sandstorm':          ['recon', 'intel'],
+  'thick_fog':          ['recon', 'intel'],
+  'stalker_infestation':['recon', 'intel'],
+}
+
+const BOOSTER_PLAYSTYLE_TAGS = {
+  'lone-wolf':     ['stamina', 'mobility', 'sprint'],
+  'support-medic': ['hp', 'survivability', 'sustain'],
+  'sample-goblin': ['stamina', 'mobility', 'terrain'],
+  'tank-buster':   ['ammo', 'resupply', 'combat'],
+  'chaff-clear':   ['ammo', 'resupply', 'combat'],
+  'engineer':      ['sustain', 'reinforce'],
+  'mech-pilot':    ['ammo', 'resupply'],
 }
 
 function scoreBooster(booster, ctx) {
   const { mission, conditions, playstyle, synergyModes } = ctx
   let score = 50
-  const eff = (booster.effect ?? booster.description ?? '').toLowerCase()
+  const bTags = booster.scoringTags ?? []
   let missionC = 0, planetC = 0, playstyleC = 0
 
-  if (synergyModes?.mission !== false && mission) {
-    if (mission === 'blitz' && (eff.includes('stamina') || eff.includes('sprint'))) missionC += 20
-    if (mission === 'retrieve-essential-personnel' && eff.includes('extraction')) missionC += 25
-    if (mission === 'eradicate' && eff.includes('reinforce')) missionC += 15
-    if (mission === 'defend' && (eff.includes('hp') || eff.includes('vitality'))) missionC += 10
-    score += missionC
+  // Mission
+  if (mission && BOOSTER_MISSION_TAGS[mission]) {
+    const mTags = BOOSTER_MISSION_TAGS[mission]
+    const hits = bTags.filter(t => mTags.includes(t)).length
+    missionC = hits > 0 ? Math.min(hits * 12, 25) : 0
   }
+  score += missionC * synergyWeight('mission', synergyModes)
 
-  if (synergyModes?.planet !== false && conditions.length) {
-    if (conditions.includes('extreme_cold') && eff.includes('stamina')) planetC += 15
-    if (conditions.includes('toxic_haze') && eff.includes('hp')) planetC += 10
-    if (conditions.includes('spore_clouds') && eff.includes('stamina')) planetC += 10
-    score += planetC
+  // Planet
+  if (conditions?.length) {
+    let condHits = 0
+    for (const cond of conditions) {
+      const cTags = BOOSTER_CONDITION_TAGS[cond]
+      if (cTags && bTags.some(t => cTags.includes(t))) condHits++
+    }
+    planetC = condHits > 0 ? Math.round((condHits / conditions.length) * 20) : 0
   }
+  score += planetC * synergyWeight('planet', synergyModes)
 
-  if (synergyModes?.playstyle !== false && playstyle) {
-    if (playstyle.id === 'lone-wolf' && eff.includes('stamina')) playstyleC += 10
-    if (playstyle.id === 'support-medic' && eff.includes('hp')) playstyleC += 15
-    if (playstyle.id === 'sample-goblin' && eff.includes('stamina')) playstyleC += 15
-    score += playstyleC
+  // Playstyle
+  if (playstyle && BOOSTER_PLAYSTYLE_TAGS[playstyle.id]) {
+    const pTags = BOOSTER_PLAYSTYLE_TAGS[playstyle.id]
+    const hits = bTags.filter(t => pTags.includes(t)).length
+    playstyleC = hits > 0 ? Math.min(hits * 10, 20) : 0
   }
+  score += playstyleC * synergyWeight('playstyle', synergyModes)
 
   score += synergyStackBonus([missionC, planetC, playstyleC], synergyModes)
 
-  return Math.min(Math.max(Math.round(score), 0), 100)
+  const total = Math.min(Math.max(Math.round(score), 0), 100)
+  return { total, dimensions: { faction: 0, mission: Math.round(missionC), playstyle: Math.round(playstyleC), loadout: 0, planet: Math.round(planetC), difficulty: 0 } }
 }
 
 // ── Rationale builder ─────────────────────────────────────────────────────────
 function buildRationale(item, score, ctx) {
   const reasons = []
-  const { factions, enemies, conditions, mission, playstyle, buildAround } = ctx
+  const { factions, enemies, conditions, mission, playstyle, buildAround, difficulty } = ctx
 
   const isArmor     = item.armorRating !== undefined
   const isStratagem = item.sequence !== undefined
@@ -372,6 +491,8 @@ function buildRationale(item, score, ctx) {
       reasons.push('Heavy armor for sustained defensive operations')
     if (playstyle?.preferredArmor?.includes(item.passive))
       reasons.push(`Matches ${playstyle.name} playstyle`)
+    if (difficulty >= 7 && item.type === 'Heavy')
+      reasons.push('Heavy armor recommended for high difficulty')
   } else if (isStratagem) {
     const tags = item.tags ?? []
     if (factions?.some(f => tags.includes(f.name ?? f.id)))
@@ -384,6 +505,8 @@ function buildRationale(item, score, ctx) {
       reasons.push('Sentry/emplacement ideal for defense')
     if (playstyle?.favoredStratagems?.includes(item.id))
       reasons.push(`Core tool for ${playstyle.name} playstyle`)
+    if (difficulty >= 7 && tags.includes('Anti-Tank'))
+      reasons.push('Anti-tank essential at high difficulty')
   } else if (!isBooster) {
     if (factions?.some(f => f.id === 'terminids') && item.damageType === 'Fire')
       reasons.push('Fire damage highly effective vs Terminids')
@@ -400,6 +523,8 @@ function buildRationale(item, score, ctx) {
     }
     if (playstyle?.primaryTraits?.some(t => (item.traits ?? []).includes(t)))
       reasons.push(`Traits aligned with ${playstyle.name} playstyle`)
+    if (difficulty >= 7 && (item.apTier ?? 0) >= 4)
+      reasons.push('High penetration needed for this difficulty')
   }
 
   if (reasons.length === 0) {
@@ -411,7 +536,35 @@ function buildRationale(item, score, ctx) {
   return reasons
 }
 
+// ── Score current loadout (for live synergy display) ────────────────────────
+export function scoreCurrentLoadout(slots, ctx) {
+  if (!slots) return null
+  const items = []
+
+  if (slots.primary)   items.push({ item: slots.primary,   scored: scoreWeapon(slots.primary, { ...ctx, slotType: 'primary' }) })
+  if (slots.secondary) items.push({ item: slots.secondary, scored: scoreWeapon(slots.secondary, { ...ctx, slotType: 'secondary' }) })
+  if (slots.throwable) items.push({ item: slots.throwable, scored: scoreWeapon(slots.throwable, { ...ctx, slotType: 'throwable' }) })
+  if (slots.armor)     items.push({ item: slots.armor,     scored: scoreArmor(slots.armor, ctx) })
+  if (slots.booster)   items.push({ item: slots.booster,   scored: scoreBooster(slots.booster, ctx) })
+  for (const s of (slots.stratagems ?? [])) {
+    if (s) items.push({ item: s, scored: scoreStratagem(s, { ...ctx, slotType: 'stratagem' }) })
+  }
+
+  if (items.length < 3) return null
+
+  const overall = Math.round(items.reduce((sum, i) => sum + i.scored.total, 0) / items.length)
+  const dimKeys = ['faction', 'planet', 'mission', 'playstyle', 'loadout']
+  const dimensions = {}
+  for (const k of dimKeys) {
+    dimensions[k] = Math.round(items.reduce((sum, i) => sum + (i.scored.dimensions[k] ?? 0), 0) / items.length)
+  }
+
+  return { overall, dimensions, perItem: items }
+}
+
 // ── Main export ───────────────────────────────────────────────────────────────
+export { DIFFICULTY_LABELS }
+
 export function suggestLoadout({
   weapons,
   armor,
@@ -422,25 +575,47 @@ export function suggestLoadout({
   conditions            = [],
   mission               = null,
   playstyle             = null,
+  difficulty            = 5,
   stratagemLimits       = {},
   stratagemLimitsEnabled = false,
   buildAround           = null,
   currentSlots          = {},
   synergyModes          = { planet: true, loadout: true, faction: true, playstyle: true, mission: true },
   ownedWarbonds         = null,
+  warbondFilterMode     = 'all',
+  excludeIds            = null,
 }) {
-  const ctx = { enemies, factions, conditions, mission, playstyle, synergyModes, buildAround, currentSlots }
+  const ctx = { enemies, factions, conditions, mission, playstyle, difficulty, synergyModes, buildAround, currentSlots }
 
   function filterOwned(items) {
-    if (!ownedWarbonds) return items
-    return items.filter(i => !i.warbond || ownedWarbonds.has(i.warbond))
+    let filtered = items
+    if (excludeIds?.size) filtered = filtered.filter(i => !excludeIds.has(i.id))
+    if (warbondFilterMode === 'owned' && ownedWarbonds) {
+      filtered = filtered.filter(i => !i.warbond || ownedWarbonds.has(i.warbond))
+    }
+    return filtered
+  }
+
+  // For 'prefer' mode: apply -15 penalty to unowned items after scoring
+  function applyWarbondPreference(scored) {
+    if (warbondFilterMode !== 'prefer' || !ownedWarbonds) return scored
+    return scored.map(e => {
+      if (e.item.warbond && !ownedWarbonds.has(e.item.warbond)) {
+        return { ...e, score: Math.max(0, e.score - 15), total: Math.max(0, (e.total ?? e.score) - 15) }
+      }
+      return e
+    }).sort((a, b) => (b.total ?? b.score) - (a.total ?? a.score))
   }
 
   function scoreAndRank(items, scorer) {
-    return items
-      .map(item => ({ item, score: scorer(item) }))
+    const ranked = items
+      .map(item => {
+        const result = scorer(item)
+        return { item, score: result.total, total: result.total, dimensions: result.dimensions }
+      })
       .sort((a, b) => b.score - a.score)
       .map(e => ({ ...e, rationale: buildRationale(e.item, e.score, ctx) }))
+    return applyWarbondPreference(ranked)
   }
 
   const rankedPrimaries   = scoreAndRank(filterOwned(weapons.primaries   ?? []), w => scoreWeapon(w, { ...ctx, slotType: 'primary' }))
@@ -488,12 +663,13 @@ export function suggestLoadout({
     if (slotType === 'armor')     s = scoreArmor(buildAround.item, ctx)
     else if (slotType === 'stratagem') s = scoreStratagem(buildAround.item, ctx)
     else s = scoreWeapon(buildAround.item, { ...ctx, slotType })
-    return { item: buildAround.item, score: s, rationale: ['◉ Build-around anchor — loadout optimized around this item'], locked: true }
+    return { item: buildAround.item, score: s.total, total: s.total, dimensions: s.dimensions, rationale: ['◉ Build-around anchor — loadout optimized around this item'], locked: true }
   }
 
   const finalStratagems = buildAround?.slotType === 'stratagem'
     ? (() => {
-        const locked = { item: buildAround.item, score: scoreStratagem(buildAround.item, ctx), rationale: ['◉ Build-around anchor'], locked: true }
+        const s = scoreStratagem(buildAround.item, ctx)
+        const locked = { item: buildAround.item, score: s.total, total: s.total, dimensions: s.dimensions, rationale: ['◉ Build-around anchor'], locked: true }
         return [locked, ...pickedStratagems.filter(e => e.item.id !== buildAround.item.id).slice(0, 3)]
       })()
     : pickedStratagems
@@ -522,6 +698,6 @@ export function suggestLoadout({
       armor:     alts(rankedArmor,       topArmor?.item?.id),
       booster:   alts(rankedBoosters,    topBooster?.item?.id),
     },
-    context: { factionIds: factions.map(f => f.id), enemyIds: enemies.map(e => e.id), conditions, mission, playstyleId: playstyle?.id ?? null, synergyModes },
+    context: { factionIds: factions.map(f => f.id), enemyIds: enemies.map(e => e.id), conditions, mission, playstyleId: playstyle?.id ?? null, synergyModes, difficulty },
   }
 }

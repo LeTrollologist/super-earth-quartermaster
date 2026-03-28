@@ -4,6 +4,7 @@ import { LoadoutPanel } from '../loadout/LoadoutPanel'
 import { ItemBrowser } from '../browser/ItemBrowser'
 import { StatsPanel } from '../stats/StatsPanel'
 import { SuggestPanel } from '../suggestions/SuggestPanel'
+import { CheatSheet } from '../loadout/CheatSheet'
 
 export function AppShell() {
   const [showSuggest, setShowSuggest] = useState(false)
@@ -30,6 +31,9 @@ export function AppShell() {
 
       {/* Suggestion overlay */}
       {showSuggest && <SuggestPanel onClose={() => setShowSuggest(false)} />}
+
+      {/* Stratagem cheat sheet overlay */}
+      <CheatSheet />
     </div>
   )
 }

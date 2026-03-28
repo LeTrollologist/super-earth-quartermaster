@@ -4,69 +4,79 @@
     "name": "Vitality Enhancement",
     "description": "Increases max health of all squad members.",
     "effect": "+50% max HP",
-    "tags": ["Survivability", "All Factions"]
+    "tags": ["Survivability", "All Factions"],
+    "scoringTags": ["hp", "survivability"]
   },
   {
     "id": "stamina-enhancement",
     "name": "Stamina Enhancement",
     "description": "Increases sprint stamina for all squad members.",
     "effect": "+50% stamina pool",
-    "tags": ["Mobility", "Survivability"]
+    "tags": ["Mobility", "Survivability"],
+    "scoringTags": ["stamina", "mobility"]
   },
   {
     "id": "hellpod-space-optimization",
     "name": "Hellpod Space Optimization",
     "description": "Squad members land with full ammo, grenades, and stims.",
     "effect": "Full resupply on spawn",
-    "tags": ["Utility", "Sustain"]
+    "tags": ["Utility", "Sustain"],
+    "scoringTags": ["ammo", "resupply", "spawn"]
   },
   {
     "id": "UAV-recon-booster",
     "name": "UAV Recon Booster",
     "description": "Increases minimap reveal radius for all Helldivers.",
     "effect": "+25% minimap range",
-    "tags": ["Intel", "Recon", "Utility"]
+    "tags": ["Intel", "Recon", "Utility"],
+    "scoringTags": ["intel", "recon"]
   },
   {
     "id": "localization-confusion",
     "name": "Localization Confusion",
     "description": "Delays enemy patrols calling in reinforcements.",
     "effect": "Patrol call-in delay +30%",
-    "tags": ["Stealth", "Utility", "Survivability"]
+    "tags": ["Stealth", "Utility", "Survivability"],
+    "scoringTags": ["stealth", "reinforce-delay"]
   },
   {
     "id": "motivational-shocks",
     "name": "Motivational Shocks",
     "description": "Stim usage also increases sprint speed briefly.",
     "effect": "+20% sprint speed for 5s after stim",
-    "tags": ["Mobility", "Combat"]
+    "tags": ["Mobility", "Combat"],
+    "scoringTags": ["stamina", "sprint", "combat"]
   },
   {
     "id": "expert-extraction-pilot",
     "name": "Expert Extraction Pilot",
     "description": "Reduces the time the Pelican takes to arrive.",
     "effect": "Extraction time -50%",
-    "tags": ["Utility", "Extraction"]
+    "tags": ["Utility", "Extraction"],
+    "scoringTags": ["extraction"]
   },
   {
     "id": "experimental-infusion",
     "name": "Experimental Infusion",
     "description": "Stim overcures, providing a short period of invulnerability.",
     "effect": "1s invulnerability after stim",
-    "tags": ["Survivability", "Combat"]
+    "tags": ["Survivability", "Combat"],
+    "scoringTags": ["survivability", "combat"]
   },
   {
     "id": "muscle-enhancement",
     "name": "Muscle Enhancement",
     "description": "Reduces movement penalty from difficult terrain.",
     "effect": "Terrain movement penalty -50%",
-    "tags": ["Mobility", "Terrain"]
+    "tags": ["Mobility", "Terrain"],
+    "scoringTags": ["terrain", "mobility"]
   },
   {
     "id": "flexible-reinforcement-budget",
     "name": "Flexible Reinforcement Budget",
     "description": "Increases total reinforcement tokens available.",
     "effect": "+2 extra reinforcements per mission",
-    "tags": ["Utility", "Sustain"]
+    "tags": ["Utility", "Sustain"],
+    "scoringTags": ["reinforce", "sustain"]
   }
 ]

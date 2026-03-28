@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
 import { useLoadoutStore } from '../../store/loadoutStore'
 import { useWarStatus } from '../../hooks/useWarStatus'
+import weaponsData   from '../../data/weapons.json'
+import armorData     from '../../data/armor.json'
+import stratagemData from '../../data/stratagems.json'
+import boosterData   from '../../data/boosters.json'
 
 function SEAFLogo() {
   return (
     <div className="flex items-center gap-2 shrink-0">
-      {/* Eagle icon */}
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="text-hd-yellow">
         <polygon points="16,2 20,12 30,12 22,19 25,30 16,24 7,30 10,19 2,12 12,12" fill="currentColor" opacity="0.9"/>
       </svg>
@@ -64,18 +66,23 @@ function WarTicker({ warData, campaigns, planets, loading, error }) {
 export function Header({ onSuggest }) {
   const { warData, campaigns, planets, loading, error } = useWarStatus()
 
-  const compareMode  = useLoadoutStore(s => s.compareMode)
-  const toggleCompare = useLoadoutStore(s => s.toggleCompare)
-  const clearLoadout  = useLoadoutStore(s => s.clearLoadout)
+  const compareMode      = useLoadoutStore(s => s.compareMode)
+  const toggleCompare    = useLoadoutStore(s => s.toggleCompare)
+  const clearLoadout     = useLoadoutStore(s => s.clearLoadout)
+  const squadMode        = useLoadoutStore(s => s.squadMode)
+  const toggleSquadMode  = useLoadoutStore(s => s.toggleSquadMode)
+  const toggleCheatSheet = useLoadoutStore(s => s.toggleCheatSheet)
+  const showCheatSheet   = useLoadoutStore(s => s.showCheatSheet)
+  const randomizeLoadout = useLoadoutStore(s => s.randomizeLoadout)
+
+  const handleRandom = () => {
+    randomizeLoadout(weaponsData, armorData, stratagemData, boosterData)
+  }
 
   return (
     <header className="shrink-0 h-14 bg-hd-surface border-b border-hd-border flex items-center px-4 gap-4 z-20">
       <SEAFLogo />
-
-      {/* Divider */}
       <div className="h-6 w-px bg-hd-border" />
-
-      {/* War status ticker */}
       <WarTicker warData={warData} campaigns={campaigns} planets={planets} loading={loading} error={error} />
 
       {/* Actions */}
@@ -84,9 +91,26 @@ export function Header({ onSuggest }) {
           onClick={onSuggest}
           className="px-3 py-1.5 text-xs font-mono border border-hd-yellow text-hd-yellow bg-hd-yellow/10 hover:bg-hd-yellow/20 rounded transition-colors font-semibold"
         >
-          ◈ Suggest Loadout
+          ◈ Suggest
+        </button>
+        <button
+          onClick={handleRandom}
+          className="px-3 py-1.5 text-xs font-mono border border-hd-border text-hd-text-dim hover:border-hd-yellow/50 hover:text-hd-yellow rounded transition-colors"
+          title="Random loadout"
+        >
+          ⚄ Random
         </button>
         <div className="h-4 w-px bg-hd-border" />
+        <button
+          onClick={toggleSquadMode}
+          className={`px-3 py-1.5 text-xs font-mono border rounded transition-colors ${
+            squadMode
+              ? 'bg-hd-blue/20 text-hd-blue border-hd-blue/50'
+              : 'border-hd-border text-hd-text-dim hover:border-hd-blue/50 hover:text-hd-blue'
+          }`}
+        >
+          {squadMode ? '◈ Squad' : '◇ Solo'}
+        </button>
         <button
           onClick={toggleCompare}
           className={`px-3 py-1.5 text-xs font-mono border rounded transition-colors ${
@@ -96,6 +120,17 @@ export function Header({ onSuggest }) {
           }`}
         >
           ⊕ Compare
+        </button>
+        <button
+          onClick={toggleCheatSheet}
+          className={`px-3 py-1.5 text-xs font-mono border rounded transition-colors ${
+            showCheatSheet
+              ? 'bg-hd-green/20 text-hd-green border-hd-green/50'
+              : 'border-hd-border text-hd-text-dim hover:border-hd-green/50 hover:text-hd-green'
+          }`}
+          title="Stratagem cheat sheet"
+        >
+          ↕ Keys
         </button>
         <button
           onClick={clearLoadout}

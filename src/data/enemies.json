@@ -38,7 +38,9 @@
       "health": 140,
       "description": "Medium-sized Terminid trooper. Basic combat unit.",
       "weakSpots": ["Head", "Abdomen"],
-      "armorZones": { "head": 2, "body": 2, "legs": 1 }
+      "armorZones": { "head": 2, "body": 2, "legs": 1 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
     },
     {
       "id": "bile-spewer",
@@ -49,7 +51,9 @@
       "health": 600,
       "description": "Large Terminid that sprays corrosive bile. Heavy armor on top.",
       "weakSpots": ["Belly Sack"],
-      "armorZones": { "head": 3, "body": 4, "belly": 1 }
+      "armorZones": { "head": 3, "body": 4, "belly": 1 },
+      "weaknesses": ["Fire"],
+      "resistances": ["Explosive"]
     },
     {
       "id": "charger",
@@ -60,7 +64,9 @@
       "health": 1500,
       "description": "Heavily armored Terminid that charges at high speed. Aim for the legs.",
       "weakSpots": ["Legs (unarmored)", "Back"],
-      "armorZones": { "head": 5, "body": 5, "legs_front": 5, "legs_back": 1 }
+      "armorZones": { "head": 5, "body": 5, "legs_front": 5, "legs_back": 1 },
+      "weaknesses": ["Explosive", "Anti-Tank"],
+      "resistances": ["Ballistic"]
     },
     {
       "id": "bile-titan",
@@ -71,7 +77,9 @@
       "health": 5000,
       "description": "Massive Terminid. Virtually impenetrable frontal armor. Target the head or belly vents.",
       "weakSpots": ["Head", "Belly Vents"],
-      "armorZones": { "head": 4, "body": 5, "legs": 3 }
+      "armorZones": { "head": 4, "body": 5, "legs": 3 },
+      "weaknesses": ["Explosive", "Anti-Tank"],
+      "resistances": ["Ballistic"]
     },
     {
       "id": "brood-commander",
@@ -82,7 +90,22 @@
       "health": 450,
       "description": "Larger Terminid commander. Medium-heavy armor.",
       "weakSpots": ["Head"],
-      "armorZones": { "head": 3, "body": 3 }
+      "armorZones": { "head": 3, "body": 3 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "stalker",
+      "name": "Stalker",
+      "faction": "terminids",
+      "class": "Light",
+      "armorTier": 2,
+      "health": 250,
+      "description": "Stealthy Terminid. Cloaks and ambushes. Highly dangerous in groups.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 2 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
     },
     {
       "id": "devastator",
@@ -93,7 +116,9 @@
       "health": 400,
       "description": "Automaton soldier variant. Medium armor, fires rockets.",
       "weakSpots": ["Head", "Rocket Launcher"],
-      "armorZones": { "head": 2, "body": 3, "arms": 3 }
+      "armorZones": { "head": 2, "body": 3, "arms": 3 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
     },
     {
       "id": "hulk",
@@ -104,7 +129,9 @@
       "health": 2000,
       "description": "Massive Automaton. Heavy armor everywhere. Target the eye slits or back vents.",
       "weakSpots": ["Eye Slits", "Back Vents"],
-      "armorZones": { "head": 4, "body": 5, "arms": 4 }
+      "armorZones": { "head": 4, "body": 5, "arms": 4 },
+      "weaknesses": ["Explosive", "Anti-Tank"],
+      "resistances": ["Fire"]
     },
     {
       "id": "factory-strider",
@@ -115,7 +142,9 @@
       "health": 8000,
       "description": "Colossal Automaton walker. Produces enemy reinforcements. Extreme armor.",
       "weakSpots": ["Head Cannon", "Underside"],
-      "armorZones": { "head": 4, "body": 5, "legs": 3 }
+      "armorZones": { "head": 4, "body": 5, "legs": 3 },
+      "weaknesses": ["Anti-Tank", "Explosive"],
+      "resistances": ["Ballistic", "Fire"]
     },
     {
       "id": "tank",
@@ -126,7 +155,9 @@
       "health": 3000,
       "description": "Heavily armored vehicle. Rotate and target the exhaust vent on its rear.",
       "weakSpots": ["Rear Vent", "Top Hatch"],
-      "armorZones": { "front": 5, "sides": 5, "rear": 3 }
+      "armorZones": { "front": 5, "sides": 5, "rear": 3 },
+      "weaknesses": ["Anti-Tank", "Explosive"],
+      "resistances": ["Ballistic", "Fire"]
     },
     {
       "id": "overseer",
@@ -137,7 +168,9 @@
       "health": 300,
       "description": "Flying Illuminate commander. Lightly armored but dangerous from range.",
       "weakSpots": ["Body"],
-      "armorZones": { "body": 2 }
+      "armorZones": { "body": 2 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
     },
     {
       "id": "harvester",
@@ -148,7 +181,9 @@
       "health": 2500,
       "description": "Tripod walker with shield projector. Target the legs to destabilize.",
       "weakSpots": ["Legs", "Eye"],
-      "armorZones": { "body": 5, "legs": 3, "eye": 2 }
+      "armorZones": { "body": 5, "legs": 3, "eye": 2 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
     }
   ]
 }
