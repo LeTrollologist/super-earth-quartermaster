@@ -30,6 +30,45 @@
   ],
   "enemies": [
     {
+      "id": "scavenger",
+      "name": "Scavenger",
+      "faction": "terminids",
+      "class": "Trash",
+      "armorTier": 1,
+      "health": 50,
+      "description": "Weakest Terminid. Swarms in large numbers. No armor.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 0 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "hunter",
+      "name": "Hunter",
+      "faction": "terminids",
+      "class": "Light",
+      "armorTier": 1,
+      "health": 80,
+      "description": "Fast leaping Terminid. Closes distance rapidly and pounces on targets.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 1 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "pouncer",
+      "name": "Pouncer",
+      "faction": "terminids",
+      "class": "Light",
+      "armorTier": 1,
+      "health": 90,
+      "description": "Aggressive leaping bug. Pins targets on contact. Similar to Hunter but more dangerous.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 1 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
       "id": "warrior",
       "name": "Warrior",
       "faction": "terminids",
@@ -43,6 +82,32 @@
       "resistances": []
     },
     {
+      "id": "bile-warrior",
+      "name": "Bile Warrior",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 2,
+      "health": 200,
+      "description": "Bile-spitting variant of the Warrior. Ranged acid attacks at medium distance.",
+      "weakSpots": ["Head", "Abdomen"],
+      "armorZones": { "head": 2, "body": 2, "legs": 1 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "nursing-spewer",
+      "name": "Nursing Spewer",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 400,
+      "description": "Green-tinged spewer that heals nearby Terminids. Priority target in groups.",
+      "weakSpots": ["Belly Sack"],
+      "armorZones": { "head": 3, "body": 3, "belly": 1 },
+      "weaknesses": ["Fire"],
+      "resistances": ["Explosive"]
+    },
+    {
       "id": "bile-spewer",
       "name": "Bile Spewer",
       "faction": "terminids",
@@ -54,6 +119,84 @@
       "armorZones": { "head": 3, "body": 4, "belly": 1 },
       "weaknesses": ["Fire"],
       "resistances": ["Explosive"]
+    },
+    {
+      "id": "brood-commander",
+      "name": "Brood Commander",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 450,
+      "description": "Larger Terminid commander. Medium-heavy armor.",
+      "weakSpots": ["Head"],
+      "armorZones": { "head": 3, "body": 3 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "alpha-commander",
+      "name": "Alpha Commander",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 600,
+      "description": "Elite Terminid commander. Tougher and more aggressive than Brood Commanders.",
+      "weakSpots": ["Head"],
+      "armorZones": { "head": 3, "body": 3 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "hive-guard",
+      "name": "Hive Guard",
+      "faction": "terminids",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 500,
+      "description": "Defensive Terminid that protects nests and objectives. Heavy frontal shell.",
+      "weakSpots": ["Rear", "Belly"],
+      "armorZones": { "head": 4, "body": 3, "rear": 1 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "stalker",
+      "name": "Stalker",
+      "faction": "terminids",
+      "class": "Light",
+      "armorTier": 2,
+      "health": 250,
+      "description": "Stealthy Terminid. Cloaks and ambushes. Highly dangerous in groups.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 2 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "shrieker",
+      "name": "Shrieker",
+      "faction": "terminids",
+      "class": "Light",
+      "armorTier": 1,
+      "health": 100,
+      "description": "Flying Terminid. Spawns from nests and dives at targets from above.",
+      "weakSpots": ["Body", "Wings"],
+      "armorZones": { "body": 1, "wings": 0 },
+      "weaknesses": ["Fire", "Explosive"],
+      "resistances": []
+    },
+    {
+      "id": "impaler",
+      "name": "Impaler",
+      "faction": "terminids",
+      "class": "Heavy",
+      "armorTier": 4,
+      "health": 1200,
+      "description": "Burrowing Terminid that attacks with underground tentacles at long range.",
+      "weakSpots": ["Back Tentacles", "Rear"],
+      "armorZones": { "head": 4, "body": 4, "rear": 2 },
+      "weaknesses": ["Explosive", "Anti-Tank"],
+      "resistances": ["Ballistic"]
     },
     {
       "id": "charger",
@@ -81,31 +224,84 @@
       "weaknesses": ["Explosive", "Anti-Tank"],
       "resistances": ["Ballistic"]
     },
+
     {
-      "id": "brood-commander",
-      "name": "Brood Commander",
-      "faction": "terminids",
-      "class": "Medium",
-      "armorTier": 3,
-      "health": 450,
-      "description": "Larger Terminid commander. Medium-heavy armor.",
+      "id": "trooper",
+      "name": "Trooper",
+      "faction": "automatons",
+      "class": "Trash",
+      "armorTier": 1,
+      "health": 80,
+      "description": "Basic Automaton infantry. Light armor, armed with a rifle. Fights in groups.",
       "weakSpots": ["Head"],
-      "armorZones": { "head": 3, "body": 3 },
-      "weaknesses": ["Fire", "Explosive"],
-      "resistances": []
+      "armorZones": { "head": 1, "body": 1 },
+      "weaknesses": ["Explosive", "Ballistic"],
+      "resistances": ["Fire"]
     },
     {
-      "id": "stalker",
-      "name": "Stalker",
-      "faction": "terminids",
+      "id": "raider",
+      "name": "Raider",
+      "faction": "automatons",
       "class": "Light",
       "armorTier": 2,
-      "health": 250,
-      "description": "Stealthy Terminid. Cloaks and ambushes. Highly dangerous in groups.",
-      "weakSpots": ["Body"],
-      "armorZones": { "body": 2 },
-      "weaknesses": ["Fire", "Explosive"],
-      "resistances": []
+      "health": 120,
+      "description": "Slightly armored Automaton trooper with better weapons. Often found flanking.",
+      "weakSpots": ["Head"],
+      "armorZones": { "head": 1, "body": 2 },
+      "weaknesses": ["Explosive", "Ballistic"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "marauder",
+      "name": "Marauder",
+      "faction": "automatons",
+      "class": "Light",
+      "armorTier": 2,
+      "health": 150,
+      "description": "Shielded Automaton trooper. Carries a physical shield that blocks frontal attacks.",
+      "weakSpots": ["Head", "Legs"],
+      "armorZones": { "head": 1, "body": 2, "shield": 4 },
+      "weaknesses": ["Explosive", "Ballistic"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "scout-strider",
+      "name": "Scout Strider",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 350,
+      "description": "Two-legged Automaton walker. Pilot is vulnerable from behind. Armored front.",
+      "weakSpots": ["Pilot", "Rear"],
+      "armorZones": { "front": 3, "rear": 1, "pilot": 1 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "berserker",
+      "name": "Berserker",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 500,
+      "description": "Melee Automaton with dual chainsaws. Extremely dangerous at close range.",
+      "weakSpots": ["Head"],
+      "armorZones": { "head": 2, "body": 3 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "commissar",
+      "name": "Commissar",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 400,
+      "description": "Automaton officer that calls in reinforcement dropships. Priority target.",
+      "weakSpots": ["Head"],
+      "armorZones": { "head": 2, "body": 3 },
+      "weaknesses": ["Explosive", "Ballistic"],
+      "resistances": ["Fire"]
     },
     {
       "id": "devastator",
@@ -121,6 +317,32 @@
       "resistances": ["Fire"]
     },
     {
+      "id": "scout-walker",
+      "name": "Scout Walker",
+      "faction": "automatons",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 300,
+      "description": "Light Automaton mech. Fast and lightly armored compared to heavier walkers.",
+      "weakSpots": ["Cockpit", "Legs"],
+      "armorZones": { "head": 2, "body": 3, "legs": 2 },
+      "weaknesses": ["Explosive"],
+      "resistances": ["Fire"]
+    },
+    {
+      "id": "gunship",
+      "name": "Gunship",
+      "faction": "automatons",
+      "class": "Heavy",
+      "armorTier": 4,
+      "health": 1500,
+      "description": "Flying Automaton gunship. Heavy armor, rains fire from above. Target the engines.",
+      "weakSpots": ["Engines", "Belly"],
+      "armorZones": { "body": 4, "engines": 2 },
+      "weaknesses": ["Anti-Tank", "Explosive"],
+      "resistances": ["Ballistic", "Fire"]
+    },
+    {
       "id": "hulk",
       "name": "Hulk",
       "faction": "automatons",
@@ -132,19 +354,6 @@
       "armorZones": { "head": 4, "body": 5, "arms": 4 },
       "weaknesses": ["Explosive", "Anti-Tank"],
       "resistances": ["Fire"]
-    },
-    {
-      "id": "factory-strider",
-      "name": "Factory Strider",
-      "faction": "automatons",
-      "class": "Titan",
-      "armorTier": 5,
-      "health": 8000,
-      "description": "Colossal Automaton walker. Produces enemy reinforcements. Extreme armor.",
-      "weakSpots": ["Head Cannon", "Underside"],
-      "armorZones": { "head": 4, "body": 5, "legs": 3 },
-      "weaknesses": ["Anti-Tank", "Explosive"],
-      "resistances": ["Ballistic", "Fire"]
     },
     {
       "id": "tank",
@@ -160,6 +369,59 @@
       "resistances": ["Ballistic", "Fire"]
     },
     {
+      "id": "dropship",
+      "name": "Dropship",
+      "faction": "automatons",
+      "class": "Heavy",
+      "armorTier": 5,
+      "health": 4000,
+      "description": "Armored transport that delivers Automaton reinforcements. Destroy engines to prevent deployment.",
+      "weakSpots": ["Engines"],
+      "armorZones": { "body": 5, "engines": 3 },
+      "weaknesses": ["Anti-Tank"],
+      "resistances": ["Ballistic", "Fire"]
+    },
+    {
+      "id": "factory-strider",
+      "name": "Factory Strider",
+      "faction": "automatons",
+      "class": "Titan",
+      "armorTier": 5,
+      "health": 8000,
+      "description": "Colossal Automaton walker. Produces enemy reinforcements. Extreme armor.",
+      "weakSpots": ["Head Cannon", "Underside"],
+      "armorZones": { "head": 4, "body": 5, "legs": 3 },
+      "weaknesses": ["Anti-Tank", "Explosive"],
+      "resistances": ["Ballistic", "Fire"]
+    },
+
+    {
+      "id": "watcher",
+      "name": "Watcher",
+      "faction": "illuminate",
+      "class": "Trash",
+      "armorTier": 1,
+      "health": 60,
+      "description": "Small Illuminate scouting drone. Alerts nearby units when it spots Helldivers.",
+      "weakSpots": ["Body"],
+      "armorZones": { "body": 1 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
+    },
+    {
+      "id": "voteless",
+      "name": "Voteless",
+      "faction": "illuminate",
+      "class": "Light",
+      "armorTier": 2,
+      "health": 150,
+      "description": "Basic Illuminate ground troop. Fires energy projectiles at range.",
+      "weakSpots": ["Body", "Head"],
+      "armorZones": { "head": 1, "body": 2 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
+    },
+    {
       "id": "overseer",
       "name": "Overseer",
       "faction": "illuminate",
@@ -169,6 +431,32 @@
       "description": "Flying Illuminate commander. Lightly armored but dangerous from range.",
       "weakSpots": ["Body"],
       "armorZones": { "body": 2 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
+    },
+    {
+      "id": "council-member",
+      "name": "Council Member",
+      "faction": "illuminate",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 500,
+      "description": "Shielded Illuminate caster. Projects energy shields and buffs nearby allies.",
+      "weakSpots": ["Core", "Head"],
+      "armorZones": { "head": 2, "body": 3, "shield": 4 },
+      "weaknesses": ["Arc", "Explosive"],
+      "resistances": ["Laser"]
+    },
+    {
+      "id": "illumination-drifter",
+      "name": "Illumination Drifter",
+      "faction": "illuminate",
+      "class": "Medium",
+      "armorTier": 3,
+      "health": 400,
+      "description": "Floating Illuminate unit. Medium armor, fires homing energy bolts.",
+      "weakSpots": ["Core"],
+      "armorZones": { "body": 3, "core": 1 },
       "weaknesses": ["Arc", "Explosive"],
       "resistances": ["Laser"]
     },
@@ -184,6 +472,19 @@
       "armorZones": { "body": 5, "legs": 3, "eye": 2 },
       "weaknesses": ["Arc", "Explosive"],
       "resistances": ["Laser"]
+    },
+    {
+      "id": "obelisk",
+      "name": "Obelisk",
+      "faction": "illuminate",
+      "class": "Heavy",
+      "armorTier": 5,
+      "health": 3000,
+      "description": "Massive stationary Illuminate defense structure. Projects devastating energy beams.",
+      "weakSpots": ["Power Core"],
+      "armorZones": { "body": 5, "core": 2 },
+      "weaknesses": ["Anti-Tank", "Explosive"],
+      "resistances": ["Laser", "Ballistic"]
     }
   ]
 }

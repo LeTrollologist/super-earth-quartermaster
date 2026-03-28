@@ -231,15 +231,29 @@ function DifficultySelector() {
 }
 
 function MissionSelector({ mission, setMission }) {
+  const groups = [
+    { label: 'General', missions: (missionsData ?? []).filter(m => !m.faction) },
+    { label: 'Terminid', missions: (missionsData ?? []).filter(m => m.faction === 'terminids') },
+    { label: 'Automaton', missions: (missionsData ?? []).filter(m => m.faction === 'automatons') },
+    { label: 'Illuminate', missions: (missionsData ?? []).filter(m => m.faction === 'illuminate') },
+  ].filter(g => g.missions.length > 0)
+
   return (
     <div>
       <div className="text-[10px] font-mono uppercase tracking-widest text-hd-yellow/50 mb-2">Mission Type</div>
-      <div className="grid grid-cols-2 gap-1">
-        {(missionsData ?? []).map(m => (
-          <button key={m.id} onClick={() => setMission(mission?.id === m.id ? null : m)}
-            className={`px-2 py-1 text-[9px] font-mono border rounded text-left transition-colors truncate ${
-              mission?.id === m.id ? 'bg-hd-yellow/10 border-hd-yellow/60 text-hd-yellow' : 'border-hd-border text-hd-text-dim hover:border-hd-border-2'
-            }`}>{m.name}</button>
+      <div className="max-h-48 overflow-y-auto space-y-2">
+        {groups.map(g => (
+          <div key={g.label}>
+            <div className="text-[8px] font-mono uppercase tracking-widest text-hd-muted mb-1">{g.label}</div>
+            <div className="grid grid-cols-2 gap-1">
+              {g.missions.map(m => (
+                <button key={m.id} onClick={() => setMission(mission?.id === m.id ? null : m)}
+                  className={`px-2 py-1 text-[9px] font-mono border rounded text-left transition-colors truncate ${
+                    mission?.id === m.id ? 'bg-hd-yellow/10 border-hd-yellow/60 text-hd-yellow' : 'border-hd-border text-hd-text-dim hover:border-hd-border-2'
+                  }`}>{m.icon} {m.name}</button>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -670,6 +684,7 @@ export function SuggestPanel({ onClose }) {
                   onEquip={item => equipItem(item, 'armor')} />
                 {(suggestion.stratagems ?? []).map((strat, i) => (
                   <SuggestedItem key={i} label={`Stratagem ${i + 1}`} scored={strat}
+                    alternatives={suggestion.alternatives?.stratagems?.[i] ?? []}
                     onEquip={item => { setStratagemSlot(i, item) }} />
                 ))}
                 <SuggestedItem label="Booster" scored={suggestion.booster} alternatives={suggestion.alternatives?.booster ?? []}

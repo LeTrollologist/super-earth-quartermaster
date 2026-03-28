@@ -2,6 +2,7 @@
   {
     "id": "eradicate",
     "name": "Eradicate",
+    "faction": null,
     "description": "Eliminate a set number of enemy forces. High enemy density, sustained combat.",
     "icon": "💀",
     "priorities": ["Anti-Light", "Area Denial", "High Capacity"],
@@ -11,6 +12,7 @@
   {
     "id": "blitz",
     "name": "Blitz",
+    "faction": null,
     "description": "Complete multiple objectives rapidly across the map. Speed is critical.",
     "icon": "⚡",
     "priorities": ["Mobility", "Versatile"],
@@ -20,6 +22,7 @@
   {
     "id": "defense",
     "name": "Defend",
+    "faction": null,
     "description": "Hold a position against waves of enemies. Fortification and sentries excel.",
     "icon": "🏰",
     "priorities": ["Defense", "Area Denial", "Sentry"],
@@ -29,6 +32,7 @@
   {
     "id": "sabotage",
     "name": "Sabotage",
+    "faction": null,
     "description": "Destroy or disable enemy installations. Demolition power is key.",
     "icon": "💣",
     "priorities": ["Anti-Structure", "Explosive", "Anti-Heavy"],
@@ -38,6 +42,7 @@
   {
     "id": "retrieve",
     "name": "Retrieve Essential Personnel",
+    "faction": null,
     "description": "Escort civilians or retrieve assets while under attack. Survivability matters.",
     "icon": "🧑",
     "priorities": ["Mobility", "Crowd Control", "Survivability"],
@@ -47,6 +52,7 @@
   {
     "id": "elimination",
     "name": "Eliminate Target",
+    "faction": null,
     "description": "Kill a priority high-value target. Anti-tank and precision tools win.",
     "icon": "🎯",
     "priorities": ["Anti-Heavy", "Anti-Tank", "Precision"],
@@ -54,8 +60,50 @@
     "notes": "Bring the heaviest anti-armor tools available. Railgun, Spear, and Orbital Railcannon."
   },
   {
-    "id": "activate",
+    "id": "spread-democracy",
+    "name": "Spread Democracy",
+    "faction": null,
+    "description": "Plant the flag at multiple locations while fending off enemy resistance.",
+    "icon": "🦅",
+    "priorities": ["Mobility", "Versatile"],
+    "stratagemTags": ["All Factions", "Utility", "Mobility"],
+    "notes": "Balanced loadout. Prioritize mobility. Jump pack can help reach objectives."
+  },
+
+  {
+    "id": "destroy-bug-holes",
+    "name": "Destroy Bug Holes",
+    "faction": "terminids",
+    "description": "Locate and destroy Terminid bug holes across the map. Grenades and explosives seal them.",
+    "icon": "🕳",
+    "priorities": ["Anti-Structure", "Explosive", "Mobility"],
+    "stratagemTags": ["Explosive", "Anti-Structure", "Mobility"],
+    "notes": "Grenades can close bug holes. Bring explosives and mobility to cover ground."
+  },
+  {
+    "id": "purge-hatcheries",
+    "name": "Purge Hatcheries",
+    "faction": "terminids",
+    "description": "Burn out Terminid hatcheries to stop egg production. Fire weapons excel.",
+    "icon": "🔥",
+    "priorities": ["Anti-Structure", "Fire", "Area Denial"],
+    "stratagemTags": ["Fire", "Area Denial", "Anti-Structure"],
+    "notes": "Flamethrowers and incendiaries are ideal. Clear eggs with fire damage."
+  },
+  {
+    "id": "eliminate-brood-commanders",
+    "name": "Eliminate Brood Commanders",
+    "faction": "terminids",
+    "description": "Hunt down and eliminate Terminid Brood Commanders directing the swarm.",
+    "icon": "🪲",
+    "priorities": ["Anti-Heavy", "Precision", "Anti-Medium"],
+    "stratagemTags": ["Anti-Heavy", "Precision", "Anti-Medium"],
+    "notes": "Medium-penetration weapons for commanders. Expect heavy escorts."
+  },
+  {
+    "id": "activate-tcs",
     "name": "Activate Terminid Control System",
+    "faction": "terminids",
     "description": "Activate facilities across the map. Objective-focused with moderate combat.",
     "icon": "⚙",
     "priorities": ["Versatile", "Mobility"],
@@ -63,12 +111,106 @@
     "notes": "Versatility and mobility help you complete objectives quickly."
   },
   {
-    "id": "spread-democracy",
-    "name": "Spread Democracy",
-    "description": "Plant the flag at multiple locations while fending off enemy resistance.",
-    "icon": "🦅",
-    "priorities": ["Mobility", "Versatile"],
-    "stratagemTags": ["All Factions", "Utility", "Mobility"],
-    "notes": "Balanced loadout. Prioritize mobility. Jump pack can help reach objectives."
+    "id": "e710-pumps",
+    "name": "Activate E-710 Pumps",
+    "faction": "terminids",
+    "description": "Activate and defend E-710 extraction pumps across the map.",
+    "icon": "⛽",
+    "priorities": ["Versatile", "Mobility", "Defense"],
+    "stratagemTags": ["Utility", "Defense", "Mobility"],
+    "notes": "Need to activate then defend each pump briefly. Mix of mobility and defense."
+  },
+
+  {
+    "id": "destroy-command-bunkers",
+    "name": "Destroy Command Bunkers",
+    "faction": "automatons",
+    "description": "Assault and demolish Automaton command bunkers. Expect heavy fortification.",
+    "icon": "🏗",
+    "priorities": ["Anti-Structure", "Explosive", "Anti-Heavy"],
+    "stratagemTags": ["Anti-Structure", "Anti-Heavy", "Explosive"],
+    "notes": "Heavy ordnance needed for bunker destruction. Expect armored resistance."
+  },
+  {
+    "id": "sabotage-air-base",
+    "name": "Sabotage Air Base",
+    "faction": "automatons",
+    "description": "Infiltrate and destroy Automaton gunship production facilities.",
+    "icon": "✈",
+    "priorities": ["Stealth", "Anti-Structure", "Explosive"],
+    "stratagemTags": ["Anti-Structure", "Explosive", "Stealth"],
+    "notes": "Light armor for speed. Destroy fabricators and fuel stores before reinforcements arrive."
+  },
+  {
+    "id": "destroy-supply-lines",
+    "name": "Destroy Supply Lines",
+    "faction": "automatons",
+    "description": "Interdict Automaton supply convoys and destroy logistics infrastructure.",
+    "icon": "🚛",
+    "priorities": ["Anti-Heavy", "Anti-Tank", "Mobility"],
+    "stratagemTags": ["Anti-Tank", "Anti-Heavy", "Mobility"],
+    "notes": "Anti-tank weapons for vehicles. Mobility to hit multiple convoy points."
+  },
+  {
+    "id": "raise-flag",
+    "name": "Raise the Flag",
+    "faction": "automatons",
+    "description": "Capture strategic points in Automaton territory by raising Super Earth flags.",
+    "icon": "🚩",
+    "priorities": ["Mobility", "Versatile", "Defense"],
+    "stratagemTags": ["Mobility", "All Factions", "Defense"],
+    "notes": "Sprint between capture points. Balanced loadout for varied resistance."
+  },
+
+  {
+    "id": "destroy-warp-gates",
+    "name": "Destroy Warp Gates",
+    "faction": "illuminate",
+    "description": "Locate and destroy Illuminate warp gates that allow reinforcement portals.",
+    "icon": "🌀",
+    "priorities": ["Anti-Structure", "Energy", "Anti-Heavy"],
+    "stratagemTags": ["Anti-Structure", "Anti-Heavy", "Energy"],
+    "notes": "Arc/energy weapons effective. Heavy ordnance for gate destruction."
+  },
+  {
+    "id": "recover-artifacts",
+    "name": "Recover Artifacts",
+    "faction": "illuminate",
+    "description": "Retrieve Illuminate technology artifacts before they can be teleported away.",
+    "icon": "🏛",
+    "priorities": ["Mobility", "Defense", "Versatile"],
+    "stratagemTags": ["Mobility", "Defense", "Utility"],
+    "notes": "Speed is critical — artifacts despawn. Bring defensive tools for extraction."
+  },
+
+  {
+    "id": "seaf-artillery",
+    "name": "SEAF Artillery",
+    "faction": null,
+    "description": "Defend SEAF artillery installations while they fire on enemy positions.",
+    "icon": "🎯",
+    "priorities": ["Defense", "Area Denial", "Anti-Heavy"],
+    "stratagemTags": ["Defense", "Sentry", "Area Denial"],
+    "notes": "Stationary defense. Sentries and emplacements shine. Heavy armor recommended."
+  },
+  {
+    "id": "launch-icbm",
+    "name": "Launch ICBM",
+    "faction": null,
+    "description": "Arm and launch an ICBM by completing activation sequences under heavy assault.",
+    "icon": "🚀",
+    "priorities": ["Defense", "Anti-Heavy", "Survivability"],
+    "stratagemTags": ["Defense", "Anti-Heavy", "Survivability"],
+    "notes": "Extended defense objective. Bring heavy firepower and survivability gear."
+  },
+  {
+    "id": "commando-raid",
+    "name": "Commando Raid",
+    "faction": null,
+    "description": "Covert strike mission behind enemy lines. Speed and stealth over firepower.",
+    "icon": "🗡",
+    "priorities": ["Stealth", "Mobility", "Anti-Structure"],
+    "stratagemTags": ["Stealth", "Mobility", "Anti-Structure"],
+    "notes": "Light armor mandatory. Avoid prolonged engagements. Hit objectives and extract."
   }
 ]

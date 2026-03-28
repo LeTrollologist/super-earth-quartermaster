@@ -142,5 +142,17 @@
     "icon": "💓",
     "factionBonus": null,
     "environmentBonus": null
+  },
+  "Ground Anchor": {
+    "description": "Greatly reduces knockback from heavy impacts, explosions, and charges.",
+    "icon": "⚓",
+    "factionBonus": null,
+    "environmentBonus": "tremors"
+  },
+  "Vitamin Injectors": {
+    "description": "Stims apply 30% faster. Slight passive health regeneration over time.",
+    "icon": "💊",
+    "factionBonus": null,
+    "environmentBonus": null
   }
 }

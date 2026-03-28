@@ -152,6 +152,33 @@
       "recommendedPassive": null,
       "recommendedStratagem": "eagle-airstrike",
       "icon": "🛸"
+    },
+    {
+      "id": "permanent_fog",
+      "name": "Permanent Fog",
+      "description": "Constant thick fog blankets the area, severely reducing visibility at all times.",
+      "debuff": "Constant reduced visibility",
+      "recommendedPassive": "Scout",
+      "recommendedStratagem": "UAV-recon-booster",
+      "icon": "🌫"
+    },
+    {
+      "id": "gravity_anomalies",
+      "name": "Gravity Anomalies",
+      "description": "Localized gravity fluctuations affect movement and jump height unpredictably.",
+      "debuff": "Erratic jump/fall physics",
+      "recommendedPassive": null,
+      "recommendedStratagem": "jump-pack",
+      "icon": "🪐"
+    },
+    {
+      "id": "intense_heat_lightning",
+      "name": "Intense Heat Lightning",
+      "description": "Combined extreme heat and electrical storms. Both fire and shock hazards.",
+      "debuff": "Fire + electrical damage, faster overheat",
+      "recommendedPassive": "Electrical Conduit",
+      "recommendedStratagem": "shield-generator-pack",
+      "icon": "🔥"
     }
   ],
   "biomes": [
@@ -160,6 +187,8 @@
     { "id": "tundra",   "name": "Tundra",          "icon": "❄",  "associatedConditions": ["extreme_cold", "blizzards"] },
     { "id": "volcanic", "name": "Volcanic",         "icon": "🌋", "associatedConditions": ["fire_tornados", "tremors"] },
     { "id": "ocean",    "name": "Ocean / Swamp",    "icon": "🌊", "associatedConditions": [] },
-    { "id": "toxic",    "name": "Toxic",            "icon": "☣",  "associatedConditions": ["toxic_haze", "acid_storms"] }
+    { "id": "toxic",    "name": "Toxic",            "icon": "☣",  "associatedConditions": ["toxic_haze", "acid_storms"] },
+    { "id": "canyon",  "name": "Canyon",           "icon": "🏔",  "associatedConditions": ["tremors"] },
+    { "id": "urban",   "name": "Urban / Ruins",    "icon": "🏚",  "associatedConditions": [] }
   ]
 }

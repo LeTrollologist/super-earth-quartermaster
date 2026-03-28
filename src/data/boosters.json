@@ -78,5 +78,45 @@
     "effect": "+2 extra reinforcements per mission",
     "tags": ["Utility", "Sustain"],
     "scoringTags": ["reinforce", "sustain"]
+  },
+  {
+    "id": "firebomb-hellpods",
+    "name": "Firebomb Hellpods",
+    "description": "Hellpod impact creates a fire explosion on landing.",
+    "effect": "Fire AoE on Hellpod landing",
+    "tags": ["Offensive", "Fire", "Terminids"],
+    "scoringTags": ["fire", "terminids", "spawn"]
+  },
+  {
+    "id": "dead-sprint",
+    "name": "Dead Sprint",
+    "description": "Sprint speed increases when at low health.",
+    "effect": "+20% sprint speed below 50% HP",
+    "tags": ["Mobility", "Survivability"],
+    "scoringTags": ["mobility", "survivability", "sprint"]
+  },
+  {
+    "id": "armed-resupply-pods",
+    "name": "Armed Resupply Pods",
+    "description": "Resupply pods deal damage on impact.",
+    "effect": "Resupply pods explode on landing",
+    "tags": ["Offensive", "Utility"],
+    "scoringTags": ["resupply", "combat"]
+  },
+  {
+    "id": "concealed-insertion",
+    "name": "Concealed Insertion",
+    "description": "Squad is temporarily invisible after landing.",
+    "effect": "10s cloak after Hellpod landing",
+    "tags": ["Stealth", "Utility"],
+    "scoringTags": ["stealth", "spawn"]
+  },
+  {
+    "id": "sample-extricator",
+    "name": "Sample Extricator",
+    "description": "Increases sample carry capacity for all squad members.",
+    "effect": "+15% sample carry capacity",
+    "tags": ["Utility", "Samples"],
+    "scoringTags": ["samples", "objectives"]
   }
 ]

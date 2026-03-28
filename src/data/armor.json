@@ -67,5 +67,37 @@
 
   { "id": "ot-05-omen-scout",   "name": "OT-05 Omen Scout",        "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Electrical Conduit",      "warbond": "Omens of Tyranny" },
   { "id": "ot-44-tyrant",       "name": "OT-44 Tyrannical Trooper","type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Electrical Conduit",      "warbond": "Omens of Tyranny" },
-  { "id": "ot-90-doom",         "name": "OT-90 Doom Striker",      "type": "Heavy",  "armorRating": 165, "speed": 450, "staminaRegen": 50,  "passive": "Democracy Protects",      "warbond": "Omens of Tyranny" }
+  { "id": "ot-90-doom",         "name": "OT-90 Doom Striker",      "type": "Heavy",  "armorRating": 165, "speed": 450, "staminaRegen": 50,  "passive": "Democracy Protects",      "warbond": "Omens of Tyranny" },
+
+  { "id": "mc-02-gala-scout",   "name": "MC-02 Gala Scout",        "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Peak Physique",           "warbond": "Masters of Ceremony" },
+  { "id": "mc-30-ceremony",     "name": "MC-30 Master of Rites",   "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Democracy Protects",      "warbond": "Masters of Ceremony" },
+  { "id": "mc-65-grand",        "name": "MC-65 Grand Officiant",   "type": "Heavy",  "armorRating": 155, "speed": 450, "staminaRegen": 50,  "passive": "Extra Padding",           "warbond": "Masters of Ceremony" },
+
+  { "id": "fl-04-deputy",       "name": "FL-04 Junior Deputy",     "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Reduced Signature",       "warbond": "Force of Law" },
+  { "id": "fl-28-officer",      "name": "FL-28 Law Officer",       "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Ballistic Padding",       "warbond": "Force of Law" },
+  { "id": "fl-72-enforcer",     "name": "FL-72 Heavy Enforcer",    "type": "Heavy",  "armorRating": 170, "speed": 450, "staminaRegen": 50,  "passive": "Fortified",              "warbond": "Force of Law" },
+
+  { "id": "cg-06-observer",     "name": "CG-06 Field Observer",    "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Scout",                   "warbond": "Control Group" },
+  { "id": "cg-33-controller",   "name": "CG-33 Field Controller",  "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Med-Kit",                 "warbond": "Control Group" },
+  { "id": "cg-77-director",     "name": "CG-77 Operations Director","type": "Heavy", "armorRating": 155, "speed": 450, "staminaRegen": 50,  "passive": "Servo-Assisted",          "warbond": "Control Group" },
+
+  { "id": "dd-03-dune-rider",   "name": "DD-03 Dune Rider",        "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Desert Stormer",          "warbond": "Dust Devils" },
+  { "id": "dd-38-sandstorm",    "name": "DD-38 Sandstorm Trooper", "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Desert Stormer",          "warbond": "Dust Devils" },
+  { "id": "dd-80-dust-titan",   "name": "DD-80 Dust Titan",        "type": "Heavy",  "armorRating": 160, "speed": 450, "staminaRegen": 50,  "passive": "Rock Solid",              "warbond": "Dust Devils" },
+
+  { "id": "pc-01-python",       "name": "PC-01 Python Scout",      "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Reduced Signature",       "warbond": "Python Commandos" },
+  { "id": "pc-25-operative",    "name": "PC-25 Python Operative",  "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Peak Physique",           "warbond": "Python Commandos" },
+  { "id": "pc-68-venom",        "name": "PC-68 Venom Strike",      "type": "Heavy",  "armorRating": 155, "speed": 450, "staminaRegen": 50,  "passive": "Advanced Filtration",     "warbond": "Python Commandos" },
+
+  { "id": "rr-07-classified",   "name": "RR-07 Classified Scout",  "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Scout",                   "warbond": "Redacted Regiment" },
+  { "id": "rr-40-black-ops",    "name": "RR-40 Black Ops",         "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Reduced Signature",       "warbond": "Redacted Regiment" },
+  { "id": "rr-85-shadow",       "name": "RR-85 Shadow Commander",  "type": "Heavy",  "armorRating": 165, "speed": 450, "staminaRegen": 50,  "passive": "Unflinching",             "warbond": "Redacted Regiment" },
+
+  { "id": "sb-02-sapper",       "name": "SB-02 Light Sapper",      "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Engineering Kit",         "warbond": "Siege Breakers" },
+  { "id": "sb-35-breacher",     "name": "SB-35 Siege Breacher",    "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Engineering Kit",         "warbond": "Siege Breakers" },
+  { "id": "sb-88-demolisher",   "name": "SB-88 Demolisher",        "type": "Heavy",  "armorRating": 175, "speed": 450, "staminaRegen": 50,  "passive": "Ground Anchor",           "warbond": "Siege Breakers" },
+
+  { "id": "ed-05-digger",       "name": "ED-05 Trench Digger",     "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Fortified",              "warbond": "Entrenched Division" },
+  { "id": "ed-42-holdout",      "name": "ED-42 Holdout Trooper",   "type": "Medium", "armorRating": 129, "speed": 471, "staminaRegen": 71,  "passive": "Fortified",              "warbond": "Entrenched Division" },
+  { "id": "ed-90-bunker",       "name": "ED-90 Bunker Breaker",    "type": "Heavy",  "armorRating": 180, "speed": 450, "staminaRegen": 50,  "passive": "Ground Anchor",           "warbond": "Entrenched Division" }
 ]

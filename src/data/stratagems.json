@@ -581,5 +581,60 @@
     "activation": 3.5,
     "description": "Automated flamethrower sentry. Shreds lightly armored enemies with fire.",
     "tags": ["Anti-Light", "Fire", "Terminids", "Area Denial"]
+  },
+  {
+    "id": "orbital-walking-barrage",
+    "name": "Orbital Walking Barrage",
+    "category": "Orbital",
+    "sequence": ["right","down","right","down","right","down"],
+    "cooldown": 240,
+    "uses": -1,
+    "activation": 3.5,
+    "description": "Sequential orbital barrage that walks across terrain in a line. Excellent area denial.",
+    "tags": ["Area Denial", "Anti-Light", "Anti-Medium", "All Factions"]
+  },
+  {
+    "id": "ballistic-shield",
+    "name": "SH-20 Ballistic Shield",
+    "category": "Backpack",
+    "sequence": ["down","left","down","down","up","left"],
+    "cooldown": 480,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Deployable one-handed ballistic shield. Blocks frontal projectiles. Only pistols usable.",
+    "tags": ["Defense", "Utility", "Automatons"]
+  },
+  {
+    "id": "guard-dog-dog-breath",
+    "name": "AX/TX-13 Guard Dog Dog Breath",
+    "category": "Backpack",
+    "sequence": ["down","up","left","up","right","up"],
+    "cooldown": 480,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Autonomous drone that sprays toxic gas at nearby enemies. Excellent vs. unarmored targets.",
+    "tags": ["Anti-Light", "Toxic", "Area Denial", "Terminids"]
+  },
+  {
+    "id": "directional-shield",
+    "name": "SH-51 Directional Shield",
+    "category": "Backpack",
+    "sequence": ["down","up","left","right","left","left"],
+    "cooldown": 480,
+    "uses": -1,
+    "activation": 3.0,
+    "description": "Projects a forward-facing energy shield. Blocks incoming fire from the front.",
+    "tags": ["Defense", "Utility", "All Factions"]
+  },
+  {
+    "id": "fast-recon-vehicle",
+    "name": "EXO-49 Fast Recon Vehicle",
+    "category": "Vehicle",
+    "sequence": ["left","down","right","up","left","down","left"],
+    "cooldown": 600,
+    "uses": 1,
+    "activation": 4.0,
+    "description": "Light armored reconnaissance vehicle with mounted gun. Fast traversal across the map.",
+    "tags": ["Mobility", "Versatile", "All Factions"]
   }
 ]

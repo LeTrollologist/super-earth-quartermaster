@@ -12,6 +12,15 @@ export const WARBONDS = {
   "Urban Legends":         { color: "#ec4899", label: "Urban Legends" },
   "Borderline Justice":    { color: "#f59e0b", label: "Borderline Justice" },
   "Omens of Tyranny":      { color: "#7c3aed", label: "Omens of Tyranny" },
+  "Masters of Ceremony":   { color: "#d946ef", label: "Masters of Ceremony" },
+  "Force of Law":          { color: "#0ea5e9", label: "Force of Law" },
+  "Control Group":         { color: "#14b8a6", label: "Control Group" },
+  "Dust Devils":           { color: "#d97706", label: "Dust Devils" },
+  "Python Commandos":      { color: "#65a30d", label: "Python Commandos" },
+  "Redacted Regiment":     { color: "#475569", label: "Redacted Regiment" },
+  "Siege Breakers":        { color: "#dc2626", label: "Siege Breakers" },
+  "Entrenched Division":   { color: "#059669", label: "Entrenched Division" },
+  "Super Citizen Edition":  { color: "#fbbf24", label: "Super Citizen" },
 }
 
 export const WARBOND_ORDER = Object.keys(WARBONDS)

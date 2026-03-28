@@ -47,6 +47,20 @@ const MISSION_WEIGHTS = {
   'eliminate-target':             { area: 0,  antiLight: 0,  antiHeavy: 20, armorType: { Light: 5,  Medium: 5,  Heavy: 5   } },
   'activate-tcs':                 { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
   'spread-democracy':             { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'destroy-bug-holes':           { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'purge-hatcheries':            { area: 15, antiLight: 10, antiHeavy: 0,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'eliminate-brood-commanders':  { area: 0,  antiLight: 5,  antiHeavy: 15, armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'activate-tcs':                { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'e710-pumps':                  { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: 5,  Medium: 5,  Heavy: 0   } },
+  'destroy-command-bunkers':     { area: 5,  antiLight: 5,  antiHeavy: 15, armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'sabotage-air-base':           { area: 5,  antiLight: 5,  antiHeavy: 10, armorType: { Light: 10, Medium: 5,  Heavy: -10 } },
+  'destroy-supply-lines':        { area: 0,  antiLight: 5,  antiHeavy: 15, armorType: { Light: 5,  Medium: 5,  Heavy: 0   } },
+  'raise-flag':                  { area: 5,  antiLight: 5,  antiHeavy: 5,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'destroy-warp-gates':          { area: 5,  antiLight: 5,  antiHeavy: 15, armorType: { Light: 0,  Medium: 5,  Heavy: 5   } },
+  'recover-artifacts':           { area: 5,  antiLight: 10, antiHeavy: 5,  armorType: { Light: 5,  Medium: 5,  Heavy: -5  } },
+  'seaf-artillery':              { area: 10, antiLight: 10, antiHeavy: 5,  armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'launch-icbm':                 { area: 5,  antiLight: 5,  antiHeavy: 10, armorType: { Light: -5, Medium: 5,  Heavy: 10  } },
+  'commando-raid':               { area: 0,  antiLight: 10, antiHeavy: 10, armorType: { Light: 10, Medium: 5,  Heavy: -10 } },
 }
 
 // ── Condition helpers ─────────────────────────────────────────────────────────
@@ -67,6 +81,9 @@ const CONDITION_PASSIVE_BONUS = {
   ion_storms:         ['Electrical Conduit'],
   stalker_infestation:['Scout'],
   orbital_interference: [],
+  permanent_fog:      ['Scout'],
+  gravity_anomalies:  [],
+  intense_heat_lightning: ['Electrical Conduit', 'Inflammable'],
 }
 
 // Proportional condition bonus: if n conditions selected and item matches k, score = (k/n)*40
@@ -697,6 +714,12 @@ export function suggestLoadout({
       throwable: alts(rankedThrowables,  topThrowable?.item?.id),
       armor:     alts(rankedArmor,       topArmor?.item?.id),
       booster:   alts(rankedBoosters,    topBooster?.item?.id),
+      stratagems: finalStratagems.map(strat => {
+        const pickedIds = new Set(finalStratagems.map(s => s.item.id))
+        return rankedStratagemsAll
+          .filter(e => !pickedIds.has(e.item.id))
+          .slice(0, 3)
+      }),
     },
     context: { factionIds: factions.map(f => f.id), enemyIds: enemies.map(e => e.id), conditions, mission, playstyleId: playstyle?.id ?? null, synergyModes, difficulty },
   }
