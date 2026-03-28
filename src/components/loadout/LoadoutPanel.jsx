@@ -113,7 +113,10 @@ function SquadTabs() {
 export function LoadoutPanel() {
   const [showSquadOverview, setShowSquadOverview] = useState(false)
   const squadMode          = useLoadoutStore(s => s.squadMode)
-  const getActiveSlots     = useLoadoutStore(s => s.getActiveSlots)
+  const soloSlots          = useLoadoutStore(s => s.slots)
+  const squadMembers       = useLoadoutStore(s => s.squadMembers)
+  const activeSquadMemberIdx = useLoadoutStore(s => s.activeSquadMember)
+  const slots              = squadMode ? squadMembers[activeSquadMemberIdx].slots : soloSlots
   const activeSlot         = useLoadoutStore(s => s.activeSlot)
   const activeStrIdx       = useLoadoutStore(s => s.activeStratagemIndex)
   const setActiveSlot      = useLoadoutStore(s => s.setActiveSlot)
@@ -125,7 +128,6 @@ export function LoadoutPanel() {
   const selectedConditions = useLoadoutStore(s => s.selectedConditions)
   const toggleCondition    = useLoadoutStore(s => s.toggleCondition)
 
-  const slots = getActiveSlots()
   const quote = QUARTERMASTER_QUOTES[Math.floor(Date.now() / 60000) % QUARTERMASTER_QUOTES.length]
 
   const visibleEnemies = enemiesData.enemies.filter(e => selectedFactions.includes(e.faction))

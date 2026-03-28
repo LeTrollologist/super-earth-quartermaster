@@ -4,8 +4,11 @@ import { ArrowSequence } from '../ui/ArrowSequence'
 export function CheatSheet() {
   const showCheatSheet = useLoadoutStore(s => s.showCheatSheet)
   const toggleCheatSheet = useLoadoutStore(s => s.toggleCheatSheet)
-  const getActiveSlots = useLoadoutStore(s => s.getActiveSlots)
-  const slots = getActiveSlots()
+  const squadMode = useLoadoutStore(s => s.squadMode)
+  const soloSlots = useLoadoutStore(s => s.slots)
+  const squadMembers = useLoadoutStore(s => s.squadMembers)
+  const activeSquadMember = useLoadoutStore(s => s.activeSquadMember)
+  const slots = squadMode ? squadMembers[activeSquadMember].slots : soloSlots
   const stratagems = slots.stratagems ?? []
 
   if (!showCheatSheet) return null

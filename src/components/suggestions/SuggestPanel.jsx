@@ -479,8 +479,11 @@ export function SuggestPanel({ onClose }) {
   const selectedFactions = useLoadoutStore(s => s.selectedFactions)
   const selectedEnemies = useLoadoutStore(s => s.selectedEnemies)
   const selectedConditions = useLoadoutStore(s => s.selectedConditions)
-  const getActiveSlots = useLoadoutStore(s => s.getActiveSlots)
-  const slots = getActiveSlots()
+  const squadMode = useLoadoutStore(s => s.squadMode)
+  const soloSlots = useLoadoutStore(s => s.slots)
+  const squadMembersState = useLoadoutStore(s => s.squadMembers)
+  const activeSquadMemberIdx = useLoadoutStore(s => s.activeSquadMember)
+  const slots = squadMode ? squadMembersState[activeSquadMemberIdx].slots : soloSlots
   const stratagemLimits = useLoadoutStore(s => s.stratagemLimits)
   const stratagemLimitsEnabled = useLoadoutStore(s => s.stratagemLimitsEnabled)
   const synergyModes = useLoadoutStore(s => s.synergyModes)
@@ -493,7 +496,6 @@ export function SuggestPanel({ onClose }) {
   const selectedPlaystyle = useLoadoutStore(s => s.selectedPlaystyle)
   const setSlot = useLoadoutStore(s => s.setSlot)
   const setStratagemSlot = useLoadoutStore(s => s.setStratagemSlot)
-  const squadMode = useLoadoutStore(s => s.squadMode)
   const applySquadSuggestion = useLoadoutStore(s => s.applySquadSuggestion)
 
   const [tab, setTab] = useState('suggest')

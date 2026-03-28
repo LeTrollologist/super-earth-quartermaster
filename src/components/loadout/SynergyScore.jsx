@@ -27,8 +27,11 @@ function MiniBar({ value, label }) {
 }
 
 export function SynergyScore() {
-  const getActiveSlots = useLoadoutStore(s => s.getActiveSlots)
-  const slots = getActiveSlots()
+  const squadMode = useLoadoutStore(s => s.squadMode)
+  const soloSlots = useLoadoutStore(s => s.slots)
+  const squadMembers = useLoadoutStore(s => s.squadMembers)
+  const activeSquadMember = useLoadoutStore(s => s.activeSquadMember)
+  const slots = squadMode ? squadMembers[activeSquadMember].slots : soloSlots
   const selectedFactions   = useLoadoutStore(s => s.selectedFactions)
   const selectedEnemies    = useLoadoutStore(s => s.selectedEnemies)
   const selectedConditions = useLoadoutStore(s => s.selectedConditions)

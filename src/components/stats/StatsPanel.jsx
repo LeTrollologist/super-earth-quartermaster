@@ -36,8 +36,11 @@ function EmptyState({ activeSlot }) {
 
 export function StatsPanel() {
   const hoveredItem      = useLoadoutStore(s => s.hoveredItem)
-  const getActiveSlots   = useLoadoutStore(s => s.getActiveSlots)
-  const slots            = getActiveSlots()
+  const squadMode        = useLoadoutStore(s => s.squadMode)
+  const soloSlots        = useLoadoutStore(s => s.slots)
+  const squadMembers     = useLoadoutStore(s => s.squadMembers)
+  const activeSquadMember = useLoadoutStore(s => s.activeSquadMember)
+  const slots            = squadMode ? squadMembers[activeSquadMember].slots : soloSlots
   const activeSlot       = useLoadoutStore(s => s.activeSlot)
   const compareMode      = useLoadoutStore(s => s.compareMode)
   const compareItems     = useLoadoutStore(s => s.compareItems)
