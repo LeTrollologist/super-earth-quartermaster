@@ -1,157 +1,157 @@
 {
+  "Standard Issue": {
+    "description": "No additional bonuses.",
+    "icon": "",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
   "Extra Padding": {
-    "description": "Increases armor rating by approximately 50 points.",
+    "description": "Provides a higher armor rating.",
     "icon": "🛡",
     "factionBonus": null,
     "environmentBonus": null
   },
   "Scout": {
-    "description": "Reduces enemy detection range by 30%. Increases movement speed while crouching.",
+    "description": "Markers placed on the map will generate radar scans every 2.0s. Reduces range at which enemies can detect the wearer by 30%.",
     "icon": "👁",
     "factionBonus": null,
     "environmentBonus": null
   },
-  "Servo-Assisted": {
-    "description": "+30% limb health. +50% throwing range for stratagems and grenades.",
-    "icon": "💪",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
-  "Engineering Kit": {
-    "description": "+2 grenade capacity. +30% explosive resistance. Grants extra padding for explosives.",
-    "icon": "🔧",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
   "Fortified": {
-    "description": "+50% explosive resistance. Reduced recoil while crouching or prone.",
+    "description": "Further reduces recoil when crouching or prone by 30%. Provides 50% resistance to explosive damage.",
     "icon": "🏰",
     "factionBonus": "automatons",
     "environmentBonus": null
   },
+  "Electrical Conduit": {
+    "description": "Provides 95% resistance to arc damage.",
+    "icon": "⚡",
+    "factionBonus": "illuminate",
+    "environmentBonus": "electrical_storms"
+  },
+  "Engineering Kit": {
+    "description": "Further Reduces recoil when crouching or prone by 30%. Increases initial inventory and holding capacity of grenades by +2.",
+    "icon": "🔧",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
   "Med-Kit": {
-    "description": "+2 stim capacity. Stims take effect faster. Slightly faster stim animation.",
+    "description": "Increases initial inventory and holding capacity of stims by +2. Increases stim effect duration by 2.0s.",
     "icon": "🩺",
     "factionBonus": null,
     "environmentBonus": null
   },
+  "Servo-Assisted": {
+    "description": "Increases throwing range by 30%. Provides +50% limb health.",
+    "icon": "💪",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
   "Democracy Protects": {
-    "description": "Chance to survive a lethal hit with 1 HP. Provides a small buffer against death.",
+    "description": "50% chance to not die when taking lethal damage. Prevents all damage from bleeding if chest hemorrhages.",
     "icon": "🦅",
     "factionBonus": null,
     "environmentBonus": null
   },
   "Peak Physique": {
-    "description": "Melee attacks deal more damage. Reloading/weapon handling slightly faster.",
+    "description": "Increased Melee Damage by 50%. Improves weapons handling with less drag on the weapon movement.",
     "icon": "🏋",
     "factionBonus": null,
     "environmentBonus": null
   },
-  "Electrical Conduit": {
-    "description": "Greatly reduces damage taken from electrical/arc attacks.",
-    "icon": "⚡",
-    "factionBonus": "illuminate",
-    "environmentBonus": "electrical_storms"
-  },
   "Inflammable": {
-    "description": "Dramatically reduces fire damage taken. Near immunity to burn status effect.",
+    "description": "Provides 75% damage resistance to fire, allowing bearer to rest assured in the inflammability.",
     "icon": "🔥",
     "factionBonus": "terminids",
     "environmentBonus": "fire_tornados"
   },
   "Advanced Filtration": {
-    "description": "Provides immunity to toxic/gas environmental hazards and enemy gas attacks.",
+    "description": "Provides 80% resistance to gas damage and effects.",
     "icon": "☣",
     "factionBonus": "terminids",
     "environmentBonus": "toxic_haze"
   },
-  "Gunslinger": {
-    "description": "Significantly reduces sidearm swap and draw time. Faster pistol handling.",
-    "icon": "🔫",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
-  "Siege-Ready": {
-    "description": "+30% primary weapon magazine count. Never run out during sustained combat.",
-    "icon": "📦",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
   "Unflinching": {
-    "description": "Reduces flinch/stagger from incoming fire. Maintain aim under heavy attack.",
+    "description": "Helps prevent Helldivers from flinching when hit.",
     "icon": "🎯",
     "factionBonus": "automatons",
     "environmentBonus": null
   },
+  "Siege-ready": {
+    "description": "Increases reload speed of primary weapons by 30%. Increases ammo capacity of primary weapons by 20%.",
+    "icon": "📦",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
+  "Gunslinger": {
+    "description": "Increases weapon swap speed by 50%. Increases pistol damage by 30%.",
+    "icon": "🔫",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
   "Supplementary Adrenaline": {
-    "description": "Stims restore health over time after activation in addition to immediate effect.",
+    "description": "Provides a burst of speed after taking damage. +15% movement speed for 3s after being hit.",
     "icon": "💉",
     "factionBonus": null,
     "environmentBonus": null
   },
   "Concussive Padding": {
-    "description": "Reduces stagger/knockback from explosive damage significantly.",
-    "icon": "🔇",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
-  "Feet First": {
-    "description": "Increases Hellpod accuracy. Survive higher-velocity impacts when deploying.",
-    "icon": "🪂",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
-  "Integrated Explosives": {
-    "description": "Hellpod impact explodes for area damage. Dive-bomb enemies on insertion.",
-    "icon": "💥",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
-  "Ballistic Padding": {
-    "description": "Increases resistance to ballistic damage from enemy projectiles.",
-    "icon": "🔫",
+    "description": "Reduces stagger duration by 50%. Provides 30% resistance to concussive damage.",
+    "icon": "🧱",
     "factionBonus": "automatons",
     "environmentBonus": null
   },
+  "Feet First": {
+    "description": "Reduces Hellpod drop time by 50%. Provides brief invulnerability on landing.",
+    "icon": "🦶",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
   "Desert Stormer": {
-    "description": "Reduces movement penalty in sand/desert terrain. Heat resistance.",
-    "icon": "🏜",
+    "description": "Provides 50% resistance to heat effects. Reduces stamina drain in hot environments.",
+    "icon": "☀",
     "factionBonus": null,
     "environmentBonus": "extreme_heat"
   },
   "Rock Solid": {
-    "description": "Reduces movement penalty on rocky terrain. Improved footing on unstable ground.",
+    "description": "Provides 75% resistance to knockback from explosions and heavy impacts.",
     "icon": "🪨",
     "factionBonus": null,
     "environmentBonus": "tremors"
   },
   "Reduced Signature": {
-    "description": "Reduces sensor detection range. Enemies are slower to identify you.",
-    "icon": "🕵",
+    "description": "Reduces detection range by 40%. Enemies take longer to spot the wearer.",
+    "icon": "🫥",
     "factionBonus": null,
     "environmentBonus": null
   },
-  "Acclimated": {
-    "description": "Adapts to environmental conditions faster, reducing debuffs.",
-    "icon": "🌡",
-    "factionBonus": null,
-    "environmentBonus": null
-  },
-  "Adreno-Defibrillator": {
-    "description": "Upon taking a lethal hit, triggers an automatic adrenaline burst granting short invincibility.",
-    "icon": "💓",
-    "factionBonus": null,
+  "Ballistic Padding": {
+    "description": "Provides 30% resistance to ballistic damage. Reduces bullet stagger.",
+    "icon": "🛡",
+    "factionBonus": "automatons",
     "environmentBonus": null
   },
   "Ground Anchor": {
-    "description": "Greatly reduces knockback from heavy impacts, explosions, and charges.",
+    "description": "Provides extreme knockback resistance. Wearer stays planted during heavy impacts and explosions.",
     "icon": "⚓",
     "factionBonus": null,
     "environmentBonus": "tremors"
   },
-  "Vitamin Injectors": {
-    "description": "Stims apply 30% faster. Slight passive health regeneration over time.",
-    "icon": "💊",
+  "Integrated Explosives": {
+    "description": "Upon death, the wearer detonates in an explosion that damages nearby enemies.",
+    "icon": "💥",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
+  "Reinforced Epaulettes": {
+    "description": "Boosts survivability with reinforced shoulder protection.",
+    "icon": "🎖",
+    "factionBonus": null,
+    "environmentBonus": null
+  },
+  "Adreno-Defibrillator": {
+    "description": "If you take lethal damage, you are instantly revived to full health, but you will continually bleed out afterward.",
+    "icon": "💓",
     "factionBonus": null,
     "environmentBonus": null
   }

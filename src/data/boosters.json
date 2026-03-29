@@ -18,7 +18,7 @@
   {
     "id": "hellpod-space-optimization",
     "name": "Hellpod Space Optimization",
-    "description": "Squad members land with full ammo, grenades, and stims.",
+    "description": "Helldivers come out of the Hellpod fully stocked on Ammo, Grenades, and Stims.",
     "effect": "Full resupply on spawn",
     "tags": ["Utility", "Sustain"],
     "scoringTags": ["ammo", "resupply", "spawn"]
@@ -26,7 +26,7 @@
   {
     "id": "UAV-recon-booster",
     "name": "UAV Recon Booster",
-    "description": "Increases minimap reveal radius for all Helldivers.",
+    "description": "Increases all Helldivers' effective radar range.",
     "effect": "+25% minimap range",
     "tags": ["Intel", "Recon", "Utility"],
     "scoringTags": ["intel", "recon"]
@@ -34,7 +34,7 @@
   {
     "id": "localization-confusion",
     "name": "Localization Confusion",
-    "description": "Delays enemy patrols calling in reinforcements.",
+    "description": "Increases the time between enemy encounters.",
     "effect": "Patrol call-in delay +30%",
     "tags": ["Stealth", "Utility", "Survivability"],
     "scoringTags": ["stealth", "reinforce-delay"]
@@ -42,7 +42,7 @@
   {
     "id": "motivational-shocks",
     "name": "Motivational Shocks",
-    "description": "Allows all Helldivers to recover faster after being slowed by an attack.",
+    "description": "Allows all Helldivers to recover faster after being slowed by an attack, such as acid. Does not mitigate 'area effects,' such as EMS Strikes.",
     "effect": "Faster slow-effect recovery",
     "tags": ["Mobility", "Combat"],
     "scoringTags": ["stamina", "sprint", "combat"]
@@ -50,7 +50,7 @@
   {
     "id": "expert-extraction-pilot",
     "name": "Expert Extraction Pilot",
-    "description": "Reduces the time the Pelican takes to arrive.",
+    "description": "Lowers the time it takes for the extraction shuttle to reach the extraction beacon.",
     "effect": "Extraction time -50%",
     "tags": ["Utility", "Extraction"],
     "scoringTags": ["extraction"]
@@ -58,15 +58,15 @@
   {
     "id": "experimental-infusion",
     "name": "Experimental Infusion",
-    "description": "Stim overcures, providing a short period of invulnerability.",
+    "description": "Stims boost movement speed and reduced incoming damage for short period",
     "effect": "1s invulnerability after stim",
     "tags": ["Survivability", "Combat"],
-    "scoringTags": ["survivability", "combat"]
+    "scoringTags": ["survivability", "mobility", "aggressive"]
   },
   {
     "id": "muscle-enhancement",
     "name": "Muscle Enhancement",
-    "description": "Reduces movement penalty from difficult terrain.",
+    "description": "Allows Helldivers to traverse difficult terrain with ease.",
     "effect": "Terrain movement penalty -50%",
     "tags": ["Mobility", "Terrain"],
     "scoringTags": ["terrain", "mobility"]
@@ -82,7 +82,7 @@
   {
     "id": "increased-reinforcement-budget",
     "name": "Increased Reinforcement Budget",
-    "description": "Increases the number of reinforcements available to the squad.",
+    "description": "Increases the number of available reinforcements.",
     "effect": "Extra reinforcement uses per mission",
     "tags": ["Utility", "Sustain"],
     "scoringTags": ["reinforce", "sustain"]
@@ -90,41 +90,49 @@
   {
     "id": "firebomb-hellpods",
     "name": "Firebomb Hellpods",
-    "description": "Hellpod impact creates a fire explosion on landing.",
+    "description": "Lines all Hellpods with volatile incendiaries that detonate upon impact, igniting any units in vicinity of the drop site.",
     "effect": "Fire AoE on Hellpod landing",
     "tags": ["Offensive", "Fire", "Terminids"],
-    "scoringTags": ["fire", "terminids", "spawn"]
+    "scoringTags": ["offensive", "area-denial", "fire", "terminids"]
   },
   {
     "id": "dead-sprint",
     "name": "Dead Sprint",
-    "description": "Sprint speed increases when at low health.",
+    "description": "Allows Helldivers to keep sprinting even when they are out of stamina, draining their health instead.",
     "effect": "+20% sprint speed below 50% HP",
     "tags": ["Mobility", "Survivability"],
-    "scoringTags": ["mobility", "survivability", "sprint"]
+    "scoringTags": ["mobility", "aggressive", "speed"]
   },
   {
     "id": "armed-resupply-pods",
     "name": "Armed Resupply Pods",
-    "description": "Resupply pods deal damage on impact.",
+    "description": "Mounts a modified AR-23 Liberator to all resupply pods, allowing them to double as automatic turrets.",
     "effect": "Resupply pods explode on landing",
     "tags": ["Offensive", "Utility"],
-    "scoringTags": ["resupply", "combat"]
+    "scoringTags": ["offensive", "defense", "area-denial"]
   },
   {
     "id": "concealed-insertion",
     "name": "Concealed Insertion",
-    "description": "Squad is temporarily invisible after landing.",
-    "effect": "10s cloak after Hellpod landing",
-    "tags": ["Stealth", "Utility"],
-    "scoringTags": ["stealth", "spawn"]
+    "description": "Helldivers are cloaked for 10 seconds after dropping from Hellpod, reducing enemy detection.",
+    "effect": "10s cloak after Hellpod drop",
+    "tags": ["Stealth", "Mobility"],
+    "scoringTags": ["stealth", "mobility", "spawn"]
   },
   {
     "id": "sample-extricator",
     "name": "Sample Extricator",
-    "description": "Increases sample carry capacity for all squad members.",
-    "effect": "+15% sample carry capacity",
-    "tags": ["Utility", "Samples"],
-    "scoringTags": ["samples", "objectives"]
+    "description": "Increases sample carry capacity by 15% and marks nearby samples on the minimap.",
+    "effect": "+15% sample capacity, sample radar",
+    "tags": ["Utility", "Recon"],
+    "scoringTags": ["intel", "recon", "terrain"]
+  },
+  {
+    "id": "stun-pods",
+    "name": "Stun Pods",
+    "description": "Hellpods shock nearby enemies into a stupor upon landing, stunning them briefly.",
+    "effect": "Stun AoE on Hellpod landing",
+    "tags": ["Offensive", "Crowd Control"],
+    "scoringTags": ["offensive", "spawn", "combat"]
   }
 ]

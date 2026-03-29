@@ -33,7 +33,7 @@
   { "id": "b-27-fortified",     "name": "B-27 Fortified Commando","type": "Heavy", "armorRating": 200, "speed": 450, "staminaRegen": 50,  "passive": "Extra Padding",           "warbond": "Helldivers Mobilize" },
   { "id": "fs-61-dreadnought",  "name": "FS-61 Dreadnought",      "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Servo-Assisted",          "warbond": "Steeled Veterans" },
   { "id": "ce-64-grenadier",    "name": "CE-64 Grenadier",        "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Engineering Kit",         "warbond": "Democratic Detonation" },
-  { "id": "cw-36-winter",       "name": "CW-36 Winter Warrior",   "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Servo-Assisted",          "warbond": "Cutting Edge" },
+  { "id": "cw-36-winter",       "name": "CW-36 Winter Warrior",   "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Servo-Assisted",          "warbond": "Polar Patriots" },
   { "id": "ph-202-twigsnapper", "name": "PH-202 Twigsnapper",     "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Peak Physique",           "warbond": "Polar Patriots" },
   { "id": "i-44-salamander",    "name": "I-44 Salamander",        "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Inflammable",             "warbond": "Helldivers Mobilize" },
   { "id": "sr-64-cinderblock",  "name": "SR-64 Cinderblock",      "type": "Heavy", "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Siege-Ready",             "warbond": "Polar Patriots" },
@@ -99,5 +99,66 @@
 
   { "id": "ed-05-digger",       "name": "ED-05 Trench Digger",     "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Fortified",              "warbond": "Entrenched Division" },
   { "id": "ed-42-holdout",      "name": "ED-42 Holdout Trooper",   "type": "Medium", "armorRating": 129, "speed": 471, "staminaRegen": 71,  "passive": "Fortified",              "warbond": "Entrenched Division" },
-  { "id": "ed-90-bunker",       "name": "ED-90 Bunker Breaker",    "type": "Heavy",  "armorRating": 180, "speed": 450, "staminaRegen": 50,  "passive": "Ground Anchor",           "warbond": "Entrenched Division" }
+  { "id": "ed-90-bunker",       "name": "ED-90 Bunker Breaker",    "type": "Heavy",  "armorRating": 180, "speed": 450, "staminaRegen": 50,  "passive": "Ground Anchor",           "warbond": "Entrenched Division" },
+
+  { "id": "tr-7-ambassador",    "name": "TR-7 Ambassador of the Brand","type": "Medium","armorRating": 100,"speed": 500,"staminaRegen": 100, "passive": "Standard Issue",          "warbond": "Helldivers Mobilize" },
+  { "id": "cm-09-bonesnapper",  "name": "CM-09 Bonesnapper",       "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Peak Physique",           "warbond": "Helldivers Mobilize" },
+  { "id": "dp-40-hero",         "name": "DP-40 Hero of the Federation","type": "Medium","armorRating": 100,"speed": 500,"staminaRegen": 100, "passive": "Democracy Protects",      "warbond": "Helldivers Mobilize" },
+  { "id": "sa-04-combat-tech",  "name": "SA-04 Combat Technician", "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Engineering Kit",         "warbond": "Helldivers Mobilize" },
+  { "id": "cm-14-physician",    "name": "CM-14 Physician",         "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Med-Kit",                 "warbond": "Helldivers Mobilize" },
+  { "id": "dp-11-champion",     "name": "DP-11 Champion of the People","type": "Medium","armorRating": 100,"speed": 500,"staminaRegen": 100, "passive": "Democracy Protects",      "warbond": "Helldivers Mobilize" },
+
+  { "id": "ex-03-prototype",    "name": "EX-03 Prototype",         "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Electrical Conduit",      "warbond": "Cutting Edge" },
+  { "id": "ex-16-prototype",    "name": "EX-16 Prototype",         "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Electrical Conduit",      "warbond": "Cutting Edge" },
+  { "id": "ex-00-prototype",    "name": "EX-00 Prototype",         "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Electrical Conduit",      "warbond": "Cutting Edge" },
+
+  { "id": "ce-27-ground-breaker","name": "CE-27 Ground Breaker",   "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Engineering Kit",         "warbond": "Democratic Detonation" },
+  { "id": "ce-07-demolition",   "name": "CE-07 Demolition Specialist","type": "Medium","armorRating": 100,"speed": 500,"staminaRegen": 100, "passive": "Engineering Kit",         "warbond": "Democratic Detonation" },
+  { "id": "fs-55-devastator",   "name": "FS-55 Devastator",        "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Fortified",              "warbond": "Democratic Detonation" },
+
+  { "id": "cw-22-kodiak",       "name": "CW-22 Kodiak",            "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Servo-Assisted",          "warbond": "Polar Patriots" },
+  { "id": "cw-4-arctic",        "name": "CW-4 Arctic Ranger",      "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Scout",                   "warbond": "Polar Patriots" },
+
+  { "id": "i-102-draconaught",  "name": "I-102 Draconaught",       "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Inflammable",             "warbond": "Freedom's Flame" },
+  { "id": "af-02-hazmaster",    "name": "AF-02 Haz-Master",        "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Advanced Filtration",    "warbond": "Chemical Agents" },
+  { "id": "uf-50-bloodhound",   "name": "UF-50 Bloodhound",        "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Unflinching",             "warbond": "Truth Enforcers" },
+  { "id": "sr-18-roadblock",    "name": "SR-18 Roadblock",         "type": "Heavy",  "armorRating": 160, "speed": 450, "staminaRegen": 50,  "passive": "Fortified",              "warbond": "Urban Legends" },
+
+  { "id": "ie-3-martyr",        "name": "IE-3 Martyr",             "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Integrated Explosives",   "warbond": "Servants of Freedom" },
+  { "id": "ie-12-righteous",    "name": "IE-12 Righteous",         "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Integrated Explosives",   "warbond": "Servants of Freedom" },
+
+  { "id": "odst-light",         "name": "ODST Drop Trooper Scout", "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Feet First",              "warbond": "Halo ODST" },
+  { "id": "odst-medium",        "name": "ODST Drop Trooper",       "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Feet First",              "warbond": "Halo ODST" },
+  { "id": "odst-heavy",         "name": "ODST Heavy Trooper",      "type": "Heavy",  "armorRating": 155, "speed": 450, "staminaRegen": 50,  "passive": "Feet First",              "warbond": "Halo ODST" },
+
+  { "id": "helghast-light",     "name": "Helghast Strike Scout",   "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Unflinching",             "warbond": "Killzone" },
+  { "id": "helghast-medium",    "name": "Helghast Strike Trooper", "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Fortified",              "warbond": "Killzone" },
+  { "id": "helghast-heavy",     "name": "Helghast Strike Commander","type": "Heavy",  "armorRating": 165, "speed": 450, "staminaRegen": 50,  "passive": "Extra Padding",           "warbond": "Killzone" },
+
+  { "id": "rs-100-sanctioner",  "name": "RS-100 Sanctioner",       "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Reduced Signature",       "warbond": "Redacted Regiment" },
+  { "id": "cpg-48-sapper",      "name": "CPG-48 Sapper",           "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Concussive Padding",      "warbond": "Entrenched Division" },
+  { "id": "cph-26-commandant",  "name": "CPH-26 Commandant",       "type": "Light",  "armorRating": 64,  "speed": 536, "staminaRegen": 118, "passive": "Concussive Padding",      "warbond": "Entrenched Division" },
+
+  { "id": "fs-34-exterminator", "name": "FS-34 Exterminator",      "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Fortified",              "warbond": "Super Store" },
+  { "id": "ce-81-juggernaut",   "name": "CE-81 Juggernaut",        "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Engineering Kit",         "warbond": "Super Store" },
+  { "id": "cm-17-butcher",      "name": "CM-17 Butcher",           "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Med-Kit",                 "warbond": "Super Store" },
+  { "id": "fs-11-executioner",  "name": "FS-11 Executioner",       "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Fortified",              "warbond": "Super Store" },
+  { "id": "ce-67-titan",        "name": "CE-67 Titan",             "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Engineering Kit",         "warbond": "Super Store" },
+  { "id": "bp-77-grand-juror",  "name": "BP-77 Grand Juror",       "type": "Heavy",  "armorRating": 150, "speed": 450, "staminaRegen": 50,  "passive": "Siege-ready",             "warbond": "Super Store" },
+  { "id": "ie-57-hellbent",     "name": "IE-57 Hellbent",          "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Integrated Explosives",   "warbond": "Super Store" },
+  { "id": "rs-6-fiend-destroyer","name": "RS-6 Fiend Destroyer",   "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Rock Solid",              "warbond": "Super Store" },
+
+  { "id": "re-1861-parade",     "name": "RE-1861 Parade Commander","type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Reinforced Epaulettes",   "warbond": "Masters of Ceremony" },
+  { "id": "re-2310-guard",      "name": "RE-2310 Honorary Guard", "type": "Heavy",  "armorRating": 155, "speed": 450, "staminaRegen": 50,  "passive": "Reinforced Epaulettes",   "warbond": "Masters of Ceremony" },
+
+  { "id": "ad-26-bleeding",     "name": "AD-26 Bleeding Edge",    "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Adreno-Defibrillator",    "warbond": "Control Group" },
+  { "id": "ad-49-apollonian",   "name": "AD-49 Apollonian",       "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Adreno-Defibrillator",    "warbond": "Control Group" },
+
+  { "id": "ds-42-blade",        "name": "DS-42 Federation's Blade","type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Desert Stormer",          "warbond": "Dust Devils" },
+  { "id": "ds-191-scorpion",    "name": "DS-191 Scorpion",         "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Desert Stormer",          "warbond": "Dust Devils" },
+
+  { "id": "rs-20-constrictor",  "name": "RS-20 Constrictor",      "type": "Light",  "armorRating": 50,  "speed": 550, "staminaRegen": 125, "passive": "Rock Solid",              "warbond": "Python Commandos" },
+  { "id": "rs-40-best-of-prey", "name": "RS-40 Best of Prey",     "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Rock Solid",              "warbond": "Python Commandos" },
+
+  { "id": "sa-7-headfirst",     "name": "SA-7 Headfirst",         "type": "Medium", "armorRating": 100, "speed": 500, "staminaRegen": 100, "passive": "Supplementary Adrenaline","warbond": "Siege Breakers" }
 ]
