@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useLoadoutStore } from '../../store/loadoutStore'
 import { APBadge } from '../ui/APBadge'
 import { CategoryBadge } from '../ui/CategoryBadge'
@@ -39,7 +40,7 @@ function WarbondPill({ warbond }) {
   )
 }
 
-export function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compareMode, onCompare }) {
+export const ItemCard = memo(function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compareMode, onCompare }) {
   const selectedFactions = useLoadoutStore(s => s.selectedFactions)
   const selectedEnemies  = useLoadoutStore(s => s.selectedEnemies)
   const factions = enemiesData.factions.filter(f => selectedFactions.includes(f.id))
@@ -125,4 +126,4 @@ export function ItemCard({ item, isSelected, onClick, onHover, onHoverEnd, compa
       )}
     </div>
   )
-}
+})
