@@ -18,6 +18,28 @@ function persistPresets(presets) {
   try { localStorage.setItem('sq-presets', JSON.stringify(presets)) } catch {}
 }
 
+function loadContext() {
+  try {
+    const raw = localStorage.getItem('sq-context')
+    return raw ? JSON.parse(raw) : null
+  } catch { return null }
+}
+function persistContext(state) {
+  try {
+    localStorage.setItem('sq-context', JSON.stringify({
+      selectedFactions:   state.selectedFactions,
+      selectedEnemies:    state.selectedEnemies,
+      selectedConditions: state.selectedConditions,
+      selectedPlaystyle:  state.selectedPlaystyle,
+      suggestMission:     state.suggestMission,
+      difficulty:         state.difficulty,
+      warbondFilterMode:  state.warbondFilterMode,
+    }))
+  } catch {}
+}
+
+const savedContext = loadContext()
+
 export const useLoadoutStore = create((set, get) => ({
   // Loadout slots (solo mode)
   slots: EMPTY_SLOTS(),
@@ -29,10 +51,10 @@ export const useLoadoutStore = create((set, get) => ({
   compareMode:  false,
   compareItems: [null, null],
 
-  // Faction & planet filters for recommendations
-  selectedFactions:   [],
-  selectedEnemies:    [],
-  selectedConditions: [],
+  // Faction & planet filters for recommendations (restored from localStorage)
+  selectedFactions:   savedContext?.selectedFactions   ?? [],
+  selectedEnemies:    savedContext?.selectedEnemies    ?? [],
+  selectedConditions: savedContext?.selectedConditions ?? [],
   activePlanet:       null,
 
   // ── Suggestion engine settings ───────────────────────────────────────────
@@ -48,7 +70,7 @@ export const useLoadoutStore = create((set, get) => ({
   stratagemLimitsEnabled: false,
 
   buildAroundItem: null,
-  selectedPlaystyle: null,
+  selectedPlaystyle: savedContext?.selectedPlaystyle ?? null,
 
   synergyModes: {
     planet:    true,
@@ -58,11 +80,11 @@ export const useLoadoutStore = create((set, get) => ({
     mission:   true,
   },
 
-  suggestMission: null,
-  difficulty: 5,
+  suggestMission: savedContext?.suggestMission ?? null,
+  difficulty: savedContext?.difficulty ?? 5,
 
   ownedWarbonds: new Set(WARBOND_ORDER),
-  warbondFilterMode: 'all', // 'all' | 'prefer' | 'owned'
+  warbondFilterMode: savedContext?.warbondFilterMode ?? 'all', // 'all' | 'prefer' | 'owned'
 
   // ── Presets (localStorage) ─────────────────────────────────────────────
   presets: loadPresets(),
@@ -366,3 +388,18 @@ export const useLoadoutStore = create((set, get) => ({
   // --- Cheatsheet ---
   toggleCheatSheet: () => set(state => ({ showCheatSheet: !state.showCheatSheet })),
 }))
+
+// Auto-persist context settings on change
+useLoadoutStore.subscribe((state, prev) => {
+  if (
+    state.selectedFactions   !== prev.selectedFactions ||
+    state.selectedEnemies    !== prev.selectedEnemies ||
+    state.selectedConditions !== prev.selectedConditions ||
+    state.selectedPlaystyle  !== prev.selectedPlaystyle ||
+    state.suggestMission     !== prev.suggestMission ||
+    state.difficulty         !== prev.difficulty ||
+    state.warbondFilterMode  !== prev.warbondFilterMode
+  ) {
+    persistContext(state)
+  }
+})

@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { Header } from './Header'
 import { LoadoutPanel } from '../loadout/LoadoutPanel'
 import { ItemBrowser } from '../browser/ItemBrowser'
 import { StatsPanel } from '../stats/StatsPanel'
-import { SuggestPanel } from '../suggestions/SuggestPanel'
 import { CheatSheet } from '../loadout/CheatSheet'
+
+const SuggestPanel = lazy(() =>
+  import('../suggestions/SuggestPanel').then(m => ({ default: m.SuggestPanel }))
+)
 
 export function AppShell() {
   const [showSuggest, setShowSuggest] = useState(false)
@@ -29,8 +32,16 @@ export function AppShell() {
         </aside>
       </div>
 
-      {/* Suggestion overlay */}
-      {showSuggest && <SuggestPanel onClose={() => setShowSuggest(false)} />}
+      {/* Suggestion overlay (lazy loaded) */}
+      {showSuggest && (
+        <Suspense fallback={
+          <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
+            <div className="text-hd-yellow font-mono text-sm animate-pulse">INITIALIZING QUARTERMASTER...</div>
+          </div>
+        }>
+          <SuggestPanel onClose={() => setShowSuggest(false)} />
+        </Suspense>
+      )}
 
       {/* Stratagem cheat sheet overlay */}
       <CheatSheet />
