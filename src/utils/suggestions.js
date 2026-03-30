@@ -126,11 +126,42 @@ function conditionPassiveBonus(passive, conditions) {
 // ── Difficulty scaling ──────────────────────────────────────────────────────
 const DIFFICULTY_LABELS = ['Trivial','Easy','Medium','Challenging','Hard','Extreme','Suicide Mission','Impossible','Helldive']
 
+const DIFFICULTY_TABLE = [
+  /* 0 */ { atBonus: 0,   areaBonus: 0,   lightArmorPenalty: 0,   heavyArmorBonus: 0,   heavyWeaponPenalty: 0,   fastCooldownBonus: 0 },
+  /* 1 */ { atBonus:-10,  areaBonus:-5,   lightArmorPenalty: 10,  heavyArmorBonus:-15,  heavyWeaponPenalty:-20,  fastCooldownBonus: 12 },
+  /* 2 */ { atBonus:-8,   areaBonus:-3,   lightArmorPenalty: 8,   heavyArmorBonus:-12,  heavyWeaponPenalty:-15,  fastCooldownBonus: 10 },
+  /* 3 */ { atBonus:-5,   areaBonus: 0,   lightArmorPenalty: 5,   heavyArmorBonus:-8,   heavyWeaponPenalty:-10,  fastCooldownBonus: 8 },
+  /* 4 */ { atBonus: 0,   areaBonus: 0,   lightArmorPenalty: 0,   heavyArmorBonus: 0,   heavyWeaponPenalty:-5,   fastCooldownBonus: 5 },
+  /* 5 */ { atBonus: 3,   areaBonus: 3,   lightArmorPenalty:-3,   heavyArmorBonus: 3,   heavyWeaponPenalty: 0,   fastCooldownBonus: 0 },
+  /* 6 */ { atBonus: 8,   areaBonus: 5,   lightArmorPenalty:-5,   heavyArmorBonus: 5,   heavyWeaponPenalty: 0,   fastCooldownBonus: 0 },
+  /* 7 */ { atBonus: 15,  areaBonus: 10,  lightArmorPenalty:-10,  heavyArmorBonus: 8,   heavyWeaponPenalty: 0,   fastCooldownBonus:-5 },
+  /* 8 */ { atBonus: 20,  areaBonus: 12,  lightArmorPenalty:-15,  heavyArmorBonus: 12,  heavyWeaponPenalty: 5,   fastCooldownBonus:-8 },
+  /* 9 */ { atBonus: 25,  areaBonus: 15,  lightArmorPenalty:-20,  heavyArmorBonus: 15,  heavyWeaponPenalty: 8,   fastCooldownBonus:-10 },
+]
+
 function difficultyMods(difficulty) {
-  if (!difficulty || difficulty <= 0) return { atBonus: 0, areaBonus: 0, lightArmorPenalty: 0, heavyArmorBonus: 0, heavyWeaponPenalty: 0, fastCooldownBonus: 0 }
-  if (difficulty >= 7) return { atBonus: 15, areaBonus: 10, lightArmorPenalty: -10, heavyArmorBonus: 8, heavyWeaponPenalty: 0, fastCooldownBonus: 0 }
-  if (difficulty <= 3) return { atBonus: 0, areaBonus: 0, lightArmorPenalty: 0, heavyArmorBonus: 0, heavyWeaponPenalty: -10, fastCooldownBonus: 5 }
-  return { atBonus: 0, areaBonus: 0, lightArmorPenalty: 0, heavyArmorBonus: 0, heavyWeaponPenalty: 0, fastCooldownBonus: 0 }
+  const d = Math.max(0, Math.min(9, difficulty ?? 0))
+  return DIFFICULTY_TABLE[d]
+}
+
+// ── Difficulty-based enemy auto-selection ──────────────────────────────────
+const DIFFICULTY_ENEMY_CLASSES = {
+  1: ['Trash', 'Light'],
+  2: ['Trash', 'Light'],
+  3: ['Trash', 'Light'],
+  4: ['Trash', 'Light', 'Medium'],
+  5: ['Trash', 'Light', 'Medium'],
+  6: ['Light', 'Medium', 'Heavy'],
+  7: ['Light', 'Medium', 'Heavy'],
+  8: ['Medium', 'Heavy', 'Titan'],
+  9: ['Medium', 'Heavy', 'Titan'],
+}
+
+export function getEnemiesByDifficulty(difficulty, factionIds, allEnemies) {
+  const classes = DIFFICULTY_ENEMY_CLASSES[difficulty] ?? ['Trash', 'Light', 'Medium']
+  return allEnemies
+    .filter(e => factionIds.includes(e.faction) && classes.includes(e.class))
+    .map(e => e.id)
 }
 
 // ── Playstyle helpers ─────────────────────────────────────────────────────────
@@ -139,12 +170,14 @@ function playstyleWeaponBonus(weapon, playstyle) {
   let score = 0
   const traits = weapon.traits ?? []
   for (const pt of (playstyle.primaryTraits ?? [])) {
-    if (traits.includes(pt) || weapon.damageType === pt || weapon.effect === pt) score += 12
+    if (traits.includes(pt) || weapon.damageType === pt || weapon.effect === pt) score += 18
   }
   for (const at of (playstyle.avoidTraits ?? [])) {
-    if (traits.includes(at) || weapon.damageType === at) score -= 8
+    if (traits.includes(at) || weapon.damageType === at) score -= 12
   }
-  return Math.max(score, -20)
+  // Preferred weapon category bonus
+  if (playstyle.preferredWeaponCategories?.includes(weapon.category)) score += 15
+  return Math.max(score, -25)
 }
 
 function playstyleArmorBonus(armor, playstyle) {
@@ -163,6 +196,7 @@ function playstyleStratagemBonus(stratagem, playstyle) {
     if (tags.includes(pt)) score += 10
   }
   if (playstyle.favoredStratagems?.includes(stratagem.id)) score += 25
+  if (playstyle.requiredStratagems?.includes(stratagem.id)) score += 50
   return score
 }
 
@@ -322,9 +356,16 @@ function scoreWeapon(weapon, ctx) {
   if ((weapon.apTier ?? 0) >= 4) diffC += dm.atBonus
   if ((weapon.traits ?? []).some(t => ['Area','DoT'].includes(t))) diffC += dm.areaBonus
   if ((weapon.apTier ?? 0) >= 5) diffC += dm.heavyWeaponPenalty
+  // Amplify difficulty weight at high difficulties
+  if (difficulty > 5) diffC = Math.round(diffC * (1.0 + (difficulty - 5) * 0.1))
   score += diffC
 
   score += synergyStackBonus([factionC, missionC, playstyleC, loadoutC], synergyModes)
+
+  // Multiplicative playstyle alignment
+  if (playstyleC > 15) score = Math.round(score * 1.15)
+  else if (playstyleC > 5) score = Math.round(score * 1.05)
+  else if (playstyleC < -5) score = Math.round(score * 0.90)
 
   const total = Math.min(Math.max(Math.round(score), 0), 100)
   return { total, dimensions: { faction: Math.round(factionC), mission: Math.round(missionC), playstyle: Math.round(playstyleC), loadout: Math.round(loadoutC), planet: 0, difficulty: Math.round(diffC) } }
@@ -372,9 +413,16 @@ function scoreArmor(armor, ctx) {
   const dm = difficultyMods(difficulty)
   if (armor.type === 'Light' && armor.passive !== 'Scout') diffC += dm.lightArmorPenalty
   if (armor.type === 'Heavy' || armor.type === 'Medium') diffC += dm.heavyArmorBonus
+  // Amplify difficulty weight at high difficulties
+  if (difficulty > 5) diffC = Math.round(diffC * (1.0 + (difficulty - 5) * 0.1))
   score += diffC
 
   score += synergyStackBonus([planetC, factionC, missionC, playstyleC, loadoutC], synergyModes)
+
+  // Multiplicative playstyle alignment
+  if (playstyleC > 15) score = Math.round(score * 1.15)
+  else if (playstyleC > 5) score = Math.round(score * 1.05)
+  else if (playstyleC < -5) score = Math.round(score * 0.90)
 
   const total = Math.min(Math.max(Math.round(score), 0), 100)
   return { total, dimensions: { faction: Math.round(factionC), mission: Math.round(missionC), playstyle: Math.round(playstyleC), loadout: Math.round(loadoutC), planet: Math.round(planetC), difficulty: Math.round(diffC) } }
@@ -437,9 +485,18 @@ function scoreStratagem(stratagem, ctx) {
   if (tags.includes('Anti-Tank') || tags.includes('Anti-Heavy')) diffC += dm.atBonus
   if (tags.includes('Area Denial')) diffC += dm.areaBonus
   if (stratagem.cooldown < 60) diffC += dm.fastCooldownBonus
+  // High-diff power stratagem bonus (long cooldown = powerful)
+  if (difficulty >= 8 && stratagem.cooldown > 180) diffC += (difficulty === 9 ? 10 : 8)
+  // Amplify difficulty weight at high difficulties
+  if (difficulty > 5) diffC = Math.round(diffC * (1.0 + (difficulty - 5) * 0.1))
   score += diffC
 
   score += synergyStackBonus([factionC, planetC, missionC, playstyleC, loadoutC], synergyModes)
+
+  // Multiplicative playstyle alignment
+  if (playstyleC > 15) score = Math.round(score * 1.15)
+  else if (playstyleC > 5) score = Math.round(score * 1.05)
+  else if (playstyleC < -5) score = Math.round(score * 0.90)
 
   const total = Math.min(Math.max(Math.round(score), 0), 100)
   return { total, dimensions: { faction: Math.round(factionC), mission: Math.round(missionC), playstyle: Math.round(playstyleC), loadout: Math.round(loadoutC), planet: Math.round(planetC), difficulty: Math.round(diffC) } }
@@ -723,13 +780,29 @@ export function suggestLoadout({
     s => scoreStratagem(s, { ...ctx, slotType: 'stratagem' })
   )
 
-  // AUTO: pure synergy ranking — top 4 by score, no category constraints
+  // AUTO: synergy ranking with required category enforcement
   // MANUAL: enforce per-category limits with combined budget of 4
+  const requiredCats = playstyle?.requiredCategories ?? []
   let pickedStratagems = []
   if (!stratagemLimitsEnabled) {
-    pickedStratagems = rankedStratagemsAll.slice(0, 4)
+    // Reserve slots for required categories first
+    const reservedIds = new Set()
+    for (const cat of requiredCats) {
+      const best = rankedStratagemsAll.find(e => e.item.category === cat && !reservedIds.has(e.item.id))
+      if (best) {
+        pickedStratagems.push(best)
+        reservedIds.add(best.item.id)
+      }
+    }
+    // Fill remaining slots from overall ranking
+    for (const entry of rankedStratagemsAll) {
+      if (pickedStratagems.length >= 4) break
+      if (!reservedIds.has(entry.item.id)) pickedStratagems.push(entry)
+    }
   } else {
     const limits = { Orbital:1, Eagle:1, 'Support Weapon':1, Backpack:1, Sentry:0, Vehicle:0, Emplacement:0, ...stratagemLimits }
+    // Override limits for required categories (ensure at least 1)
+    for (const cat of requiredCats) { if ((limits[cat] ?? 0) < 1) limits[cat] = 1 }
     const categoryCounts = {}
     for (const entry of rankedStratagemsAll) {
       if (pickedStratagems.length >= 4) break

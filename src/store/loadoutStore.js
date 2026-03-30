@@ -34,6 +34,7 @@ function persistContext(state) {
       suggestMission:     state.suggestMission,
       difficulty:         state.difficulty,
       warbondFilterMode:  state.warbondFilterMode,
+      autoEnemySelection: state.autoEnemySelection,
     }))
   } catch {}
 }
@@ -56,6 +57,7 @@ export const useLoadoutStore = create((set, get) => ({
   selectedEnemies:    savedContext?.selectedEnemies    ?? [],
   selectedConditions: savedContext?.selectedConditions ?? [],
   activePlanet:       null,
+  autoEnemySelection: savedContext?.autoEnemySelection ?? (!(savedContext?.selectedEnemies?.length > 0)),
 
   // ── Suggestion engine settings ───────────────────────────────────────────
   stratagemLimits: {
@@ -225,7 +227,10 @@ export const useLoadoutStore = create((set, get) => ({
     selectedEnemies: state.selectedEnemies.includes(enemyId)
       ? state.selectedEnemies.filter(e => e !== enemyId)
       : [...state.selectedEnemies, enemyId],
+    autoEnemySelection: false,
   })),
+  setSelectedEnemies: (ids) => set({ selectedEnemies: ids }),
+  setAutoEnemySelection: (val) => set({ autoEnemySelection: val }),
   toggleCondition: (condId) => set(state => ({
     selectedConditions: state.selectedConditions.includes(condId)
       ? state.selectedConditions.filter(c => c !== condId)
@@ -398,7 +403,8 @@ useLoadoutStore.subscribe((state, prev) => {
     state.selectedPlaystyle  !== prev.selectedPlaystyle ||
     state.suggestMission     !== prev.suggestMission ||
     state.difficulty         !== prev.difficulty ||
-    state.warbondFilterMode  !== prev.warbondFilterMode
+    state.warbondFilterMode  !== prev.warbondFilterMode ||
+    state.autoEnemySelection !== prev.autoEnemySelection
   ) {
     persistContext(state)
   }

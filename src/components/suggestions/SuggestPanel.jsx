@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useLoadoutStore } from '../../store/loadoutStore'
-import { suggestLoadout, DIFFICULTY_LABELS } from '../../utils/suggestions'
+import { suggestLoadout, DIFFICULTY_LABELS, getEnemiesByDifficulty } from '../../utils/suggestions'
 import { suggestSquadLoadout, ROLE_COLORS } from '../../utils/squadSuggestions'
 import { SquadSynergyScore } from '../squad/SquadSynergyScore'
 import { APBadge } from '../ui/APBadge'
@@ -157,8 +157,18 @@ function ThreatSelector() {
   const toggleFaction = useLoadoutStore(s => s.toggleFaction)
   const toggleEnemy = useLoadoutStore(s => s.toggleEnemy)
   const toggleCondition = useLoadoutStore(s => s.toggleCondition)
+  const difficulty = useLoadoutStore(s => s.difficulty)
+  const autoEnemySelection = useLoadoutStore(s => s.autoEnemySelection)
+  const setSelectedEnemies = useLoadoutStore(s => s.setSelectedEnemies)
+  const setAutoEnemySelection = useLoadoutStore(s => s.setAutoEnemySelection)
   const [showEnemies, setShowEnemies] = useState(false)
   const [showConds, setShowConds] = useState(false)
+
+  useEffect(() => {
+    if (!autoEnemySelection || selectedFactions.length === 0) return
+    const autoIds = getEnemiesByDifficulty(difficulty, selectedFactions, enemiesData.enemies)
+    setSelectedEnemies(autoIds)
+  }, [autoEnemySelection, difficulty, selectedFactions, setSelectedEnemies])
 
   return (
     <div className="space-y-2">
@@ -173,13 +183,19 @@ function ThreatSelector() {
       </div>
       {selectedFactions.length > 0 && (
         <div>
-          <button onClick={() => setShowEnemies(v => !v)} className="text-[9px] font-mono text-hd-muted hover:text-hd-yellow transition-colors">
-            {showEnemies ? '▼' : '▶'} SPECIFIC ENEMIES{selectedEnemies.length > 0 && ` (${selectedEnemies.length})`}
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setShowEnemies(v => !v)} className="text-[9px] font-mono text-hd-muted hover:text-hd-yellow transition-colors">
+              {showEnemies ? '▼' : '▶'} ENEMIES{selectedEnemies.length > 0 && ` (${selectedEnemies.length})`}
+            </button>
+            <button onClick={() => setAutoEnemySelection(!autoEnemySelection)}
+              className={`px-1.5 py-0.5 text-[8px] font-mono border rounded transition-colors ${
+                autoEnemySelection ? 'bg-green-500/20 border-green-500/60 text-green-400' : 'bg-hd-yellow/10 border-hd-yellow/40 text-hd-yellow/70'
+              }`}>{autoEnemySelection ? 'AUTO' : 'MANUAL'}</button>
+          </div>
           {showEnemies && (
-            <div className="mt-1 flex flex-wrap gap-1">
+            <div className={`mt-1 flex flex-wrap gap-1 ${autoEnemySelection ? 'opacity-50' : ''}`}>
               {enemiesData.enemies.filter(e => selectedFactions.includes(e.faction)).map(e => (
-                <button key={e.id} onClick={() => toggleEnemy(e.id)}
+                <button key={e.id} onClick={() => { if (autoEnemySelection) setAutoEnemySelection(false); toggleEnemy(e.id) }}
                   className={`px-1.5 py-0.5 text-[9px] font-mono border rounded transition-colors ${
                     selectedEnemies.includes(e.id) ? 'bg-hd-yellow/10 border-hd-yellow/60 text-hd-yellow' : 'border-hd-border text-hd-muted hover:border-hd-border-2'
                   }`}>{e.name} <span className="opacity-50">AP{e.armorTier}</span></button>
