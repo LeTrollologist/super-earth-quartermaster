@@ -578,7 +578,7 @@ export function SuggestPanel({ onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className="w-[940px] max-h-[92vh] flex flex-col bg-hd-surface border border-hd-border rounded-lg shadow-2xl overflow-hidden animate-fadeIn">
+      <div className="w-full max-w-[940px] mx-2 sm:mx-4 max-h-[92vh] flex flex-col bg-hd-surface border border-hd-border rounded-lg shadow-2xl overflow-hidden animate-fadeIn">
 
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-hd-border bg-hd-surface-2 shrink-0">
@@ -611,9 +611,9 @@ export function SuggestPanel({ onClose }) {
         </div>
 
         {/* Body */}
-        <div className="flex flex-1 min-h-0 overflow-hidden">
+        <div className="flex flex-col sm:flex-row flex-1 min-h-0 overflow-hidden">
           {/* Left sidebar */}
-          <div className="w-[320px] shrink-0 border-r border-hd-border overflow-y-auto p-4 space-y-4">
+          <div className="sm:w-[320px] shrink-0 border-b sm:border-b-0 sm:border-r border-hd-border overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 max-h-[40vh] sm:max-h-none">
             <ThreatSelector />
             <DifficultySelector />
             <MissionSelector mission={mission} setMission={setMission} />
