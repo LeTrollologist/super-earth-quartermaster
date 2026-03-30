@@ -3,891 +3,1853 @@
     "id": "orbital-precision-strike",
     "name": "Orbital Precision Strike",
     "category": "Orbital",
-    "sequence": ["right","right","up"],
+    "sequence": [
+      "right",
+      "right",
+      "up"
+    ],
     "cooldown": 100,
     "uses": -1,
-    "activation": 2.0,
+    "activation": 2,
     "description": "Calls a single precise orbital strike. Reliable single-target orbital option.",
-    "tags": ["Anti-Heavy", "Anti-Tank", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Tank",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-airburst-strike",
     "name": "Orbital Airburst Strike",
     "category": "Orbital",
-    "sequence": ["right","right","up","right"],
+    "sequence": [
+      "right",
+      "right",
+      "up",
+      "right"
+    ],
     "cooldown": 120,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Launches a burst of shrapnel mid-air, effective against lightly armored targets.",
-    "tags": ["Anti-Light", "Anti-Medium", "Terminids", "Illuminate"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "Terminids",
+      "Illuminate"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-120mm-barrage",
     "name": "Orbital 120MM HE Barrage",
     "category": "Orbital",
-    "sequence": ["right","right","down","left","right"],
+    "sequence": [
+      "right",
+      "right",
+      "down",
+      "left",
+      "right"
+    ],
     "cooldown": 240,
     "uses": -1,
     "activation": 3.5,
     "description": "Saturates an area with 120mm shells. Large area denial.",
-    "tags": ["Area Denial", "All Factions"]
+    "tags": [
+      "Area Denial",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-380mm-barrage",
     "name": "Orbital 380MM HE Barrage",
     "category": "Orbital",
-    "sequence": ["right","down","up","up","left","down"],
+    "sequence": [
+      "right",
+      "down",
+      "up",
+      "up",
+      "left",
+      "down"
+    ],
     "cooldown": 600,
     "uses": -1,
     "activation": 3.5,
     "description": "Massive 380mm barrage. Huge radius, extreme damage. Unpredictable.",
-    "tags": ["Area Denial", "Anti-Structure", "All Factions"]
+    "tags": [
+      "Area Denial",
+      "Anti-Structure",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-laser",
     "name": "Orbital Laser",
     "category": "Orbital",
-    "sequence": ["right","down","up","right","down"],
+    "sequence": [
+      "right",
+      "down",
+      "up",
+      "right",
+      "down"
+    ],
     "cooldown": 300,
     "uses": 3,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Sweeping orbital laser. Destroys everything in its path. Limited uses per mission.",
-    "tags": ["Anti-Heavy", "Anti-Structure", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Structure",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-railcannon-strike",
     "name": "Orbital Railcannon Strike",
     "category": "Orbital",
-    "sequence": ["right","up","down","down","right"],
+    "sequence": [
+      "right",
+      "up",
+      "down",
+      "down",
+      "right"
+    ],
     "cooldown": 210,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "A single armor-piercing railcannon round. Excellent vs. heavy targets.",
-    "tags": ["Anti-Heavy", "Anti-Tank", "Anti-Structure", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Tank",
+      "Anti-Structure",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-gas-strike",
     "name": "Orbital Gas Strike",
     "category": "Orbital",
-    "sequence": ["right","right","down","right"],
+    "sequence": [
+      "right",
+      "right",
+      "down",
+      "right"
+    ],
     "cooldown": 75,
     "uses": -1,
     "activation": 2.5,
     "description": "Releases toxic gas cloud. Effective against unarmored units.",
-    "tags": ["Area Denial", "Anti-Light", "Terminids"]
+    "tags": [
+      "Area Denial",
+      "Anti-Light",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-ems-strike",
     "name": "Orbital EMS Strike",
     "category": "Orbital",
-    "sequence": ["right","right","left","down"],
+    "sequence": [
+      "right",
+      "right",
+      "left",
+      "down"
+    ],
     "cooldown": 50,
     "uses": -1,
     "activation": 2.5,
     "description": "Electromagnetic pulse that immobilizes enemies in an area.",
-    "tags": ["Crowd Control", "All Factions"]
+    "tags": [
+      "Crowd Control",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-gatling-barrage",
     "name": "Orbital Gatling Barrage",
     "category": "Orbital",
-    "sequence": ["right","down","left","up","up"],
+    "sequence": [
+      "right",
+      "down",
+      "left",
+      "up",
+      "up"
+    ],
     "cooldown": 80,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Rapid-fire orbital gatling barrage. Shreds enemies in a concentrated area.",
-    "tags": ["Anti-Light", "Anti-Medium", "High ROF", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "High ROF",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-illumination-flare",
     "name": "Orbital Illumination Flare",
     "category": "Orbital",
-    "sequence": ["right","right","left","left"],
+    "sequence": [
+      "right",
+      "right",
+      "left",
+      "left"
+    ],
     "cooldown": 300,
     "uses": -1,
-    "activation": 2.0,
+    "activation": 2,
     "description": "Deploys a bright orbital flare that lights up a large area for an extended duration.",
-    "tags": ["Utility", "Recon", "All Factions"]
+    "tags": [
+      "Utility",
+      "Recon",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-smoke-strike",
     "name": "Orbital Smoke Strike",
     "category": "Orbital",
-    "sequence": ["right","right","down","up"],
+    "sequence": [
+      "right",
+      "right",
+      "down",
+      "up"
+    ],
     "cooldown": 50,
     "uses": -1,
-    "activation": 2.0,
+    "activation": 2,
     "description": "Creates a smoke screen to obscure enemy vision.",
-    "tags": ["Utility", "Stealth", "All Factions"]
+    "tags": [
+      "Utility",
+      "Stealth",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eagle-strafing-run",
     "name": "Eagle Strafing Run",
     "category": "Eagle",
-    "sequence": ["up","right","right"],
+    "sequence": [
+      "up",
+      "right",
+      "right"
+    ],
     "cooldown": 8,
     "uses": 3,
     "activation": 2.5,
     "description": "Eagle aircraft strafes a line with autocannon fire. Fast cooldown, multiple uses.",
-    "tags": ["Anti-Light", "Anti-Medium", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eagle-airstrike",
     "name": "Eagle Airstrike",
     "category": "Eagle",
-    "sequence": ["up","right","down","right"],
+    "sequence": [
+      "up",
+      "right",
+      "down",
+      "right"
+    ],
     "cooldown": 120,
     "uses": 2,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Drops multiple bombs along a line. Good balance of area coverage.",
-    "tags": ["Anti-Medium", "Anti-Heavy", "All Factions"]
+    "tags": [
+      "Anti-Medium",
+      "Anti-Heavy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eagle-110mm-rocket-pods",
     "name": "Eagle 110MM Rocket Pods",
     "category": "Eagle",
-    "sequence": ["up","right","up","left"],
+    "sequence": [
+      "up",
+      "right",
+      "up",
+      "left"
+    ],
     "cooldown": 120,
     "uses": 2,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Eagle delivers armor-piercing rocket pods. Excellent vs. armored targets.",
-    "tags": ["Anti-Heavy", "Anti-Tank", "Automatons"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Tank",
+      "Automatons"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eagle-500kg-bomb",
     "name": "Eagle 500KG Bomb",
     "category": "Eagle",
-    "sequence": ["up","down","down","down","up"],
+    "sequence": [
+      "up",
+      "down",
+      "down",
+      "down",
+      "up"
+    ],
     "cooldown": 480,
     "uses": 1,
     "activation": 3.5,
     "description": "Single massive bomb. Devastating radius. Kills virtually anything.",
-    "tags": ["Anti-Heavy", "Anti-Structure", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Structure",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eagle-napalm-airstrike",
     "name": "Eagle Napalm Airstrike",
     "category": "Eagle",
-    "sequence": ["up","right","down","up"],
+    "sequence": [
+      "up",
+      "right",
+      "down",
+      "up"
+    ],
     "cooldown": 60,
     "uses": 2,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Drops napalm creating a line of fire. Excellent vs. Terminids.",
-    "tags": ["Anti-Light", "Fire", "Terminids"]
+    "tags": [
+      "Anti-Light",
+      "Fire",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eagle-cluster-bomb",
     "name": "Eagle Cluster Bomb",
     "category": "Eagle",
-    "sequence": ["up","right","down","down","right"],
+    "sequence": [
+      "up",
+      "right",
+      "down",
+      "down",
+      "right"
+    ],
     "cooldown": 180,
     "uses": 3,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Scatters cluster munitions over an area. Devastating against groups.",
-    "tags": ["Area Denial", "Anti-Light", "Anti-Medium", "All Factions"]
+    "tags": [
+      "Area Denial",
+      "Anti-Light",
+      "Anti-Medium",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eagle-smoke-strike",
     "name": "Eagle Smoke Strike",
     "category": "Eagle",
-    "sequence": ["up","right","up","down"],
+    "sequence": [
+      "up",
+      "right",
+      "up",
+      "down"
+    ],
     "cooldown": 60,
     "uses": 2,
     "activation": 2.5,
     "description": "Creates a smoke screen along a line.",
-    "tags": ["Utility", "Stealth", "All Factions"]
+    "tags": [
+      "Utility",
+      "Stealth",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "machine-gun",
     "name": "MG-43 Machine Gun",
     "category": "Support Weapon",
-    "sequence": ["down","left","down","up","right"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "High-capacity machine gun. Effective sustained fire against medium enemies.",
-    "tags": ["Anti-Light", "Anti-Medium", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "anti-materiel-rifle",
     "name": "APW-1 Anti-Materiel Rifle",
     "category": "Support Weapon",
-    "sequence": ["down","left","right","up","down"],
+    "sequence": [
+      "down",
+      "left",
+      "right",
+      "up",
+      "down"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "High-velocity rifle penetrating heavy armor. Precision anti-heavy tool.",
-    "tags": ["Anti-Heavy", "Precision", "Automatons"]
+    "tags": [
+      "Anti-Heavy",
+      "Precision",
+      "Automatons"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "stalwart",
     "name": "M-105 Stalwart",
     "category": "Support Weapon",
-    "sequence": ["down","left","down","up","up","left"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "up",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Light machine gun allowing movement while firing. High ammo capacity.",
-    "tags": ["Anti-Light", "Mobility", "Terminids"]
+    "tags": [
+      "Anti-Light",
+      "Mobility",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "expendable-at",
     "name": "EAT-17 Expendable AT",
     "category": "Support Weapon",
-    "sequence": ["down","down","left","up","right"],
+    "sequence": [
+      "down",
+      "down",
+      "left",
+      "up",
+      "right"
+    ],
     "cooldown": 70,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Disposable anti-tank launcher. Single-shot rocket, short cooldown.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "All Factions"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "railgun",
     "name": "RS-422 Railgun",
     "category": "Support Weapon",
-    "sequence": ["down","right","down","up","left","right"],
+    "sequence": [
+      "down",
+      "right",
+      "down",
+      "up",
+      "left",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Precision railgun with adjustable charge. Can penetrate any armor at full charge.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "All Factions", "Precision"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "All Factions",
+      "Precision"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "flamethrower",
     "name": "FLAM-40 Flamethrower",
     "category": "Support Weapon",
-    "sequence": ["down","left","up","down","right"],
+    "sequence": [
+      "down",
+      "left",
+      "up",
+      "down",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Sprays napalm in a wide arc. Exceptional vs. Terminids and groups.",
-    "tags": ["Anti-Light", "Fire", "Terminids", "Area Denial"]
+    "tags": [
+      "Anti-Light",
+      "Fire",
+      "Terminids",
+      "Area Denial"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "autocannon",
     "name": "AC-8 Autocannon",
     "category": "Support Weapon",
-    "sequence": ["down","left","down","up","up","right"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "up",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Rapid-fire 20mm cannon. Excellent anti-medium and anti-heavy versatility.",
-    "tags": ["Anti-Medium", "Anti-Heavy", "Versatile", "All Factions"]
+    "tags": [
+      "Anti-Medium",
+      "Anti-Heavy",
+      "Versatile",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "grenade-launcher",
     "name": "GL-21 Grenade Launcher",
     "category": "Support Weapon",
-    "sequence": ["down","left","up","left","down"],
+    "sequence": [
+      "down",
+      "left",
+      "up",
+      "left",
+      "down"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Fires explosive grenades. Great area clear for lightly armored groups.",
-    "tags": ["Anti-Light", "Explosive", "Area Denial", "Terminids"]
+    "tags": [
+      "Anti-Light",
+      "Explosive",
+      "Area Denial",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "laser-cannon",
     "name": "LAS-98 Laser Cannon",
     "category": "Support Weapon",
-    "sequence": ["down","left","down","up","up"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "up"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Sustained laser weapon. Excellent precision, heats over time. Effective vs. medium enemies.",
-    "tags": ["Anti-Medium", "Energy", "Precision", "All Factions"]
+    "tags": [
+      "Anti-Medium",
+      "Energy",
+      "Precision",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "arc-thrower",
     "name": "A/ARC-3 Arc Thrower",
     "category": "Support Weapon",
-    "sequence": ["down","right","down","up","left","left"],
+    "sequence": [
+      "down",
+      "right",
+      "down",
+      "up",
+      "left",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Fires arc electricity chaining to multiple enemies. Excellent vs. Illuminate.",
-    "tags": ["Anti-Light", "Arc", "Chain", "Illuminate"]
+    "tags": [
+      "Anti-Light",
+      "Arc",
+      "Chain",
+      "Illuminate"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "quasar-cannon",
     "name": "LAS-99 Quasar Cannon",
     "category": "Support Weapon",
-    "sequence": ["down","down","up","left","right"],
+    "sequence": [
+      "down",
+      "down",
+      "up",
+      "left",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "High-power laser charge cannon. No ammo needed, rechargeable. Anti-tank capable.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "Energy", "All Factions"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "Energy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "spear",
     "name": "FAF-14 Spear",
     "category": "Support Weapon",
-    "sequence": ["down","down","up","down","down"],
+    "sequence": [
+      "down",
+      "down",
+      "up",
+      "down",
+      "down"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Lock-on anti-tank missile launcher. Excellent vs. heavy targets at range.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "Lock-On", "All Factions"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "Lock-On",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "jump-pack",
     "name": "LIFT-850 Jump Pack",
     "category": "Backpack",
-    "sequence": ["down","up","up","down","up"],
+    "sequence": [
+      "down",
+      "up",
+      "up",
+      "down",
+      "up"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Enables large leaps. Great for repositioning and traversal.",
-    "tags": ["Mobility", "Utility", "All Factions"]
+    "tags": [
+      "Mobility",
+      "Utility",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "shield-generator-pack",
     "name": "SH-32 Shield Generator Pack",
     "category": "Backpack",
-    "sequence": ["down","up","left","right","left","right"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "right",
+      "left",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Projects a personal energy shield. Absorbs damage before armor.",
-    "tags": ["Defense", "Utility", "All Factions"]
+    "tags": [
+      "Defense",
+      "Utility",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "supply-pack",
     "name": "B-1 Supply Pack",
     "category": "Backpack",
-    "sequence": ["down","left","down","up","up","down"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "up",
+      "down"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Carries extra supply canisters. Resupply yourself and teammates.",
-    "tags": ["Support", "Resupply", "All Factions"]
+    "tags": [
+      "Support",
+      "Resupply",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "guard-dog",
     "name": "AX/AR-23 Guard Dog",
     "category": "Backpack",
-    "sequence": ["down","up","left","up","right","down"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "up",
+      "right",
+      "down"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Drone that automatically fires on nearby enemies. Effective vs. light enemies.",
-    "tags": ["Anti-Light", "Automatic", "Terminids"]
+    "tags": [
+      "Anti-Light",
+      "Automatic",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "guard-dog-rover",
     "name": "AX/LAS-5 Guard Dog Rover",
     "category": "Backpack",
-    "sequence": ["down","up","left","up","right","left"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "up",
+      "right",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Laser-equipped drone. Better accuracy, less friendly fire than ballistic version.",
-    "tags": ["Anti-Light", "Anti-Medium", "Energy", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "Energy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "machine-gun-sentry",
     "name": "A/MG-43 Machine Gun Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","right","up"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "right",
+      "up"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Automated machine gun turret. Good sustained fire against light-medium enemies.",
-    "tags": ["Anti-Light", "Anti-Medium", "Automatic", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "Automatic",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "gatling-sentry",
     "name": "A/G-16 Gatling Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","left"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "left"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "High-ROF gatling turret. Shreds light and medium enemies rapidly.",
-    "tags": ["Anti-Light", "Anti-Medium", "High ROF", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "High ROF",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "mortar-sentry",
     "name": "A/M-12 Mortar Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","right","down"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "right",
+      "down"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Automated mortar. Long range, good area denial. Careful of friendly fire.",
-    "tags": ["Area Denial", "Long Range", "All Factions"]
+    "tags": [
+      "Area Denial",
+      "Long Range",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "incendiary-mortar-sentry",
     "name": "A/M-12 Incendiary Mortar Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","right","down","left"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "right",
+      "down",
+      "left"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Automated mortar that fires incendiary rounds. Creates fire zones for area denial.",
-    "tags": ["Area Denial", "Fire", "Anti-Light", "Terminids"]
+    "tags": [
+      "Area Denial",
+      "Fire",
+      "Anti-Light",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "autocannon-sentry",
     "name": "A/AC-8 Autocannon Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","up","left","up"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "up",
+      "left",
+      "up"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Automated autocannon. Excellent anti-armor capability for a sentry.",
-    "tags": ["Anti-Heavy", "Anti-Medium", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Medium",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "rocket-sentry",
     "name": "A/MLS-4X Rocket Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","right","left"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "right",
+      "left"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Fires anti-armor rockets. Excellent vs. heavy ground targets.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "All Factions"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "ems-mortar-sentry",
     "name": "A/M-23 EMS Mortar Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","down","right"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "down",
+      "right"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Fires EMS rounds that immobilize enemies. Excellent crowd control.",
-    "tags": ["Crowd Control", "Area Denial", "All Factions"]
+    "tags": [
+      "Crowd Control",
+      "Area Denial",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "tesla-tower",
     "name": "A/ARC-3 Tesla Tower",
     "category": "Sentry",
-    "sequence": ["down","up","right","up","right"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "up",
+      "right"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Electric tower zapping nearby enemies. Excellent vs. light enemies and Illuminate.",
-    "tags": ["Anti-Light", "Arc", "Illuminate", "Area Denial"]
+    "tags": [
+      "Anti-Light",
+      "Arc",
+      "Illuminate",
+      "Area Denial"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "patriot-exosuit",
     "name": "EXO-45 Patriot Exosuit",
     "category": "Vehicle",
-    "sequence": ["left","down","right","up","left","down","down"],
+    "sequence": [
+      "left",
+      "down",
+      "right",
+      "up",
+      "left",
+      "down",
+      "down"
+    ],
     "cooldown": 600,
     "uses": 1,
-    "activation": 4.0,
+    "activation": 4,
     "description": "Deployable mech suit. Rocket launcher + minigun. Extreme mobility and firepower.",
-    "tags": ["Anti-Heavy", "Anti-Tank", "Versatile", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Tank",
+      "Versatile",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "emancipator-exosuit",
     "name": "EXO-49 Emancipator Exosuit",
     "category": "Vehicle",
-    "sequence": ["left","down","right","up","left","down","up"],
+    "sequence": [
+      "left",
+      "down",
+      "right",
+      "up",
+      "left",
+      "down",
+      "up"
+    ],
     "cooldown": 600,
     "uses": 1,
-    "activation": 4.0,
+    "activation": 4,
     "description": "Dual autocannon mech. Excellent sustained anti-armor firepower.",
-    "tags": ["Anti-Heavy", "Anti-Medium", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Medium",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "hmg-emplacement",
     "name": "E/MG-101 HMG Emplacement",
     "category": "Emplacement",
-    "sequence": ["down","up","left","right","right","left"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "right",
+      "right",
+      "left"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Stationary heavy machine gun. Massive firepower, limited arc.",
-    "tags": ["Anti-Light", "Anti-Medium", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "shield-generator-relay",
     "name": "FX-12 Shield Generator Relay",
     "category": "Emplacement",
-    "sequence": ["down","up","left","right","right","left"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "right",
+      "right",
+      "left"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Projects a dome shield protecting allies inside from projectiles.",
-    "tags": ["Defense", "Utility", "All Factions"]
+    "tags": [
+      "Defense",
+      "Utility",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "anti-personnel-minefield",
     "name": "A/P-19 Anti-Personnel Minefield",
     "category": "Emplacement",
-    "sequence": ["down","left","up","right"],
+    "sequence": [
+      "down",
+      "left",
+      "up",
+      "right"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Scatters anti-personnel mines. Excellent area denial vs. light enemies.",
-    "tags": ["Area Denial", "Anti-Light", "Terminids"]
+    "tags": [
+      "Area Denial",
+      "Anti-Light",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "gr-8-recoilless-rifle",
     "name": "GR-8 Recoilless Rifle",
     "category": "Support Weapon",
-    "sequence": ["down","left","right","right","left"],
+    "sequence": [
+      "down",
+      "left",
+      "right",
+      "right",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Team-reloadable anti-tank rocket launcher. Highest single-shot damage of any support weapon.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "All Factions", "Team Reload"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "All Factions",
+      "Team Reload"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "rl-77-airburst",
     "name": "RL-77 Airburst Rocket Launcher",
     "category": "Support Weapon",
-    "sequence": ["down","up","down","right","left","up"],
+    "sequence": [
+      "down",
+      "up",
+      "down",
+      "right",
+      "left",
+      "up"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Fires rockets that detonate mid-air, showering shrapnel on enemies below cover.",
-    "tags": ["Anti-Light", "Anti-Medium", "Area Denial", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "Area Denial",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "r-6-commando",
     "name": "R-6 Commando",
     "category": "Support Weapon",
-    "sequence": ["down","left","up","down","right"],
+    "sequence": [
+      "down",
+      "left",
+      "up",
+      "down",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Four-shot unguided rocket launcher. Portable, effective vs. heavy targets.",
-    "tags": ["Anti-Heavy", "Anti-Tank", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Tank",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "mg-206-hmg",
     "name": "MG-206 Heavy Machine Gun",
     "category": "Support Weapon",
-    "sequence": ["down","left","down","up","down","right"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "down",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Devastating heavy machine gun. High penetration and massive suppression.",
-    "tags": ["Anti-Medium", "Anti-Heavy", "Suppression", "All Factions"]
+    "tags": [
+      "Anti-Medium",
+      "Anti-Heavy",
+      "Suppression",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-napalm-barrage",
     "name": "Orbital Napalm Barrage",
     "category": "Orbital",
-    "sequence": ["right","right","down","right","up"],
+    "sequence": [
+      "right",
+      "right",
+      "down",
+      "right",
+      "up"
+    ],
     "cooldown": 240,
     "uses": -1,
     "activation": 3.5,
     "description": "Saturates an area with napalm shells, creating a lasting fire zone.",
-    "tags": ["Fire", "Area Denial", "Anti-Light", "Terminids"]
+    "tags": [
+      "Fire",
+      "Area Denial",
+      "Anti-Light",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-darkfluid",
     "name": "Orbital Darkfluid Bombardment",
     "category": "Orbital",
-    "sequence": ["right","up","down","right","up","down"],
+    "sequence": [
+      "right",
+      "up",
+      "down",
+      "right",
+      "up",
+      "down"
+    ],
     "cooldown": 300,
     "uses": 2,
     "activation": 3.5,
     "description": "Rains volatile dark fluid. Devastating anti-Illuminate weapon with energy suppression.",
-    "tags": ["Anti-Heavy", "Energy", "Illuminate"]
+    "tags": [
+      "Anti-Heavy",
+      "Energy",
+      "Illuminate"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "md-17-anti-tank-mines",
     "name": "MD-17 Anti-Tank Mines",
     "category": "Emplacement",
-    "sequence": ["down","left","right","up","left"],
+    "sequence": [
+      "down",
+      "left",
+      "right",
+      "up",
+      "left"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Deploys high-explosive anti-tank mines. Excellent vs. armored vehicles.",
-    "tags": ["Area Denial", "Anti-Tank", "Anti-Heavy", "Automatons"]
+    "tags": [
+      "Area Denial",
+      "Anti-Tank",
+      "Anti-Heavy",
+      "Automatons"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "incinerator-turret",
     "name": "A/FLAM-40 Incinerator Turret",
     "category": "Sentry",
-    "sequence": ["down","up","right","down","up"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "down",
+      "up"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Automated flamethrower sentry. Shreds lightly armored enemies with fire.",
-    "tags": ["Anti-Light", "Fire", "Terminids", "Area Denial"]
+    "tags": [
+      "Anti-Light",
+      "Fire",
+      "Terminids",
+      "Area Denial"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "orbital-walking-barrage",
     "name": "Orbital Walking Barrage",
     "category": "Orbital",
-    "sequence": ["right","down","right","down","right","down"],
+    "sequence": [
+      "right",
+      "down",
+      "right",
+      "down",
+      "right",
+      "down"
+    ],
     "cooldown": 240,
     "uses": -1,
     "activation": 3.5,
     "description": "Sequential orbital barrage that walks across terrain in a line. Excellent area denial.",
-    "tags": ["Area Denial", "Anti-Light", "Anti-Medium", "All Factions"]
+    "tags": [
+      "Area Denial",
+      "Anti-Light",
+      "Anti-Medium",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "ballistic-shield",
     "name": "SH-20 Ballistic Shield",
     "category": "Backpack",
-    "sequence": ["down","left","down","down","up","left"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "down",
+      "up",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Deployable one-handed ballistic shield. Blocks frontal projectiles. Only pistols usable.",
-    "tags": ["Defense", "Utility", "Automatons"]
+    "tags": [
+      "Defense",
+      "Utility",
+      "Automatons"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "guard-dog-dog-breath",
     "name": "AX/TX-13 Guard Dog Dog Breath",
     "category": "Backpack",
-    "sequence": ["down","up","left","up","right","up"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "up",
+      "right",
+      "up"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Autonomous drone that sprays toxic gas at nearby enemies. Excellent vs. unarmored targets.",
-    "tags": ["Anti-Light", "Toxic", "Area Denial", "Terminids"]
+    "tags": [
+      "Anti-Light",
+      "Toxic",
+      "Area Denial",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "directional-shield",
     "name": "SH-51 Directional Shield",
     "category": "Backpack",
-    "sequence": ["down","up","left","right","left","left"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "right",
+      "left",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Projects a forward-facing energy shield. Blocks incoming fire from the front.",
-    "tags": ["Defense", "Utility", "All Factions"]
+    "tags": [
+      "Defense",
+      "Utility",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "fast-recon-vehicle",
     "name": "EXO-49 Fast Recon Vehicle",
     "category": "Vehicle",
-    "sequence": ["left","down","right","up","left","down","left"],
+    "sequence": [
+      "left",
+      "down",
+      "right",
+      "up",
+      "left",
+      "down",
+      "left"
+    ],
     "cooldown": 600,
     "uses": 1,
-    "activation": 4.0,
+    "activation": 4,
     "description": "Light armored reconnaissance vehicle with mounted gun. Fast traversal across the map.",
-    "tags": ["Mobility", "Versatile", "All Factions"]
+    "tags": [
+      "Mobility",
+      "Versatile",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "portable-hellbomb",
     "name": "B-100 Portable Hellbomb",
     "category": "Support Weapon",
-    "sequence": ["down","up","left","down","up","up"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "down",
+      "up",
+      "up"
+    ],
     "cooldown": 600,
     "uses": 1,
-    "activation": 4.0,
+    "activation": 4,
     "description": "Deployable tactical bomb. Arm and detonate manually for massive area destruction.",
-    "tags": ["Anti-Structure", "Anti-Heavy", "Explosive", "All Factions"]
+    "tags": [
+      "Anti-Structure",
+      "Anti-Heavy",
+      "Explosive",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "anti-tank-emplacement",
     "name": "E/AT-12 Anti-Tank Emplacement",
     "category": "Emplacement",
-    "sequence": ["down","up","left","right","right","up"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "right",
+      "right",
+      "up"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Stationary anti-tank cannon. Devastating vs. armored targets with limited traverse.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "All Factions"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "cremator",
     "name": "B/FLAM-80 Cremator",
     "category": "Support Weapon",
-    "sequence": ["down","left","up","down","up","right"],
+    "sequence": [
+      "down",
+      "left",
+      "up",
+      "down",
+      "up",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Heavy flamethrower with extended range and devastating area denial. Extreme fire damage.",
-    "tags": ["Anti-Light", "Fire", "Area Denial", "Terminids"]
+    "tags": [
+      "Anti-Light",
+      "Fire",
+      "Area Denial",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "gas-mortar-sentry",
     "name": "A/GM-17 Gas Mortar Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","right","down","right"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "right",
+      "down",
+      "right"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Automated mortar that fires toxic gas rounds. Creates persistent area denial zones.",
-    "tags": ["Area Denial", "Toxic", "Anti-Light", "Terminids"]
+    "tags": [
+      "Area Denial",
+      "Toxic",
+      "Anti-Light",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "hover-pack",
     "name": "LIFT-860 Hover Pack",
     "category": "Backpack",
-    "sequence": ["down","up","up","down","up","left"],
+    "sequence": [
+      "down",
+      "up",
+      "up",
+      "down",
+      "up",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Boosts vertically and holds position in the air, allowing aerial shooting.",
-    "tags": ["Mobility", "Utility", "All Factions"]
+    "tags": [
+      "Mobility",
+      "Utility",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "one-true-flag",
     "name": "CQC-1 One True Flag",
     "category": "Support Weapon",
-    "sequence": ["down","up","left","right","up","up"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "right",
+      "up",
+      "up"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "A Super Earth flag that can be planted to damage enemies, waved, or used as a spear.",
-    "tags": ["Utility", "Anti-Light", "All Factions"]
+    "tags": [
+      "Utility",
+      "Anti-Light",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "guard-dog-k9",
     "name": "AX/ARC-3 Guard Dog K-9",
     "category": "Backpack",
-    "sequence": ["down","up","left","up","right","right"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "up",
+      "right",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Arc-powered defensive drone that intercepts and stuns approaching enemies.",
-    "tags": ["Anti-Light", "Arc", "Defense", "Illuminate"]
+    "tags": [
+      "Anti-Light",
+      "Arc",
+      "Defense",
+      "Illuminate"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "plas-45-epoch",
     "name": "PLAS-45 Epoch",
     "category": "Support Weapon",
-    "sequence": ["down","left","down","up","right","up"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "right",
+      "up"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Plasma support weapon that charges a focused sphere of energy for devastating impact.",
-    "tags": ["Anti-Heavy", "Energy", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Energy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "laser-sentry",
     "name": "A/LAS-98 Laser Sentry",
     "category": "Sentry",
-    "sequence": ["down","up","right","right","up","left"],
+    "sequence": [
+      "down",
+      "up",
+      "right",
+      "right",
+      "up",
+      "left"
+    ],
     "cooldown": 180,
     "uses": -1,
     "activation": 3.5,
     "description": "Turret with infinite ammo via heatsink. Explodes if it overheats.",
-    "tags": ["Anti-Light", "Anti-Medium", "Energy", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "Energy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "warp-pack",
     "name": "LIFT-182 Warp Pack",
     "category": "Backpack",
-    "sequence": ["down","up","up","left","right","down"],
+    "sequence": [
+      "down",
+      "up",
+      "up",
+      "left",
+      "right",
+      "down"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Generates a localized Dark Fluid wormhole for short-range teleportation.",
-    "tags": ["Mobility", "Utility", "All Factions"]
+    "tags": [
+      "Mobility",
+      "Utility",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "solo-silo",
     "name": "MS-11 Solo Silo",
     "category": "Support Weapon",
-    "sequence": ["down","down","up","up","right","left"],
+    "sequence": [
+      "down",
+      "down",
+      "up",
+      "up",
+      "right",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
     "activation": 3.5,
     "description": "Player-guided portable missile silo. Direct control over missile flight path.",
-    "tags": ["Anti-Heavy", "Anti-Tank", "Precision", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Tank",
+      "Precision",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "speargun",
     "name": "S-11 Speargun",
     "category": "Support Weapon",
-    "sequence": ["down","left","up","right","down","left"],
+    "sequence": [
+      "down",
+      "left",
+      "up",
+      "right",
+      "down",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Fires a spear that releases a cloud of gas on impact. Area denial and anti-armor.",
-    "tags": ["Anti-Heavy", "Toxic", "Area Denial", "Terminids"]
+    "tags": [
+      "Anti-Heavy",
+      "Toxic",
+      "Area Denial",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "expendable-napalm",
     "name": "EAT-700 Expendable Napalm",
     "category": "Support Weapon",
-    "sequence": ["down","down","left","up","right","right"],
+    "sequence": [
+      "down",
+      "down",
+      "left",
+      "up",
+      "right",
+      "right"
+    ],
     "cooldown": 70,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Single-use incendiary rocket launcher. Creates a napalm zone on impact.",
-    "tags": ["Fire", "Anti-Light", "Area Denial", "Terminids"]
+    "tags": [
+      "Fire",
+      "Anti-Light",
+      "Area Denial",
+      "Terminids"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "maxigun",
     "name": "M-1000 Maxigun",
     "category": "Support Weapon",
-    "sequence": ["down","left","down","up","down","right","right"],
+    "sequence": [
+      "down",
+      "left",
+      "down",
+      "up",
+      "down",
+      "right",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
     "activation": 3.5,
     "description": "Heavy belt-fed minigun requiring an ammo backpack. Extreme sustained firepower.",
-    "tags": ["Anti-Light", "Anti-Medium", "High ROF", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "High ROF",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "guard-dog-hot-dog",
     "name": "AX/FLAM-75 Guard Dog Hot Dog",
     "category": "Backpack",
-    "sequence": ["down","up","left","up","right","down","left"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "up",
+      "right",
+      "down",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Autonomous flamethrower drone that scorches nearby enemies.",
-    "tags": ["Anti-Light", "Fire", "Terminids", "Area Denial"]
+    "tags": [
+      "Anti-Light",
+      "Fire",
+      "Terminids",
+      "Area Denial"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "defoliation-tool",
     "name": "CQC-9 Defoliation Tool",
     "category": "Support Weapon",
-    "sequence": ["down","left","right","down","up","left"],
+    "sequence": [
+      "down",
+      "left",
+      "right",
+      "down",
+      "up",
+      "left"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Massive chainsword melee support weapon. Devastating close-quarters damage.",
-    "tags": ["Anti-Medium", "Anti-Heavy", "All Factions"]
+    "tags": [
+      "Anti-Medium",
+      "Anti-Heavy",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "breaching-hammer",
     "name": "CQC-20 Breaching Hammer",
     "category": "Support Weapon",
-    "sequence": ["down","left","right","up","down","right"],
+    "sequence": [
+      "down",
+      "left",
+      "right",
+      "up",
+      "down",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Massive sledgehammer with a reloadable C4 charge that explodes on impact.",
-    "tags": ["Anti-Heavy", "Anti-Structure", "Explosive", "All Factions"]
+    "tags": [
+      "Anti-Heavy",
+      "Anti-Structure",
+      "Explosive",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "belt-fed-gl",
     "name": "GL-28 Belt-Fed Grenade Launcher",
     "category": "Support Weapon",
-    "sequence": ["down","left","up","left","down","right"],
+    "sequence": [
+      "down",
+      "left",
+      "up",
+      "left",
+      "down",
+      "right"
+    ],
     "cooldown": 480,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Backpack-fed continuous grenade launcher. Sustained explosive fire.",
-    "tags": ["Anti-Light", "Anti-Medium", "Explosive", "Area Denial", "All Factions"]
+    "tags": [
+      "Anti-Light",
+      "Anti-Medium",
+      "Explosive",
+      "Area Denial",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "eat-411-leveller",
     "name": "EAT-411 Leveller",
     "category": "Support Weapon",
-    "sequence": ["down","down","left","up","right","up"],
+    "sequence": [
+      "down",
+      "down",
+      "left",
+      "up",
+      "right",
+      "up"
+    ],
     "cooldown": 70,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Single-use high-yield heavy missile. Devastating anti-armor and anti-structure.",
-    "tags": ["Anti-Tank", "Anti-Heavy", "Anti-Structure", "All Factions"]
+    "tags": [
+      "Anti-Tank",
+      "Anti-Heavy",
+      "Anti-Structure",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   },
   {
     "id": "throwable-shield",
     "name": "G/SH-39 Shield",
     "category": "Emplacement",
-    "sequence": ["down","up","left","right","up","up"],
+    "sequence": [
+      "down",
+      "up",
+      "left",
+      "right",
+      "up",
+      "up"
+    ],
     "cooldown": 180,
     "uses": -1,
-    "activation": 3.0,
+    "activation": 3,
     "description": "Throwable generator that creates a localized spherical bubble shield.",
-    "tags": ["Defense", "Utility", "All Factions"]
+    "tags": [
+      "Defense",
+      "Utility",
+      "All Factions"
+    ],
+    "warbond": "Base Game"
   }
 ]

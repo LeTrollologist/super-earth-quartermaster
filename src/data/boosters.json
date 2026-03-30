@@ -5,7 +5,8 @@
     "description": "Allows all Helldivers to resist injury.",
     "effect": "Injury resistance",
     "tags": ["Survivability", "All Factions"],
-    "scoringTags": ["hp", "survivability"]
+    "scoringTags": ["hp", "survivability"],
+    "warbond": "Helldivers Mobilize"
   },
   {
     "id": "stamina-enhancement",
@@ -13,7 +14,8 @@
     "description": "Increases all Helldivers' stamina capacity and recovery.",
     "effect": "Increased stamina capacity and recovery",
     "tags": ["Mobility", "Survivability"],
-    "scoringTags": ["stamina", "mobility"]
+    "scoringTags": ["stamina", "mobility"],
+    "warbond": "Helldivers Mobilize"
   },
   {
     "id": "hellpod-space-optimization",
@@ -21,7 +23,8 @@
     "description": "Helldivers come out of the Hellpod fully stocked on Ammo, Grenades, and Stims.",
     "effect": "Full resupply on spawn",
     "tags": ["Utility", "Sustain"],
-    "scoringTags": ["ammo", "resupply", "spawn"]
+    "scoringTags": ["ammo", "resupply", "spawn"],
+    "warbond": "Helldivers Mobilize"
   },
   {
     "id": "UAV-recon-booster",
@@ -29,7 +32,8 @@
     "description": "Increases all Helldivers' effective radar range.",
     "effect": "+25% minimap range",
     "tags": ["Intel", "Recon", "Utility"],
-    "scoringTags": ["intel", "recon"]
+    "scoringTags": ["intel", "recon"],
+    "warbond": "Helldivers Mobilize"
   },
   {
     "id": "localization-confusion",
@@ -37,7 +41,8 @@
     "description": "Increases the time between enemy encounters.",
     "effect": "Patrol call-in delay +30%",
     "tags": ["Stealth", "Utility", "Survivability"],
-    "scoringTags": ["stealth", "reinforce-delay"]
+    "scoringTags": ["stealth", "reinforce-delay"],
+    "warbond": "Cutting Edge"
   },
   {
     "id": "motivational-shocks",
@@ -45,7 +50,8 @@
     "description": "Allows all Helldivers to recover faster after being slowed by an attack, such as acid. Does not mitigate 'area effects,' such as EMS Strikes.",
     "effect": "Faster slow-effect recovery",
     "tags": ["Mobility", "Combat"],
-    "scoringTags": ["stamina", "sprint", "combat"]
+    "scoringTags": ["stamina", "sprint", "combat"],
+    "warbond": "Steeled Veterans"
   },
   {
     "id": "expert-extraction-pilot",
@@ -53,7 +59,8 @@
     "description": "Lowers the time it takes for the extraction shuttle to reach the extraction beacon.",
     "effect": "Extraction time -50%",
     "tags": ["Utility", "Extraction"],
-    "scoringTags": ["extraction"]
+    "scoringTags": ["extraction"],
+    "warbond": "Democratic Detonation"
   },
   {
     "id": "experimental-infusion",
@@ -61,7 +68,8 @@
     "description": "Stims boost movement speed and reduced incoming damage for short period",
     "effect": "1s invulnerability after stim",
     "tags": ["Survivability", "Combat"],
-    "scoringTags": ["survivability", "mobility", "aggressive"]
+    "scoringTags": ["survivability", "mobility", "aggressive"],
+    "warbond": "Chemical Agents"
   },
   {
     "id": "muscle-enhancement",
@@ -69,7 +77,8 @@
     "description": "Allows Helldivers to traverse difficult terrain with ease.",
     "effect": "Terrain movement penalty -50%",
     "tags": ["Mobility", "Terrain"],
-    "scoringTags": ["terrain", "mobility"]
+    "scoringTags": ["terrain", "mobility"],
+    "warbond": "Polar Patriots"
   },
   {
     "id": "flexible-reinforcement-budget",
@@ -77,7 +86,8 @@
     "description": "Reduces time until new reinforcements are granted once they've been depleted.",
     "effect": "Faster reinforcement cooldown",
     "tags": ["Utility", "Sustain"],
-    "scoringTags": ["reinforce", "sustain"]
+    "scoringTags": ["reinforce", "sustain"],
+    "warbond": "Viper Commandos"
   },
   {
     "id": "increased-reinforcement-budget",
@@ -85,7 +95,8 @@
     "description": "Increases the number of available reinforcements.",
     "effect": "Extra reinforcement uses per mission",
     "tags": ["Utility", "Sustain"],
-    "scoringTags": ["reinforce", "sustain"]
+    "scoringTags": ["reinforce", "sustain"],
+    "warbond": "Freedom's Flame"
   },
   {
     "id": "firebomb-hellpods",
@@ -93,7 +104,8 @@
     "description": "Lines all Hellpods with volatile incendiaries that detonate upon impact, igniting any units in vicinity of the drop site.",
     "effect": "Fire AoE on Hellpod landing",
     "tags": ["Offensive", "Fire", "Terminids"],
-    "scoringTags": ["offensive", "area-denial", "fire", "terminids"]
+    "scoringTags": ["offensive", "area-denial", "fire", "terminids"],
+    "warbond": "Servants of Freedom"
   },
   {
     "id": "dead-sprint",
@@ -101,7 +113,8 @@
     "description": "Allows Helldivers to keep sprinting even when they are out of stamina, draining their health instead.",
     "effect": "+20% sprint speed below 50% HP",
     "tags": ["Mobility", "Survivability"],
-    "scoringTags": ["mobility", "aggressive", "speed"]
+    "scoringTags": ["mobility", "aggressive", "speed"],
+    "warbond": "Truth Enforcers"
   },
   {
     "id": "armed-resupply-pods",
@@ -109,7 +122,8 @@
     "description": "Mounts a modified AR-23 Liberator to all resupply pods, allowing them to double as automatic turrets.",
     "effect": "Resupply pods explode on landing",
     "tags": ["Offensive", "Utility"],
-    "scoringTags": ["offensive", "defense", "area-denial"]
+    "scoringTags": ["offensive", "defense", "area-denial"],
+    "warbond": "Urban Legends"
   },
   {
     "id": "concealed-insertion",
@@ -117,7 +131,8 @@
     "description": "Helldivers are cloaked for 10 seconds after dropping from Hellpod, reducing enemy detection.",
     "effect": "10s cloak after Hellpod drop",
     "tags": ["Stealth", "Mobility"],
-    "scoringTags": ["stealth", "mobility", "spawn"]
+    "scoringTags": ["stealth", "mobility", "spawn"],
+    "warbond": "Borderline Justice"
   },
   {
     "id": "sample-extricator",
@@ -125,7 +140,8 @@
     "description": "Increases sample carry capacity by 15% and marks nearby samples on the minimap.",
     "effect": "+15% sample capacity, sample radar",
     "tags": ["Utility", "Recon"],
-    "scoringTags": ["intel", "recon", "terrain"]
+    "scoringTags": ["intel", "recon", "terrain"],
+    "warbond": "Omens of Tyranny"
   },
   {
     "id": "stun-pods",
@@ -133,6 +149,7 @@
     "description": "Hellpods shock nearby enemies into a stupor upon landing, stunning them briefly.",
     "effect": "Stun AoE on Hellpod landing",
     "tags": ["Offensive", "Crowd Control"],
-    "scoringTags": ["offensive", "spawn", "combat"]
+    "scoringTags": ["offensive", "spawn", "combat"],
+    "warbond": "Masters of Ceremony"
   }
 ]
